@@ -1,0 +1,1 @@
+SERVER=serverpc;DATABASE=serverpcstatus;UID=pcuser;PASSWORD=
