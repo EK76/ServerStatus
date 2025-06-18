@@ -44,7 +44,7 @@
             // 
             // buttonOk
             // 
-            buttonOk.Location = new Point(262, 157);
+            buttonOk.Location = new Point(256, 165);
             buttonOk.Name = "buttonOk";
             buttonOk.Size = new Size(75, 23);
             buttonOk.TabIndex = 3;
