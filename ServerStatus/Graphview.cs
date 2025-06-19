@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using WinFormsApp1;
 
 namespace ServerStatus.ServerStatus
@@ -23,10 +24,8 @@ namespace ServerStatus.ServerStatus
             InitializeComponent();
         }
 
-        string connString, passwordString, queryString;
+        string firstItem, lastItem;
         int addPoint = -1;
-        string[] chooseDatabase;
-        string[] inputPass;
 
         public static string Decrypt(string encrypt, string key)
         {
@@ -50,85 +49,91 @@ namespace ServerStatus.ServerStatus
 
         private void FormGraphView_Load(object sender, EventArgs e)
         {
-            string line, convertValue, convertValue1, convertValue2, convertValue3, convertValue4, convertValue5, convertValue6, convertValue7;
-            decimal convertNewValue, convertNewValue1, convertNewValue2, convertNewValue3, convertNewValue4, convertNewValue5, convertNewValue6;
-            try
+
+            string addNewValue;
+            decimal convertValue;
+
+            chartShowStatus.Width = 2504;
+            chartShowStatus.Update();
+            //chartShowStatus.Series[0].Points.Clear();
+
+
+            foreach (var addValue in FormMain.cpuItems)
             {
-                chooseDatabase = File.ReadAllLines(@"configdb.txt");
-                inputPass = File.ReadAllLines(@"input.txt");
-                connString = chooseDatabase[0];
+                addPoint++;
+                char[] newChar = { '°', 'C' };
+                addNewValue = addValue.TrimEnd(newChar);
+                convertValue = decimal.Parse(addNewValue);
+                chartShowStatus.Series[0].Points.AddXY(addPoint, convertValue);
             }
-            catch (Exception ex)
+
+            addPoint = -1;
+
+            foreach (var addValue in FormMain.cpuItems1)
             {
-                {
-                    MessageBox.Show("Error!");
-                }
-
-                if (FormMain.localData == false)
-                {
-                    passwordString = Decrypt(inputPass[0], "status");
-                    connString = connString + passwordString + ";";
-                    //     chartShowStatus.Update();
-                    MessageBox.Show("Line0");
-                       chartShowStatus.ChartAreas[0].AxisY.Title = "Celsius";
-                    queryString = "select * from infostatus;";
-                    MySqlConnection conn = new MySqlConnection(connString);
-                    conn.Open();
-                    MessageBox.Show("Line1");
-                    MySqlCommand command = new MySqlCommand(queryString, conn);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        addPoint++;
-                           chartShowStatus.Series[0].Points.AddXY(addPoint, reader.GetDecimal("cpustatus0"));
-                       chartShowStatus.Series[1].Points.AddXY(addPoint, reader.GetDecimal("cpustatus1"));
-                          chartShowStatus.Series[2].Points.AddXY(addPoint, reader.GetDecimal("cpustatus2"));
-                          chartShowStatus.Series[3].Points.AddXY(addPoint, reader.GetDecimal("cpustatus3"));
-                          chartShowStatus.Series[4].Points.AddXY(addPoint, reader.GetDecimal("cpustatus4"));
-                          chartShowStatus.Series[5].Points.AddXY(addPoint, reader.GetDecimal("cpustatus5"));
-                          chartShowStatus.Series[6].Points.AddXY(addPoint, reader.GetDecimal("hpstatus"));
-                    }
-                  chartShowStatus.ChartAreas[0].AxisY.Minimum =0;
-                 chartShowStatus.ChartAreas[0].AxisY.Maximum = 100;
-                    conn.Close();
-                    MessageBox.Show("Line2");
-                }
-                else
-                {
-                    this.Text = "Weather Station (Data from local file).";
-                    StreamReader fileName3 = new StreamReader(FormMain.localFilename);
-                    while ((line = fileName3.ReadLine()) != null)
-                    {
-                        addPoint++;
-                        convertValue = line.ToString().Split(';')[0].ToString();
-                        convertValue1 = line.ToString().Split(';')[1].ToString();
-                        convertValue2 = line.ToString().Split(';')[2].ToString();
-                        convertValue3 = line.ToString().Split(';')[3].ToString();
-                        convertValue4 = line.ToString().Split(';')[4].ToString();
-                        convertValue5 = line.ToString().Split(';')[5].ToString();
-                        convertValue6 = line.ToString().Split(';')[6].ToString();
-
-                        convertNewValue = decimal.Parse(convertValue);
-                        convertNewValue1 = decimal.Parse(convertValue1);
-                        convertNewValue2 = decimal.Parse(convertValue2);
-                        convertNewValue3 = decimal.Parse(convertValue3);
-                        convertNewValue4 = decimal.Parse(convertValue4);
-                        convertNewValue5 = decimal.Parse(convertValue5);
-                        convertNewValue6 = decimal.Parse(convertValue6);
-                        convertNewValue = decimal.Parse(convertValue);
-
-                        chartShowStatus.Series[0].Points.AddXY(addPoint, convertNewValue);
-                        chartShowStatus.Series[1].Points.AddXY(addPoint, convertNewValue1);
-                        chartShowStatus.Series[2].Points.AddXY(addPoint, convertNewValue2);
-                        chartShowStatus.Series[3].Points.AddXY(addPoint, convertNewValue3);
-                        chartShowStatus.Series[4].Points.AddXY(addPoint, convertNewValue4);
-                        chartShowStatus.Series[5].Points.AddXY(addPoint, convertNewValue5);
-                        chartShowStatus.Series[6].Points.AddXY(addPoint, convertNewValue6);
-                    }
-                    chartShowStatus.ChartAreas[0].AxisY.Minimum = 0;
-                    chartShowStatus.ChartAreas[0].AxisY.Maximum = 100;
-                }
+                addPoint++;
+                char[] newChar = { '°', 'C' };
+                addNewValue = addValue.TrimEnd(newChar);
+                convertValue = decimal.Parse(addNewValue);
+                chartShowStatus.Series[1].Points.AddXY(addPoint, convertValue);
             }
+
+            addPoint = -1;
+            foreach (var addValue in FormMain.cpuItems2)
+            {
+                addPoint++;
+                char[] newChar = { '°', 'C' };
+                addNewValue = addValue.TrimEnd(newChar);
+                convertValue = decimal.Parse(addNewValue);
+                chartShowStatus.Series[2].Points.AddXY(addPoint, convertValue);
+            }
+
+            addPoint = -1;
+            foreach (var addValue in FormMain.cpuItems3)
+            {
+                addPoint++;
+                char[] newChar = { '°', 'C' };
+                addNewValue = addValue.TrimEnd(newChar);
+                convertValue = decimal.Parse(addNewValue);
+                chartShowStatus.Series[3].Points.AddXY(addPoint, convertValue);
+            }
+
+            addPoint = -1;
+            foreach (var addValue in FormMain.cpuItems4)
+            {
+                addPoint++;
+                char[] newChar = { '°', 'C' };
+                addNewValue = addValue.TrimEnd(newChar);
+                convertValue = decimal.Parse(addNewValue);
+                chartShowStatus.Series[4].Points.AddXY(addPoint, convertValue);
+            }
+
+            addPoint = -1;
+            foreach (var addValue in FormMain.cpuItems5)
+            {
+                addPoint++;
+                char[] newChar = { '°', 'C' };
+                addNewValue = addValue.TrimEnd(newChar);
+                convertValue = decimal.Parse(addNewValue);
+                chartShowStatus.Series[5].Points.AddXY(addPoint, convertValue);
+            }
+
+            addPoint = -1;
+            foreach (var addValue in FormMain.hdItems)
+            {
+                addPoint++;
+                char[] newChar = { '°', 'C' };
+                addNewValue = addValue.TrimEnd(newChar);
+                convertValue = decimal.Parse(addNewValue);
+                chartShowStatus.Series[6].Points.AddXY(addPoint, convertValue);
+            }
+
+            chartShowStatus.ChartAreas[0].AxisY.Minimum = 0;
+            chartShowStatus.ChartAreas[0].AxisY.Maximum = 100;
+
+            firstItem = FormMain.listDate.First();
+            lastItem = FormMain.listDate.Last();
+            toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + ".";
         }
 
         private void checkBoxCPUstatus0_CheckStateChanged(object sender, EventArgs e)
@@ -136,10 +141,12 @@ namespace ServerStatus.ServerStatus
             if (checkBoxCPUstatus0.Checked)
             {
                 chartShowStatus.Series[0].IsVisibleInLegend = true;
+                chartShowStatus.Series[0].Enabled = true;
             }
             else
             {
                 chartShowStatus.Series[0].IsVisibleInLegend = false;
+                chartShowStatus.Series[0].Enabled = false;
             }
         }
 
@@ -148,10 +155,12 @@ namespace ServerStatus.ServerStatus
             if (checkBoxHDstatus.Checked)
             {
                 chartShowStatus.Series[6].IsVisibleInLegend = true;
+                chartShowStatus.Series[6].Enabled = true;
             }
             else
             {
                 chartShowStatus.Series[6].IsVisibleInLegend = false;
+                chartShowStatus.Series[6].Enabled = false;
             }
         }
 
@@ -160,10 +169,12 @@ namespace ServerStatus.ServerStatus
             if (checkBoxCPUstatus1.Checked)
             {
                 chartShowStatus.Series[1].IsVisibleInLegend = true;
+                chartShowStatus.Series[1].Enabled = true;
             }
             else
             {
                 chartShowStatus.Series[1].IsVisibleInLegend = false;
+                chartShowStatus.Series[1].Enabled = false;
             }
         }
 
@@ -172,10 +183,12 @@ namespace ServerStatus.ServerStatus
             if (checkBoxCPUstatus2.Checked)
             {
                 chartShowStatus.Series[2].IsVisibleInLegend = true;
+                chartShowStatus.Series[2].Enabled = true;
             }
             else
             {
                 chartShowStatus.Series[2].IsVisibleInLegend = false;
+                chartShowStatus.Series[2].Enabled = false;
             }
         }
 
@@ -184,10 +197,12 @@ namespace ServerStatus.ServerStatus
             if (checkBoxCPUstatus3.Checked)
             {
                 chartShowStatus.Series[3].IsVisibleInLegend = true;
+                chartShowStatus.Series[3].Enabled = true;
             }
             else
             {
                 chartShowStatus.Series[3].IsVisibleInLegend = false;
+                chartShowStatus.Series[3].Enabled = false;
             }
         }
 
@@ -196,10 +211,12 @@ namespace ServerStatus.ServerStatus
             if (checkBoxCPUstatus4.Checked)
             {
                 chartShowStatus.Series[4].IsVisibleInLegend = true;
+                chartShowStatus.Series[4].Enabled = true;
             }
             else
             {
                 chartShowStatus.Series[4].IsVisibleInLegend = false;
+                chartShowStatus.Series[4].Enabled = false;
             }
         }
 
@@ -208,10 +225,50 @@ namespace ServerStatus.ServerStatus
             if (checkBoxCPUstatus5.Checked)
             {
                 chartShowStatus.Series[5].IsVisibleInLegend = true;
+                chartShowStatus.Series[5].Enabled = true;
             }
             else
             {
                 chartShowStatus.Series[5].IsVisibleInLegend = false;
+                chartShowStatus.Series[5].Enabled = false;
+            }
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (settingsToolStripMenuItem.Checked == false)
+            {
+                panelStatus.Visible = true;
+                chartShowStatus.Width = 2272;
+                settingsToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                panelStatus.Visible = false;
+                chartShowStatus.Width = 2504;
+                settingsToolStripMenuItem.Checked = false;
+            }
+        }
+
+        private void settingsToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chartShowStatus_GetToolTipText(object sender, ToolTipEventArgs e)
+        {
+            switch (e.HitTestResult.ChartElementType)
+            {
+
+                case ChartElementType.DataPoint:
+                    var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
+                    e.Text = string.Format("Date: {0}\n  Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                    chartShowStatus.ChartAreas[0].AxisX.Title = string.Format("Date: {0} Temperature: {1} °C",  FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                    break;
+
+                default:
+                    chartShowStatus.ChartAreas[0].AxisX.Title = "Date";
+                    break;
             }
         }
     }

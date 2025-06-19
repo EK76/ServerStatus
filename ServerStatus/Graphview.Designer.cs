@@ -42,7 +42,7 @@
             closeToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem = new ToolStripMenuItem();
             settingsToolStripMenuItem = new ToolStripMenuItem();
-            panel1 = new Panel();
+            panelStatus = new Panel();
             checkBoxHDstatus = new CheckBox();
             checkBoxCPUstatus2 = new CheckBox();
             checkBoxCPUstatus5 = new CheckBox();
@@ -52,9 +52,12 @@
             checkBoxCPUstatus0 = new CheckBox();
             dat = new System.ComponentModel.BackgroundWorker();
             chartShowStatus = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabel = new ToolStripStatusLabel();
             menuStrip1.SuspendLayout();
-            panel1.SuspendLayout();
+            panelStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)chartShowStatus).BeginInit();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -92,20 +95,22 @@
             settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             settingsToolStripMenuItem.Size = new Size(116, 22);
             settingsToolStripMenuItem.Text = "Settings";
+            settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
             // 
-            // panel1
+            // panelStatus
             // 
-            panel1.Controls.Add(checkBoxHDstatus);
-            panel1.Controls.Add(checkBoxCPUstatus2);
-            panel1.Controls.Add(checkBoxCPUstatus5);
-            panel1.Controls.Add(checkBoxCPUstatus4);
-            panel1.Controls.Add(checkBoxCPUstatus3);
-            panel1.Controls.Add(checkBoxCPUstatus1);
-            panel1.Controls.Add(checkBoxCPUstatus0);
-            panel1.Location = new Point(2278, 27);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(211, 809);
-            panel1.TabIndex = 1;
+            panelStatus.Controls.Add(checkBoxHDstatus);
+            panelStatus.Controls.Add(checkBoxCPUstatus2);
+            panelStatus.Controls.Add(checkBoxCPUstatus5);
+            panelStatus.Controls.Add(checkBoxCPUstatus4);
+            panelStatus.Controls.Add(checkBoxCPUstatus3);
+            panelStatus.Controls.Add(checkBoxCPUstatus1);
+            panelStatus.Controls.Add(checkBoxCPUstatus0);
+            panelStatus.Location = new Point(2278, 27);
+            panelStatus.Name = "panelStatus";
+            panelStatus.Size = new Size(211, 809);
+            panelStatus.TabIndex = 1;
+            panelStatus.Visible = false;
             // 
             // checkBoxHDstatus
             // 
@@ -207,40 +212,59 @@
             // 
             // chartShowStatus
             // 
+            chartArea1.AxisX.Minimum = 0D;
+            chartArea1.AxisX.Title = "Date";
+            chartArea1.AxisX.TitleFont = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            chartArea1.AxisY.Title = "Temperature (°C)";
+            chartArea1.AxisY.TitleFont = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chartArea1.Name = "ChartArea1";
             chartShowStatus.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             chartShowStatus.Legends.Add(legend1);
-            chartShowStatus.Location = new Point(99, 64);
+            chartShowStatus.Location = new Point(0, 27);
             chartShowStatus.Name = "chartShowStatus";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Legend1";
+            series1.MarkerSize = 8;
+            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             series1.Name = "CPU status 0";
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series2.Legend = "Legend1";
+            series2.MarkerSize = 8;
+            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             series2.Name = "CPU status 1";
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series3.Legend = "Legend1";
+            series3.MarkerSize = 8;
+            series3.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             series3.Name = "CPU status 2";
             series4.ChartArea = "ChartArea1";
             series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series4.Legend = "Legend1";
+            series4.MarkerSize = 8;
+            series4.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             series4.Name = "CPU status 3";
             series5.ChartArea = "ChartArea1";
             series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series5.Legend = "Legend1";
+            series5.MarkerSize = 8;
+            series5.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             series5.Name = "CPU status 4";
             series6.ChartArea = "ChartArea1";
             series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series6.Legend = "Legend1";
+            series6.MarkerSize = 8;
+            series6.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             series6.Name = "CPU status 5";
             series6.YValuesPerPoint = 2;
             series7.ChartArea = "ChartArea1";
             series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series7.Legend = "Legend1";
+            series7.MarkerSize = 8;
+            series7.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
             series7.Name = "HD status";
             chartShowStatus.Series.Add(series1);
             chartShowStatus.Series.Add(series2);
@@ -249,30 +273,51 @@
             chartShowStatus.Series.Add(series5);
             chartShowStatus.Series.Add(series6);
             chartShowStatus.Series.Add(series7);
-            chartShowStatus.Size = new Size(2046, 1024);
+            chartShowStatus.Size = new Size(2272, 1140);
             chartShowStatus.TabIndex = 2;
             chartShowStatus.Text = "chartStatus";
+            chartShowStatus.GetToolTipText += chartShowStatus_GetToolTipText;
+            // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel });
+            statusStrip1.Location = new Point(0, 1142);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(2489, 28);
+            statusStrip1.TabIndex = 3;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel
+            // 
+            toolStripStatusLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            toolStripStatusLabel.Name = "toolStripStatusLabel";
+            toolStripStatusLabel.Size = new Size(174, 23);
+            toolStripStatusLabel.Text = "toolStripStatusLabel1";
             // 
             // FormGraphView
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(2489, 1170);
+            Controls.Add(statusStrip1);
             Controls.Add(chartShowStatus);
-            Controls.Add(panel1);
+            Controls.Add(panelStatus);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormGraphView";
+            ShowIcon = false;
             Text = "Sever Status";
             Load += FormGraphView_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            panelStatus.ResumeLayout(false);
+            panelStatus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)chartShowStatus).EndInit();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -284,7 +329,7 @@
         private ToolStripMenuItem closeToolStripMenuItem;
         private ToolStripMenuItem viewToolStripMenuItem;
         private ToolStripMenuItem settingsToolStripMenuItem;
-        private Panel panel1;
+        private Panel panelStatus;
         private CheckBox checkBoxCPUstatus2;
         private CheckBox checkBoxCPUstatus5;
         private CheckBox checkBoxCPUstatus4;
@@ -294,5 +339,7 @@
         private CheckBox checkBoxHDstatus;
         private System.ComponentModel.BackgroundWorker dat;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartShowStatus;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel;
     }
 }

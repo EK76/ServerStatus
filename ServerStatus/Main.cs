@@ -14,10 +14,17 @@ namespace WinFormsApp1
         }
 
         string queryString, connString, passwordString;
+        public static string firstItem, lastItem;
         int countItems;
         public static bool checkExist = false;
-        public static bool localData = false;
-        public static string localFilename;
+        public static List<string> cpuItems = new List<string>();
+        public static List<string> cpuItems1 = new List<string>();
+        public static List<string> cpuItems2 = new List<string>();
+        public static List<string> cpuItems3 = new List<string>();
+        public static List<string> cpuItems4 = new List<string>();
+        public static List<string> cpuItems5 = new List<string>();
+        public static List<string> hdItems = new List<string>();
+        public static List<string> listDate = new List<string>();
         string[] chooseDatabase;
         string[] inputPass;
 
@@ -54,6 +61,7 @@ namespace WinFormsApp1
 
         void readTable()
         {
+            countItems = -1;
             if (!File.Exists("input.txt"))
             {
                 File.AppendAllText("input.txt", "password");
@@ -65,9 +73,18 @@ namespace WinFormsApp1
             }
             chooseDatabase = File.ReadAllLines("configdb.txt");
 
-            inputPass = File.ReadAllLines("input.txt");
-            passwordString = Decrypt(inputPass[0], "status");
+            try
+            {
+                inputPass = File.ReadAllLines("input.txt");
+            }
+            catch
+            {
+                MessageBox.Show("Check password!");
+                FormChangePassword changePassword = new FormChangePassword();
+                changePassword.ShowDialog();
+            }
 
+            passwordString = Decrypt(inputPass[0], "status");
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
 
@@ -81,15 +98,19 @@ namespace WinFormsApp1
                 while (reader.Read())
                 {
                     countItems++;
-                    listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus0").ToString() + " °C", reader.GetDecimal("cpustatus1").ToString() + " °C", reader.GetDecimal("cpustatus2").ToString() + " °C", reader.GetDecimal("cpustatus3").ToString() + " °C", reader.GetDecimal("cpustatus4").ToString() + " °C", reader.GetDecimal("cpustatus5").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString() }));
+                    listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus0").ToString() + " °C", reader.GetDecimal("cpustatus1").ToString() + " °C", reader.GetDecimal("cpustatus2").ToString() + " °C", reader.GetDecimal("cpustatus3").ToString() + " °C", reader.GetDecimal("cpustatus4").ToString() + " °C", reader.GetDecimal("cpustatus5").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
                 conn.Close();
-                localData = false;
+                firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
+                lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
+                toolStripStatusLabel.Text = "Date intervall between" + firstItem + " and " + lastItem +".";
             }
+       
             catch
             {
                 MessageBox.Show("Check database password! Otherwise contact the administrator.");
             }
+
         }
 
 
@@ -101,9 +122,20 @@ namespace WinFormsApp1
         private void FormMain_Load(object sender, EventArgs e)
         {
             readTable();
+            foreach (ListViewItem item in listViewShowStatus.Items)
+            {
+             //    int checkValue;
+             //   checkValue = Int32.Parse(item.SubItems[0].Text);
+                // if (checkValue > 0)
+                // {
+                //item.SubItems[0].BackColor = Color.Red;
+            }
+
+            firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
+            lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
+            toolStripStatusLabel.Text = "Date intervall " + firstItem + " between " + lastItem;
 
         }
-
         private void reloadTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             readTable();
@@ -112,7 +144,7 @@ namespace WinFormsApp1
         private void modifyPasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormChangePassword changePassword = new FormChangePassword();
-            changePassword.Show();
+            changePassword.ShowDialog();
         }
 
         private void FormMain_Activated(object sender, EventArgs e)
@@ -131,6 +163,27 @@ namespace WinFormsApp1
 
         private void graphViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            cpuItems.Clear();
+            cpuItems1.Clear();
+            cpuItems2.Clear();
+            cpuItems3.Clear();
+            cpuItems4.Clear();
+            cpuItems5.Clear();
+            hdItems.Clear();
+            listDate.Clear();
+            
+            foreach (ListViewItem item in listViewShowStatus.Items)
+            {
+                cpuItems.Add(item.SubItems[0].Text);
+                cpuItems1.Add(item.SubItems[1].Text);
+                cpuItems2.Add(item.SubItems[2].Text);
+                cpuItems3.Add(item.SubItems[3].Text);
+                cpuItems4.Add(item.SubItems[4].Text);
+                cpuItems5.Add(item.SubItems[5].Text);
+                hdItems.Add(item.SubItems[6].Text);
+                listDate.Add(item.SubItems[7].Text);
+            } 
+
             FormGraphView showGraph = new FormGraphView();
             showGraph.Show();
         }
@@ -162,10 +215,6 @@ namespace WinFormsApp1
                         fileName.Close();
                         MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
 
-
-                        /* firstItem = listViewShowStatus.Items[0].SubItems[3].Text;
-                          lastItem = listViewShowData.Items[countItems].SubItems[3].Text;*/
-
                     }
                     else
                     {
@@ -174,9 +223,12 @@ namespace WinFormsApp1
                     }
 
                 }
-                localFilename = openContent.FileName.ToString();
-                localData = true;
+
+                firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
+                lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
+                toolStripStatusLabel.Text = "Date intervall " + firstItem + " between " + lastItem;
             }
+
             catch (Exception i)
             {
                 MessageBox.Show("Error message:" + i.Message);

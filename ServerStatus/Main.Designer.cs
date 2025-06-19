@@ -53,7 +53,10 @@
             columnHeaderCPUstatus5 = new ColumnHeader();
             columnHeaderHDstatus = new ColumnHeader();
             columnHeaderDate = new ColumnHeader();
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabel = new ToolStripStatusLabel();
             menuStrip1.SuspendLayout();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -61,7 +64,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, viewToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(881, 24);
+            menuStrip1.Size = new Size(908, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -171,9 +174,10 @@
             // 
             listViewShowStatus.Columns.AddRange(new ColumnHeader[] { columnHeaderCPUstatus0, columnHeaderCPUstatus1, columnHeaderCPUstatus2, columnHeaderCPUstatus3, columnHeaderCPUstatus4, columnHeaderCPUstatus5, columnHeaderHDstatus, columnHeaderDate });
             listViewShowStatus.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listViewShowStatus.FullRowSelect = true;
             listViewShowStatus.Location = new Point(0, 27);
             listViewShowStatus.Name = "listViewShowStatus";
-            listViewShowStatus.Size = new Size(881, 712);
+            listViewShowStatus.Size = new Size(907, 893);
             listViewShowStatus.TabIndex = 1;
             listViewShowStatus.UseCompatibleStateImageBehavior = false;
             listViewShowStatus.View = View.Details;
@@ -216,13 +220,30 @@
             // columnHeaderDate
             // 
             columnHeaderDate.Text = "Date";
-            columnHeaderDate.Width = 150;
+            columnHeaderDate.Width = 200;
+            // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel });
+            statusStrip1.Location = new Point(0, 915);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(908, 28);
+            statusStrip1.TabIndex = 2;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel
+            // 
+            toolStripStatusLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            toolStripStatusLabel.Name = "toolStripStatusLabel";
+            toolStripStatusLabel.Size = new Size(164, 23);
+            toolStripStatusLabel.Text = "toolStripStatusLabel";
             // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(881, 740);
+            ClientSize = new Size(908, 943);
+            Controls.Add(statusStrip1);
             Controls.Add(listViewShowStatus);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -236,6 +257,8 @@
             Load += FormMain_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -267,5 +290,7 @@
         private ColumnHeader columnHeaderDate;
         private ColumnHeader columnHeaderHDstatus;
         private ToolStripMenuItem reloadTableToolStripMenuItem;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel;
     }
 }
