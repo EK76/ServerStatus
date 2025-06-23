@@ -36,12 +36,12 @@
             viewToolStripMenuItem = new ToolStripMenuItem();
             graphViewToolStripMenuItem = new ToolStripMenuItem();
             reloadTableToolStripMenuItem = new ToolStripMenuItem();
-            statusToolStripMenuItem = new ToolStripMenuItem();
-            allToolStripMenuItem = new ToolStripMenuItem();
-            normalToolStripMenuItem = new ToolStripMenuItem();
-            criticalToolStripMenuItem = new ToolStripMenuItem();
+            markToolStripMenuItem = new ToolStripMenuItem();
+            showToolStripMenuItem = new ToolStripMenuItem();
+            daytoolStripComboBox = new ToolStripComboBox();
             toolsToolStripMenuItem = new ToolStripMenuItem();
             modifyPasswordToolStripMenuItem = new ToolStripMenuItem();
+            emptyTableToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutServerStatusToolStripMenuItem = new ToolStripMenuItem();
             listViewShowStatus = new ListView();
@@ -78,27 +78,27 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(165, 22);
             openToolStripMenuItem.Text = "Open Status Data";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(180, 22);
+            saveToolStripMenuItem.Size = new Size(165, 22);
             saveToolStripMenuItem.Text = "Save Status Data";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Size = new Size(165, 22);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { graphViewToolStripMenuItem, reloadTableToolStripMenuItem, statusToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { graphViewToolStripMenuItem, reloadTableToolStripMenuItem, markToolStripMenuItem, showToolStripMenuItem });
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             viewToolStripMenuItem.Size = new Size(44, 20);
             viewToolStripMenuItem.Text = "View";
@@ -106,45 +106,42 @@
             // graphViewToolStripMenuItem
             // 
             graphViewToolStripMenuItem.Name = "graphViewToolStripMenuItem";
-            graphViewToolStripMenuItem.Size = new Size(141, 22);
+            graphViewToolStripMenuItem.Size = new Size(208, 22);
             graphViewToolStripMenuItem.Text = "Graph View";
             graphViewToolStripMenuItem.Click += graphViewToolStripMenuItem_Click;
             // 
             // reloadTableToolStripMenuItem
             // 
             reloadTableToolStripMenuItem.Name = "reloadTableToolStripMenuItem";
-            reloadTableToolStripMenuItem.Size = new Size(141, 22);
+            reloadTableToolStripMenuItem.Size = new Size(208, 22);
             reloadTableToolStripMenuItem.Text = "Reload Table";
             reloadTableToolStripMenuItem.Click += reloadTableToolStripMenuItem_Click;
             // 
-            // statusToolStripMenuItem
+            // markToolStripMenuItem
             // 
-            statusToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { allToolStripMenuItem, normalToolStripMenuItem, criticalToolStripMenuItem });
-            statusToolStripMenuItem.Name = "statusToolStripMenuItem";
-            statusToolStripMenuItem.Size = new Size(141, 22);
-            statusToolStripMenuItem.Text = "Status";
+            markToolStripMenuItem.Name = "markToolStripMenuItem";
+            markToolStripMenuItem.Size = new Size(208, 22);
+            markToolStripMenuItem.Text = "Mark Critical";
+            markToolStripMenuItem.Click += markToolStripMenuItem_Click;
             // 
-            // allToolStripMenuItem
+            // showToolStripMenuItem
             // 
-            allToolStripMenuItem.Name = "allToolStripMenuItem";
-            allToolStripMenuItem.Size = new Size(114, 22);
-            allToolStripMenuItem.Text = "All";
+            showToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { daytoolStripComboBox });
+            showToolStripMenuItem.Name = "showToolStripMenuItem";
+            showToolStripMenuItem.Size = new Size(208, 22);
+            showToolStripMenuItem.Text = "Show Selected Day Status";
             // 
-            // normalToolStripMenuItem
+            // daytoolStripComboBox
             // 
-            normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            normalToolStripMenuItem.Size = new Size(114, 22);
-            normalToolStripMenuItem.Text = "Normal";
-            // 
-            // criticalToolStripMenuItem
-            // 
-            criticalToolStripMenuItem.Name = "criticalToolStripMenuItem";
-            criticalToolStripMenuItem.Size = new Size(114, 22);
-            criticalToolStripMenuItem.Text = "Critical";
+            daytoolStripComboBox.Name = "daytoolStripComboBox";
+            daytoolStripComboBox.Size = new Size(121, 23);
+            daytoolStripComboBox.Text = "Select Day";
+            daytoolStripComboBox.SelectedIndexChanged += daytoolStripComboBox_SelectedIndexChanged;
+            daytoolStripComboBox.Click += daytoolStripComboBox_Click;
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { modifyPasswordToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { modifyPasswordToolStripMenuItem, emptyTableToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(47, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -152,9 +149,16 @@
             // modifyPasswordToolStripMenuItem
             // 
             modifyPasswordToolStripMenuItem.Name = "modifyPasswordToolStripMenuItem";
-            modifyPasswordToolStripMenuItem.Size = new Size(162, 22);
+            modifyPasswordToolStripMenuItem.Size = new Size(180, 22);
             modifyPasswordToolStripMenuItem.Text = "ModifyPassword";
             modifyPasswordToolStripMenuItem.Click += modifyPasswordToolStripMenuItem_Click;
+            // 
+            // emptyTableToolStripMenuItem
+            // 
+            emptyTableToolStripMenuItem.Name = "emptyTableToolStripMenuItem";
+            emptyTableToolStripMenuItem.Size = new Size(180, 22);
+            emptyTableToolStripMenuItem.Text = "Empty The Table";
+            emptyTableToolStripMenuItem.Click += emptyTableToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -181,6 +185,8 @@
             listViewShowStatus.TabIndex = 1;
             listViewShowStatus.UseCompatibleStateImageBehavior = false;
             listViewShowStatus.View = View.Details;
+            listViewShowStatus.SelectedIndexChanged += listViewShowStatus_SelectedIndexChanged;
+            listViewShowStatus.DoubleClick += listViewShowStatus_DoubleClick;
             // 
             // columnHeaderCPUstatus0
             // 
@@ -276,10 +282,6 @@
         private ToolStripMenuItem graphViewToolStripMenuItem;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem aboutServerStatusToolStripMenuItem;
-        private ToolStripMenuItem statusToolStripMenuItem;
-        private ToolStripMenuItem allToolStripMenuItem;
-        private ToolStripMenuItem normalToolStripMenuItem;
-        private ToolStripMenuItem criticalToolStripMenuItem;
         private ListView listViewShowStatus;
         private ColumnHeader columnHeaderCPUstatus0;
         private ColumnHeader columnHeaderCPUstatus1;
@@ -292,5 +294,9 @@
         private ToolStripMenuItem reloadTableToolStripMenuItem;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel;
+        private ToolStripMenuItem markToolStripMenuItem;
+        private ToolStripMenuItem emptyTableToolStripMenuItem;
+        private ToolStripMenuItem showToolStripMenuItem;
+        private ToolStripComboBox daytoolStripComboBox;
     }
 }

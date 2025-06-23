@@ -56,7 +56,9 @@ namespace ServerStatus.ServerStatus
             chartShowStatus.Width = 2504;
             chartShowStatus.Update();
             //chartShowStatus.Series[0].Points.Clear();
-
+            chartShowStatus.Series[0].XValueType = ChartValueType.DateTime;
+            chartShowStatus.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
+            chartShowStatus.ChartAreas[0].AxisX.LabelStyle.Format = "mm-hh-dd";
 
             foreach (var addValue in FormMain.cpuItems)
             {
@@ -68,7 +70,6 @@ namespace ServerStatus.ServerStatus
             }
 
             addPoint = -1;
-
             foreach (var addValue in FormMain.cpuItems1)
             {
                 addPoint++;
@@ -128,8 +129,19 @@ namespace ServerStatus.ServerStatus
                 chartShowStatus.Series[6].Points.AddXY(addPoint, convertValue);
             }
 
+            addPoint = -1;
+            foreach (var addValue in FormMain.listDate)
+            {
+                addPoint++;
+                //   chartShowStatus.ChartAreas[0].AxisX.FormMain.listDate;
+                chartShowStatus.Series[0].Points[addPoint].AxisLabel = FormMain.listDate[addPoint];
+            }
+
+
             chartShowStatus.ChartAreas[0].AxisY.Minimum = 0;
             chartShowStatus.ChartAreas[0].AxisY.Maximum = 100;
+
+        //    chartShowStatus.Series[0].AxisX. = FormMain.listDate[addPoint];
 
             firstItem = FormMain.listDate.First();
             lastItem = FormMain.listDate.Last();
@@ -263,11 +275,13 @@ namespace ServerStatus.ServerStatus
                 case ChartElementType.DataPoint:
                     var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
                     e.Text = string.Format("Date: {0}\n  Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                    chartShowStatus.ChartAreas[0].AxisX.Title = string.Format("Date: {0} Temperature: {1} °C",  FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                  //  toolStripStatusLabel.Text = string.Format("Date: {0} Temperature: {1} °C",  FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+
+                    toolStripStatusLabel.Text = string.Format("Date: {0} Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
                     break;
 
                 default:
-                    chartShowStatus.ChartAreas[0].AxisX.Title = "Date";
+                    toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + ".";
                     break;
             }
         }
