@@ -81,7 +81,7 @@ namespace WinFormsApp1
             }
             catch
             {
-                MessageBox.Show("Check password!");
+                MessageBox.Show("Check database password! Otherwise contact the administrator.", "Server Status");
                 FormChangePassword changePassword = new FormChangePassword();
                 changePassword.ShowDialog();
             }
@@ -108,8 +108,7 @@ namespace WinFormsApp1
             }
             catch (Exception ex) 
             {
-              MessageBox.Show("Check database password! Otherwise contact the administrator.");
-              //  MessageBox.Show(ex.Message);
+              MessageBox.Show("Check database password! Otherwise contact the administrator.","Server Status");
             }
 
             if (countItems >= 1)
@@ -216,13 +215,13 @@ namespace WinFormsApp1
                             listViewShowStatus.Items.Add(itemAdd);
                         }
                         fileName.Close();
-                        MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
+                        MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!","Server Status");
                         localData = true;
                         showToolStripMenuItem.Enabled = false;
                     }
                     else
                     {
-                        MessageBox.Show(("This application supports only stf files"));
+                        MessageBox.Show("This application supports only stf files","Server Status");
 
                     }
                 }
@@ -267,7 +266,7 @@ namespace WinFormsApp1
                                 sw.WriteLine("{0}{1}{2}{3}{4}{5}{6}{7}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";", item.SubItems[2].Text + ";", item.SubItems[3].Text + ";", item.SubItems[4].Text + ";", item.SubItems[5].Text + ";", item.SubItems[6].Text + ";", item.SubItems[7].Text + ";");
                             }
                         }
-                        MessageBox.Show("File " + filename + " is susccessfully saved!");
+                        MessageBox.Show("File " + filename + " is susccessfully saved!","Server Status");
                     }
                 }
             }
@@ -330,7 +329,7 @@ namespace WinFormsApp1
                 }
                 if (countStatus == 0)      
                 {
-                    MessageBox.Show("There are not any critical status!");
+                    MessageBox.Show("There are none critical status!","Server Status");
                 }
             }
             else
@@ -363,7 +362,7 @@ namespace WinFormsApp1
 
         private void emptyTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult messageInfo = MessageBox.Show("Are you sure to empty the table", "Server Status", MessageBoxButtons.YesNo);
+            DialogResult messageInfo = MessageBox.Show("Are you sure to empty the table","Server Status", MessageBoxButtons.YesNo);
             if (messageInfo == DialogResult.Yes)
             {
                 MySqlConnection conn = new MySqlConnection(connString);
@@ -390,7 +389,7 @@ namespace WinFormsApp1
                     markToolStripMenuItem.Enabled = true;
                 }
                 toolStripStatusLabel.Text = "";
-                MessageBox.Show("The table has been successfully emptied.")
+                MessageBox.Show("The table has been successfully emptied.","Server Status");
             }
         }
 
@@ -412,7 +411,7 @@ namespace WinFormsApp1
 
             catch (Exception ex)
             {
-                MessageBox.Show("Check database password! Otherwise contact the administrator.");
+                MessageBox.Show("Check database password! Otherwise contact the administrator.","Server Status");
             }
         }
 
@@ -440,7 +439,7 @@ namespace WinFormsApp1
            }
            catch (Exception ex)
            {
-              MessageBox.Show("Check database password! Otherwise contact the administrator.");
+              MessageBox.Show("Check database password! Otherwise contact the administrator.","Server Status");
            }
 
            if (countItems >= 1)
