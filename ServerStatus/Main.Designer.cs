@@ -84,6 +84,7 @@
             // 
             // saveToolStripMenuItem
             // 
+            saveToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.Size = new Size(165, 22);
             saveToolStripMenuItem.Text = "Save Status Data";
@@ -105,6 +106,7 @@
             // 
             // graphViewToolStripMenuItem
             // 
+            graphViewToolStripMenuItem.Enabled = false;
             graphViewToolStripMenuItem.Name = "graphViewToolStripMenuItem";
             graphViewToolStripMenuItem.Size = new Size(208, 22);
             graphViewToolStripMenuItem.Text = "Graph View";
@@ -119,6 +121,7 @@
             // 
             // markToolStripMenuItem
             // 
+            markToolStripMenuItem.Enabled = false;
             markToolStripMenuItem.Name = "markToolStripMenuItem";
             markToolStripMenuItem.Size = new Size(208, 22);
             markToolStripMenuItem.Text = "Mark Critical";
@@ -127,6 +130,7 @@
             // showToolStripMenuItem
             // 
             showToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { daytoolStripComboBox });
+            showToolStripMenuItem.Enabled = false;
             showToolStripMenuItem.Name = "showToolStripMenuItem";
             showToolStripMenuItem.Size = new Size(208, 22);
             showToolStripMenuItem.Text = "Show Selected Day Status";
@@ -149,14 +153,14 @@
             // modifyPasswordToolStripMenuItem
             // 
             modifyPasswordToolStripMenuItem.Name = "modifyPasswordToolStripMenuItem";
-            modifyPasswordToolStripMenuItem.Size = new Size(180, 22);
+            modifyPasswordToolStripMenuItem.Size = new Size(162, 22);
             modifyPasswordToolStripMenuItem.Text = "ModifyPassword";
             modifyPasswordToolStripMenuItem.Click += modifyPasswordToolStripMenuItem_Click;
             // 
             // emptyTableToolStripMenuItem
             // 
             emptyTableToolStripMenuItem.Name = "emptyTableToolStripMenuItem";
-            emptyTableToolStripMenuItem.Size = new Size(180, 22);
+            emptyTableToolStripMenuItem.Size = new Size(162, 22);
             emptyTableToolStripMenuItem.Text = "Empty The Table";
             emptyTableToolStripMenuItem.Click += emptyTableToolStripMenuItem_Click;
             // 
@@ -231,9 +235,9 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel });
-            statusStrip1.Location = new Point(0, 915);
+            statusStrip1.Location = new Point(0, 921);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(908, 28);
+            statusStrip1.Size = new Size(908, 22);
             statusStrip1.TabIndex = 2;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -241,8 +245,7 @@
             // 
             toolStripStatusLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             toolStripStatusLabel.Name = "toolStripStatusLabel";
-            toolStripStatusLabel.Size = new Size(164, 23);
-            toolStripStatusLabel.Text = "toolStripStatusLabel";
+            toolStripStatusLabel.Size = new Size(0, 17);
             // 
             // FormMain
             // 

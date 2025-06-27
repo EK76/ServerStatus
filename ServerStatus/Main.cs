@@ -13,11 +13,12 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
-        string queryString, connString, passwordString, checkValue, checkNewValue, firstItem, lastItem, dayString;
+        string queryString, connString, passwordString, checkValue, checkNewValue, firstItem, lastItem, dayString, configPass;
         public static string dateDetails, cpuDetails, cpuDetails1, cpuDetails2, cpuDetails3, cpuDetails4, cpuDetails5, hdDetails;
         int countItems, indexNumber, countStatus;
         public static int convertValue, convertValue1, convertValue2, convertValue3, convertValue4, convertValue5, convertValue6;
         public static bool checkExist = false;
+        bool localData = false;
         public static List<string> cpuItems = new List<string>();
         public static List<string> cpuItems1 = new List<string>();
         public static List<string> cpuItems2 = new List<string>();
@@ -64,7 +65,8 @@ namespace WinFormsApp1
             countItems = -1;
             if (!File.Exists("input.txt"))
             {
-                File.AppendAllText("input.txt", "password");
+                configPass = Encrypt("password", "status");
+                File.AppendAllText("input.txt", configPass);
             }
 
             if (!File.Exists("configdb.txt"))
@@ -84,12 +86,11 @@ namespace WinFormsApp1
                 changePassword.ShowDialog();
             }
 
-            listViewShowStatus.Items.Clear();
-
+            listViewShowStatus.Items.Clear();    
             passwordString = Decrypt(inputPass[0], "status");
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
-
+        
             queryString = "select * from infostatus;";
             try
             {
@@ -103,20 +104,32 @@ namespace WinFormsApp1
                     listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus0").ToString() + " °C", reader.GetDecimal("cpustatus1").ToString() + " °C", reader.GetDecimal("cpustatus2").ToString() + " °C", reader.GetDecimal("cpustatus3").ToString() + " °C", reader.GetDecimal("cpustatus4").ToString() + " °C", reader.GetDecimal("cpustatus5").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
                 conn.Close();
+                localData = false;
+            }
+            catch (Exception ex) 
+            {
+              MessageBox.Show("Check database password! Otherwise contact the administrator.");
+              //  MessageBox.Show(ex.Message);
+            }
+
+            if (countItems >= 1)
+            {
+                graphViewToolStripMenuItem.Enabled = true;
+                markToolStripMenuItem.Enabled = true;
+                showToolStripMenuItem.Enabled = true;
+                saveToolStripMenuItem.Enabled = true; ;
                 firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
                 lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
-                toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + ".";
+                toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + " (Data from database).";
             }
-            catch
+            else
             {
-                MessageBox.Show("Check database password! Otherwise contact the administrator.");
+                graphViewToolStripMenuItem.Enabled = false;
+                markToolStripMenuItem.Enabled = false;
+                showToolStripMenuItem.Enabled = false;
+                saveToolStripMenuItem.Enabled = false;
+                toolStripStatusLabel.Text = "";
             }
-
-            if (countItems > 0)
-            {
-                emptyTableToolStripMenuItem.Enabled = true;
-            }
-
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -150,7 +163,7 @@ namespace WinFormsApp1
         private void aboutServerStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormAbout about = new FormAbout();
-            about.Show();
+            about.ShowDialog();
         }
 
         private void graphViewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -176,7 +189,7 @@ namespace WinFormsApp1
                 listDate.Add(item.SubItems[7].Text);
             }
             FormGraphView showGraph = new FormGraphView();
-            showGraph.Show();
+            showGraph.ShowDialog();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -187,7 +200,6 @@ namespace WinFormsApp1
             OpenFileDialog openContent = new OpenFileDialog();
             openContent.Title = "Open Data";
             openContent.Filter = "Status File (.stf) | *.stf";
-
             try
             {
                 listViewShowStatus.Items.Clear();
@@ -200,28 +212,36 @@ namespace WinFormsApp1
                         {
                             countItems++;
                             var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
-                        line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString(),line.ToString().Split(';')[4].ToString(), line.ToString().Split(';')[5].ToString(), line.ToString().Split(';')[6].ToString(), line.ToString().Split(';')[7].ToString() });
+                            line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString(),line.ToString().Split(';')[4].ToString(), line.ToString().Split(';')[5].ToString(), line.ToString().Split(';')[6].ToString(), line.ToString().Split(';')[7].ToString() });
                             listViewShowStatus.Items.Add(itemAdd);
                         }
                         fileName.Close();
                         MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!");
-
+                        localData = true;
+                        showToolStripMenuItem.Enabled = false;
                     }
                     else
                     {
                         MessageBox.Show(("This application supports only stf files"));
 
                     }
-
                 }
-                firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
-                lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
-                toolStripStatusLabel.Text = "Date intervall " + firstItem + " between " + lastItem;
+  
             }
 
             catch (Exception i)
             {
                 MessageBox.Show("Error message:" + i.Message);
+            }
+
+            if (countItems > 1)
+            {
+                graphViewToolStripMenuItem.Enabled = true;
+                markToolStripMenuItem.Enabled = true;
+                saveToolStripMenuItem.Enabled = true;
+                firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
+                lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
+                toolStripStatusLabel.Text = "Date intervall " + firstItem + " between " + lastItem + " (Data from text file: " + Path.GetFileName(openContent.FileName.ToString()) + ").";
             }
         }
 
@@ -310,7 +330,7 @@ namespace WinFormsApp1
                 }
                 if (countStatus == 0)      
                 {
-                    MessageBox.Show("There is not any critical status!");
+                    MessageBox.Show("There are not any critical status!");
                 }
             }
             else
@@ -356,7 +376,21 @@ namespace WinFormsApp1
                 MySqlCommand command2 = new MySqlCommand("alter table infostatus auto_increment=1", conn);
                 MySqlDataReader reader2 = command2.ExecuteReader();
                 conn.Close();
-                emptyTableToolStripMenuItem.Enabled = false;
+                markToolStripMenuItem.Enabled = false;
+                showToolStripMenuItem.Enabled = false;
+                graphViewToolStripMenuItem.Enabled = false;
+                if (localData == false)
+                {
+                    listViewShowStatus.Items.Clear();
+                    saveToolStripMenuItem.Enabled = false;
+                }
+                else 
+                {
+                    graphViewToolStripMenuItem.Enabled = true;
+                    markToolStripMenuItem.Enabled = true;
+                }
+                toolStripStatusLabel.Text = "";
+                MessageBox.Show("The table has been successfully emptied.")
             }
         }
 
@@ -385,7 +419,6 @@ namespace WinFormsApp1
         private void daytoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
            reloadTableToolStripMenuItem.Enabled = true;
-           emptyTableToolStripMenuItem.Enabled = true;
            listViewShowStatus.Items.Clear();
 
            MySqlConnection conn = new MySqlConnection(connString);
@@ -410,10 +443,17 @@ namespace WinFormsApp1
               MessageBox.Show("Check database password! Otherwise contact the administrator.");
            }
 
-           if (countItems > 0)
+           if (countItems >= 1)
            {
                 emptyTableToolStripMenuItem.Enabled = true;
-           }
+                graphViewToolStripMenuItem.Enabled = true;
+                markToolStripMenuItem.Enabled = true;
+            }
+            else 
+            {
+                graphViewToolStripMenuItem.Enabled = false;
+                markToolStripMenuItem.Enabled = false;
+            }
         }     
     }
 }

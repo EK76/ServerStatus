@@ -133,15 +133,14 @@ namespace ServerStatus.ServerStatus
             foreach (var addValue in FormMain.listDate)
             {
                 addPoint++;
-                //   chartShowStatus.ChartAreas[0].AxisX.FormMain.listDate;
                 chartShowStatus.Series[0].Points[addPoint].AxisLabel = FormMain.listDate[addPoint];
             }
 
-
+            //  chartShowStatus.ChartAreas[0].AxisX.LabelStyle.Interval = -1;
+            //            chartShowStatus.ChartAreas[0].AxisX.LabelStyle.Angle = -90;
             chartShowStatus.ChartAreas[0].AxisY.Minimum = 0;
             chartShowStatus.ChartAreas[0].AxisY.Maximum = 100;
 
-        //    chartShowStatus.Series[0].AxisX. = FormMain.listDate[addPoint];
 
             firstItem = FormMain.listDate.First();
             lastItem = FormMain.listDate.Last();
@@ -275,7 +274,7 @@ namespace ServerStatus.ServerStatus
                 case ChartElementType.DataPoint:
                     var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
                     e.Text = string.Format("Date: {0}\n  Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                  //  toolStripStatusLabel.Text = string.Format("Date: {0} Temperature: {1} °C",  FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                    //  toolStripStatusLabel.Text = string.Format("Date: {0} Temperature: {1} °C",  FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
 
                     toolStripStatusLabel.Text = string.Format("Date: {0} Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
                     break;
@@ -284,6 +283,155 @@ namespace ServerStatus.ServerStatus
                     toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + ".";
                     break;
             }
+        }
+
+        private void copyChartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (MemoryStream copypic = new MemoryStream())
+            {
+                chartShowStatus.SaveImage(copypic, ChartImageFormat.Jpeg);
+                Bitmap newpic = new Bitmap(copypic);
+                Clipboard.SetImage(newpic);
+            }
+        }
+
+        private void showGaphicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void showGaphicToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (showGaphicToolStripMenuItem.Checked == true)
+            {
+                chartShowStatus.ChartAreas[0].Area3DStyle.Enable3D = true;
+            }
+            else
+            {
+                chartShowStatus.ChartAreas[0].Area3DStyle.Enable3D = false;
+            }
+        }
+
+        private void smallToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerSize = 8;
+            }
+
+            smallToolStripMenuItem.Checked = true;
+            medumToolStripMenuItem.Checked = false;
+            largeToolStripMenuItem.Checked = false;
+            markerTypeToolStripMenuItem.Enabled = true;
+        }
+
+        private void medumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerSize = 14;
+            }
+
+            smallToolStripMenuItem.Checked = false;
+            medumToolStripMenuItem.Checked = true;
+            largeToolStripMenuItem.Checked = false;
+            markerTypeToolStripMenuItem.Enabled = true;
+        }
+
+        private void largeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerSize = 20;
+            }
+
+            smallToolStripMenuItem.Checked = false;
+            medumToolStripMenuItem.Checked = false;
+            largeToolStripMenuItem.Checked = true;
+            markerTypeToolStripMenuItem.Enabled = true;
+        }
+
+        private void noneMarkerSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerSize = 0;
+            }
+
+            smallToolStripMenuItem.Checked = false;
+            medumToolStripMenuItem.Checked = false;
+            largeToolStripMenuItem.Checked = false;
+            markerTypeToolStripMenuItem.Enabled = false;
+        }
+        private void circleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Circle;
+            }
+
+            circleToolStripMenuItem.Checked = true;
+            triangleToolStripMenuItem.Checked = false;
+            squareToolStripMenuItem.Checked = false;
+            starToolStripMenuItem.Checked = false;
+        }
+
+        private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Triangle;
+            }
+
+            circleToolStripMenuItem.Checked = false;
+            triangleToolStripMenuItem.Checked = true;
+            squareToolStripMenuItem.Checked = false;
+            starToolStripMenuItem.Checked = false;
+        }
+
+        private void squareToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Square;
+            }
+
+            circleToolStripMenuItem.Checked = false;
+            triangleToolStripMenuItem.Checked = false;
+            squareToolStripMenuItem.Checked = true;
+            starToolStripMenuItem.Checked = false;
+        }
+
+        private void starToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Star5;
+            }
+
+            circleToolStripMenuItem.Checked = false;
+            triangleToolStripMenuItem.Checked = false;
+            squareToolStripMenuItem.Checked = false;
+            starToolStripMenuItem.Checked = true;
+        }
+
+        private void defaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerSize = 14;
+            }
+
+            for (int i = 0; i < 7; i++)
+            {
+                chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Circle;
+            }
+
+            circleToolStripMenuItem.Checked = true;
+            medumToolStripMenuItem.Checked = true;
+            markerTypeToolStripMenuItem.Enabled = true;
+            showGaphicToolStripMenuItem.Checked = false;
+            chartShowStatus.ChartAreas[0].Area3DStyle.Enable3D = false;
         }
     }
 }
