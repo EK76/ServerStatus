@@ -26,6 +26,7 @@ namespace ServerStatus.ServerStatus
 
         string firstItem, lastItem;
         int addPoint = -1;
+        int checkSize, checkType;
 
         public static string Decrypt(string encrypt, string key)
         {
@@ -322,7 +323,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = true;
             medumToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = false;
-            markerTypeToolStripMenuItem.Enabled = true;
+            checkSize = 1;
         }
 
         private void medumToolStripMenuItem_Click(object sender, EventArgs e)
@@ -335,7 +336,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = false;
             medumToolStripMenuItem.Checked = true;
             largeToolStripMenuItem.Checked = false;
-            markerTypeToolStripMenuItem.Enabled = true;
+            checkSize = 2;
         }
 
         private void largeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -348,7 +349,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = false;
             medumToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = true;
-            markerTypeToolStripMenuItem.Enabled = true;
+            checkSize = 3;
         }
 
         private void noneMarkerSizeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -358,10 +359,70 @@ namespace ServerStatus.ServerStatus
                 chartShowStatus.Series[i].MarkerSize = 0;
             }
 
-            smallToolStripMenuItem.Checked = false;
-            medumToolStripMenuItem.Checked = false;
-            largeToolStripMenuItem.Checked = false;
-            markerTypeToolStripMenuItem.Enabled = false;
+            if (noneMarkerSizeToolStripMenuItem.Checked)
+            {
+                markerSizeToolStripMenuItem.Enabled = true;
+                markerTypeToolStripMenuItem.Enabled = true;
+                noneMarkerSizeToolStripMenuItem.Checked = false;
+                switch (checkSize)
+                {
+                    case 1:
+                        for (int i = 0; i < 7; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerSize = 8;
+                        }
+                        break;
+                        
+                    case 2:
+                        for (int i = 0; i < 7; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerSize = 14;
+                        }
+                        break;
+                    case 3:
+                        for (int i = 0; i < 7; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerSize = 20;
+                        }
+                        break;
+                }
+
+                switch (checkType)
+                {
+                    case 1:
+                        for (int i = 0; i < 7; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Circle;
+                        }
+                        break;
+
+                    case 2:
+                        for (int i = 0; i < 7; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Triangle;
+                        }
+                        break;
+                    case 3:
+                        for (int i = 0; i < 7; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Square;
+                        }
+                        break;
+                    case 4:
+                        for (int i = 0; i < 7; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Star5;
+                        }
+                        break;
+                }
+            }
+            else
+            {
+
+                markerSizeToolStripMenuItem.Enabled = false;
+                markerTypeToolStripMenuItem.Enabled = false;
+                noneMarkerSizeToolStripMenuItem.Checked = true;
+            }
         }
         private void circleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -374,6 +435,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = false;
             squareToolStripMenuItem.Checked = false;
             starToolStripMenuItem.Checked = false;
+            checkType = 1;
         }
 
         private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -387,6 +449,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = true;
             squareToolStripMenuItem.Checked = false;
             starToolStripMenuItem.Checked = false;
+            checkType = 2;
         }
 
         private void squareToolStripMenuItem_Click(object sender, EventArgs e)
@@ -400,6 +463,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = false;
             squareToolStripMenuItem.Checked = true;
             starToolStripMenuItem.Checked = false;
+            checkType = 3;
         }
 
         private void starToolStripMenuItem_Click(object sender, EventArgs e)
@@ -413,6 +477,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = false;
             squareToolStripMenuItem.Checked = false;
             starToolStripMenuItem.Checked = true;
+            checkType = 4;
         }
 
         private void defaultToolStripMenuItem_Click(object sender, EventArgs e)
