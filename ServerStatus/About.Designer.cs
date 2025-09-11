@@ -36,11 +36,11 @@
             // 
             labelText1.AutoSize = true;
             labelText1.Font = new Font("Calibri", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelText1.Location = new Point(12, 42);
+            labelText1.Location = new Point(12, 9);
             labelText1.Name = "labelText1";
-            labelText1.Size = new Size(304, 92);
+            labelText1.Size = new Size(304, 138);
             labelText1.TabIndex = 0;
-            labelText1.Text = "Server Status version 1.0\r\nJune 2024 All rights reserved.\r\n\r\nKen Ekholm, @ken.ekholm@live.com";
+            labelText1.Text = "\r\nServer Status version 1.41\r\nSeptember 2025 All rights reserved. \r\n\r\n\r\nKen Ekholm, @ken.ekholm@live.com";
             // 
             // buttonOk
             // 

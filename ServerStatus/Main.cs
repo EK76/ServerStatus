@@ -1,6 +1,8 @@
 using MySql.Data.MySqlClient;
 using ReadTemp;
 using ServerStatus.ServerStatus;
+using System.Data;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -13,12 +15,13 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
-        string queryString, connString, passwordString, checkValue, checkNewValue, firstItem, lastItem, dayString, configPass;
+        string queryString, connString, passwordString, checkValue, checkNewValue, firstItem, lastItem, dayString, configPass, showUpdateDate;
         public static string dateDetails, cpuDetails, cpuDetails1, cpuDetails2, cpuDetails3, cpuDetails4, cpuDetails5, hdDetails;
         int countItems, indexNumber, countStatus;
         public static int convertValue, convertValue1, convertValue2, convertValue3, convertValue4, convertValue5, convertValue6;
         public static bool checkExist = false;
         bool localData = false;
+
         public static List<string> cpuItems = new List<string>();
         public static List<string> cpuItems1 = new List<string>();
         public static List<string> cpuItems2 = new List<string>();
@@ -86,11 +89,11 @@ namespace WinFormsApp1
                 changePassword.ShowDialog();
             }
 
-            listViewShowStatus.Items.Clear();    
+            listViewShowStatus.Items.Clear();
             passwordString = Decrypt(inputPass[0], "status");
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
-        
+
             queryString = "select * from infostatus;";
             try
             {
@@ -106,9 +109,9 @@ namespace WinFormsApp1
                 conn.Close();
                 localData = false;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-              MessageBox.Show("Check database password! Otherwise contact the administrator.","Server Status");
+                MessageBox.Show("Check database password! Otherwise contact the administrator.", "Server Status");
             }
 
             if (countItems >= 1)
@@ -120,6 +123,7 @@ namespace WinFormsApp1
                 firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
                 lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
                 toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + " (Data from database).";
+                emptyTableToolStripMenuItem.Enabled = true;
             }
             else
             {
@@ -127,6 +131,7 @@ namespace WinFormsApp1
                 markToolStripMenuItem.Enabled = false;
                 showToolStripMenuItem.Enabled = false;
                 saveToolStripMenuItem.Enabled = false;
+                emptyTableToolStripMenuItem.Enabled = false;
                 toolStripStatusLabel.Text = "";
             }
         }
@@ -215,17 +220,17 @@ namespace WinFormsApp1
                             listViewShowStatus.Items.Add(itemAdd);
                         }
                         fileName.Close();
-                        MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!","Server Status");
+                        MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!", "Server Status");
                         localData = true;
                         showToolStripMenuItem.Enabled = false;
                     }
                     else
                     {
-                        MessageBox.Show("This application supports only stf files","Server Status");
+                        MessageBox.Show("This application supports only stf files", "Server Status");
 
                     }
                 }
-  
+
             }
 
             catch (Exception i)
@@ -266,7 +271,7 @@ namespace WinFormsApp1
                                 sw.WriteLine("{0}{1}{2}{3}{4}{5}{6}{7}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";", item.SubItems[2].Text + ";", item.SubItems[3].Text + ";", item.SubItems[4].Text + ";", item.SubItems[5].Text + ";", item.SubItems[6].Text + ";", item.SubItems[7].Text + ";");
                             }
                         }
-                        MessageBox.Show("File " + filename + " is susccessfully saved!","Server Status");
+                        MessageBox.Show("File " + filename + " is susccessfully saved!", "Server Status");
                     }
                 }
             }
@@ -327,9 +332,9 @@ namespace WinFormsApp1
                         countStatus++;
                     }
                 }
-                if (countStatus == 0)      
+                if (countStatus == 0)
                 {
-                    MessageBox.Show("There are none critical status!","Server Status");
+                    MessageBox.Show("There are none critical status!", "Server Status");
                 }
             }
             else
@@ -362,7 +367,7 @@ namespace WinFormsApp1
 
         private void emptyTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult messageInfo = MessageBox.Show("Are you sure to empty the table","Server Status", MessageBoxButtons.YesNo);
+            DialogResult messageInfo = MessageBox.Show("Are you sure to empty the table", "Server Status", MessageBoxButtons.YesNo);
             if (messageInfo == DialogResult.Yes)
             {
                 MySqlConnection conn = new MySqlConnection(connString);
@@ -383,13 +388,14 @@ namespace WinFormsApp1
                     listViewShowStatus.Items.Clear();
                     saveToolStripMenuItem.Enabled = false;
                 }
-                else 
+                else
                 {
                     graphViewToolStripMenuItem.Enabled = true;
                     markToolStripMenuItem.Enabled = true;
                 }
                 toolStripStatusLabel.Text = "";
-                MessageBox.Show("The table has been successfully emptied.","Server Status");
+                MessageBox.Show("The table has been successfully emptied.", "Server Status");
+                emptyTableToolStripMenuItem.Enabled = false;
             }
         }
 
@@ -411,21 +417,21 @@ namespace WinFormsApp1
 
             catch (Exception ex)
             {
-                MessageBox.Show("Check database password! Otherwise contact the administrator.","Server Status");
+                MessageBox.Show("Check database password! Otherwise contact the administrator.", "Server Status");
             }
         }
 
         private void daytoolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-           reloadTableToolStripMenuItem.Enabled = true;
-           listViewShowStatus.Items.Clear();
+            reloadTableToolStripMenuItem.Enabled = true;
+            listViewShowStatus.Items.Clear();
 
-           MySqlConnection conn = new MySqlConnection(connString);
-           conn.Open();
-           queryString = "select cpustatus0, cpustatus1, cpustatus2, cpustatus3, cpustatus4, cpustatus5, datecreated, hdstatus from infostatus where datecreated like '" + daytoolStripComboBox.Text + "%'; ";
+            MySqlConnection conn = new MySqlConnection(connString);
+            conn.Open();
+            queryString = "select cpustatus0, cpustatus1, cpustatus2, cpustatus3, cpustatus4, cpustatus5, datecreated, hdstatus from infostatus where datecreated like '" + daytoolStripComboBox.Text + "%'; ";
 
-           try
-           {
+            try
+            {
                 MySqlCommand command = new MySqlCommand(queryString, conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -436,23 +442,47 @@ namespace WinFormsApp1
                 conn.Close();
 
                 toolStripStatusLabel.Text = "Date: " + daytoolStripComboBox.Text + " is selected.";
-           }
-           catch (Exception ex)
-           {
-              MessageBox.Show("Check database password! Otherwise contact the administrator.","Server Status");
-           }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Check database password! Otherwise contact the administrator.", "Server Status");
+            }
 
-           if (countItems >= 1)
-           {
+            if (countItems >= 1)
+            {
                 emptyTableToolStripMenuItem.Enabled = true;
                 graphViewToolStripMenuItem.Enabled = true;
                 markToolStripMenuItem.Enabled = true;
             }
-            else 
+            else
             {
                 graphViewToolStripMenuItem.Enabled = false;
                 markToolStripMenuItem.Enabled = false;
             }
-        }     
+        }
+
+        private void showServerRebootTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MySqlConnection conn = new MySqlConnection(connString);
+            conn.Open();
+            queryString = "select dateupdated from systemstatus where id = 1";
+
+            try
+            {
+                MySqlCommand command = new MySqlCommand(queryString, conn);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    showUpdateDate = reader.GetDateTime("dateupdated").ToString("dd-MM-yyyy HH:mm");
+                }
+                conn.Close();
+                MessageBox.Show("ServerPC reboot time: " + showUpdateDate, "Server Status");
+                 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Check database password! Otherwise contact the administrator.", "Server Status");
+            }
+        }
     }
 }

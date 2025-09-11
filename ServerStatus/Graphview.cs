@@ -495,8 +495,15 @@ namespace ServerStatus.ServerStatus
             circleToolStripMenuItem.Checked = true;
             medumToolStripMenuItem.Checked = true;
             markerTypeToolStripMenuItem.Enabled = true;
+            markerSizeToolStripMenuItem.Enabled = true;
             showGaphicToolStripMenuItem.Checked = false;
             chartShowStatus.ChartAreas[0].Area3DStyle.Enable3D = false;
+            noneMarkerSizeToolStripMenuItem.Checked = false;
+            triangleToolStripMenuItem.Checked = false;
+            squareToolStripMenuItem.Checked = false;
+            starToolStripMenuItem.Checked = false;
+            smallToolStripMenuItem.Checked = false;
+            largeToolStripMenuItem.Checked = false;
         }
     }
 }
