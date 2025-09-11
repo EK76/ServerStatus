@@ -1,6 +1,6 @@
 # Server Status
-Purpose for this project is to monitor the temperature of computer's CPU  and harddisk when using the following operatingsystem, Ubuntu 24.04.1 LTS.
-But you can also use any kind of the most common Linux distributions for this purpose.
+Purpose for this project is to monitor the temperature of computer's CPU and harddisk when using a Linux operatingsystem. In my case it is Ubuntu 25.04 LTS.
+You can also vheck when the Linux computer have been last rebooted. But you can also use any kind of the most common Linux distributions for this purpose.
 
 **Two pictures of the application.**
 ![image](https://github.com/user-attachments/assets/95aaf302-ddfd-45f1-aec9-0f0012a2b11a)
