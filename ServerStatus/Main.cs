@@ -17,7 +17,7 @@ namespace WinFormsApp1
 
         string queryString, connString, passwordString, checkValue, checkNewValue, firstItem, lastItem, dayString, configPass, showUpdateDate;
         public static string dateDetails, cpuDetails, cpuDetails1, cpuDetails2, cpuDetails3, cpuDetails4, cpuDetails5, hdDetails;
-        int countItems, indexNumber, countStatus;
+        int countItems, indexNumber, countStatus,  countRows;
         public static int convertValue, convertValue1, convertValue2, convertValue3, convertValue4, convertValue5, convertValue6;
         public static bool checkExist = false;
         bool localData = false;
@@ -66,6 +66,7 @@ namespace WinFormsApp1
         void readTable()
         {
             countItems = -1;
+            countRows = 0;
             if (!File.Exists("input.txt"))
             {
                 configPass = Encrypt("password", "status");
@@ -104,6 +105,7 @@ namespace WinFormsApp1
                 while (reader.Read())
                 {
                     countItems++;
+                    countRows++;
                     listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus0").ToString() + " °C", reader.GetDecimal("cpustatus1").ToString() + " °C", reader.GetDecimal("cpustatus2").ToString() + " °C", reader.GetDecimal("cpustatus3").ToString() + " °C", reader.GetDecimal("cpustatus4").ToString() + " °C", reader.GetDecimal("cpustatus5").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
                 conn.Close();
@@ -122,7 +124,7 @@ namespace WinFormsApp1
                 saveToolStripMenuItem.Enabled = true; ;
                 firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
                 lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
-                toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + " (Data from database).";
+                toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + " (Data from database). Rows " + countRows.ToString();
                 emptyTableToolStripMenuItem.Enabled = true;
             }
             else
@@ -200,21 +202,24 @@ namespace WinFormsApp1
         {
             string line = "";
             countItems = -1;
+            countRows = 0;
 
             OpenFileDialog openContent = new OpenFileDialog();
-            openContent.Title = "Open Data";
+            openContent.Title = "Server Status";
             openContent.Filter = "Status File (.stf) | *.stf";
             try
             {
-                listViewShowStatus.Items.Clear();
+               
                 if (openContent.ShowDialog() == DialogResult.OK)
                 {
                     StreamReader fileName = new StreamReader(openContent.FileName.ToString());
                     if (openContent.SafeFileName.Contains(".stf"))
                     {
+                        listViewShowStatus.Items.Clear();
                         while ((line = fileName.ReadLine()) != null)
                         {
                             countItems++;
+                            countRows++;
                             var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
                             line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString(),line.ToString().Split(';')[4].ToString(), line.ToString().Split(';')[5].ToString(), line.ToString().Split(';')[6].ToString(), line.ToString().Split(';')[7].ToString() });
                             listViewShowStatus.Items.Add(itemAdd);
@@ -227,10 +232,8 @@ namespace WinFormsApp1
                     else
                     {
                         MessageBox.Show("This application supports only stf files", "Server Status");
-
                     }
                 }
-
             }
 
             catch (Exception i)
@@ -245,7 +248,7 @@ namespace WinFormsApp1
                 saveToolStripMenuItem.Enabled = true;
                 firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
                 lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
-                toolStripStatusLabel.Text = "Date intervall " + firstItem + " between " + lastItem + " (Data from text file: " + Path.GetFileName(openContent.FileName.ToString()) + ").";
+                toolStripStatusLabel.Text = "Date intervall " + firstItem + " between " + lastItem + " (Data from text file: " + Path.GetFileName(openContent.FileName) +") Rows " + countRows.ToString();
             }
         }
 
@@ -254,7 +257,7 @@ namespace WinFormsApp1
             string filename = "";
             SaveFileDialog saveContent = new SaveFileDialog();
 
-            saveContent.Title = "Save Data";
+            saveContent.Title = "Server Status";
             saveContent.Filter = "Status File (.stf) | *.stf";
 
             try
@@ -325,7 +328,7 @@ namespace WinFormsApp1
                     convertValue6 = Int32.Parse(checkNewValue);
 
 
-                    if ((convertValue > 33) || (convertValue1 > 33) || (convertValue2 > 33) || (convertValue3 > 33) || (convertValue4 > 331) || (convertValue5 > 33) || (convertValue6 > 33))
+                    if ((convertValue > 33) || (convertValue1 > 33) || (convertValue2 > 33) || (convertValue3 > 33) || (convertValue4 > 33) || (convertValue5 > 33) || (convertValue6 > 33))
                     {
                         item.SubItems[0].BackColor = Color.Red;
                         markToolStripMenuItem.Checked = true;
@@ -425,6 +428,7 @@ namespace WinFormsApp1
         {
             reloadTableToolStripMenuItem.Enabled = true;
             listViewShowStatus.Items.Clear();
+            countRows = 0;
 
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
@@ -437,11 +441,12 @@ namespace WinFormsApp1
                 while (reader.Read())
                 {
                     countItems++;
+                    countRows++;
                     listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus0").ToString() + " °C", reader.GetDecimal("cpustatus1").ToString() + " °C", reader.GetDecimal("cpustatus2").ToString() + " °C", reader.GetDecimal("cpustatus3").ToString() + " °C", reader.GetDecimal("cpustatus4").ToString() + " °C", reader.GetDecimal("cpustatus5").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
                 conn.Close();
 
-                toolStripStatusLabel.Text = "Date: " + daytoolStripComboBox.Text + " is selected.";
+                toolStripStatusLabel.Text = "Date: " + daytoolStripComboBox.Text + " is selected.(Data from database) Rows " + countRows.ToString();
             }
             catch (Exception ex)
             {
@@ -473,7 +478,7 @@ namespace WinFormsApp1
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    showUpdateDate = reader.GetDateTime("dateupdated").ToString("dd-MM-yyyy HH:mm");
+                    showUpdateDate = reader.GetDateTime("dateupdated").ToString("dd.MM.yyyy HH:mm");
                 }
                 conn.Close();
                 MessageBox.Show("ServerPC reboot time: " + showUpdateDate, "Server Status");

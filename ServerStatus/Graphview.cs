@@ -1,12 +1,15 @@
 ﻿using Google.Protobuf.Collections;
+using iTextSharp.text;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using WinFormsApp1;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace ServerStatus.ServerStatus
 {
@@ -26,7 +30,10 @@ namespace ServerStatus.ServerStatus
 
         string firstItem, lastItem;
         int addPoint = -1;
-        int checkSize, checkType;
+        int checkSize, checkType, checkItems = 7;
+        int countCheck = 7;
+        bool allowReset = false;
+
 
         public static string Decrypt(string encrypt, string key)
         {
@@ -148,104 +155,6 @@ namespace ServerStatus.ServerStatus
             toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + ".";
         }
 
-        private void checkBoxCPUstatus0_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUstatus0.Checked)
-            {
-                chartShowStatus.Series[0].IsVisibleInLegend = true;
-                chartShowStatus.Series[0].Enabled = true;
-            }
-            else
-            {
-                chartShowStatus.Series[0].IsVisibleInLegend = false;
-                chartShowStatus.Series[0].Enabled = false;
-            }
-        }
-
-        private void checkBoxHDstatus_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxHDstatus.Checked)
-            {
-                chartShowStatus.Series[6].IsVisibleInLegend = true;
-                chartShowStatus.Series[6].Enabled = true;
-            }
-            else
-            {
-                chartShowStatus.Series[6].IsVisibleInLegend = false;
-                chartShowStatus.Series[6].Enabled = false;
-            }
-        }
-
-        private void checkBoxCPUstatus1_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUstatus1.Checked)
-            {
-                chartShowStatus.Series[1].IsVisibleInLegend = true;
-                chartShowStatus.Series[1].Enabled = true;
-            }
-            else
-            {
-                chartShowStatus.Series[1].IsVisibleInLegend = false;
-                chartShowStatus.Series[1].Enabled = false;
-            }
-        }
-
-        private void checkBoxCPUstatus2_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUstatus2.Checked)
-            {
-                chartShowStatus.Series[2].IsVisibleInLegend = true;
-                chartShowStatus.Series[2].Enabled = true;
-            }
-            else
-            {
-                chartShowStatus.Series[2].IsVisibleInLegend = false;
-                chartShowStatus.Series[2].Enabled = false;
-            }
-        }
-
-        private void checkBoxCPUstatus3_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUstatus3.Checked)
-            {
-                chartShowStatus.Series[3].IsVisibleInLegend = true;
-                chartShowStatus.Series[3].Enabled = true;
-            }
-            else
-            {
-                chartShowStatus.Series[3].IsVisibleInLegend = false;
-                chartShowStatus.Series[3].Enabled = false;
-            }
-        }
-
-        private void checkBoxCPUstatus4_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUstatus4.Checked)
-            {
-                chartShowStatus.Series[4].IsVisibleInLegend = true;
-                chartShowStatus.Series[4].Enabled = true;
-            }
-            else
-            {
-                chartShowStatus.Series[4].IsVisibleInLegend = false;
-                chartShowStatus.Series[4].Enabled = false;
-            }
-        }
-
-        private void checkBoxCPUstatus5_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUstatus5.Checked)
-            {
-                chartShowStatus.Series[5].IsVisibleInLegend = true;
-                chartShowStatus.Series[5].Enabled = true;
-            }
-            else
-            {
-                chartShowStatus.Series[5].IsVisibleInLegend = false;
-                chartShowStatus.Series[5].Enabled = false;
-            }
-        }
-
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (settingsToolStripMenuItem.Checked == false)
@@ -323,6 +232,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = true;
             medumToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = false;
+            defaultToolStripMenuItem.Checked = true;
             checkSize = 1;
         }
 
@@ -336,6 +246,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = false;
             medumToolStripMenuItem.Checked = true;
             largeToolStripMenuItem.Checked = false;
+            defaultToolStripMenuItem.Checked = true;
             checkSize = 2;
         }
 
@@ -349,6 +260,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = false;
             medumToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = true;
+            defaultToolStripMenuItem.Checked = true;
             checkSize = 3;
         }
 
@@ -372,7 +284,7 @@ namespace ServerStatus.ServerStatus
                             chartShowStatus.Series[i].MarkerSize = 8;
                         }
                         break;
-                        
+
                     case 2:
                         for (int i = 0; i < 7; i++)
                         {
@@ -435,6 +347,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = false;
             squareToolStripMenuItem.Checked = false;
             starToolStripMenuItem.Checked = false;
+            defaultToolStripMenuItem.Checked = true;
             checkType = 1;
         }
 
@@ -449,6 +362,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = true;
             squareToolStripMenuItem.Checked = false;
             starToolStripMenuItem.Checked = false;
+            defaultToolStripMenuItem.Checked = true;
             checkType = 2;
         }
 
@@ -463,6 +377,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = false;
             squareToolStripMenuItem.Checked = true;
             starToolStripMenuItem.Checked = false;
+            defaultToolStripMenuItem.Checked = true;
             checkType = 3;
         }
 
@@ -504,6 +419,288 @@ namespace ServerStatus.ServerStatus
             starToolStripMenuItem.Checked = false;
             smallToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = false;
+            defaultToolStripMenuItem.Checked = false;
+        } 
+
+        private void checkBoxCPUStatus0_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBoxCPUStatus0.Checked == true)
+            {
+                chartShowStatus.Series[0].IsVisibleInLegend = true;
+                chartShowStatus.Series[0].Enabled = true;
+                countCheck++;
+            }
+            else
+            {
+                chartShowStatus.Series[0].IsVisibleInLegend = false;
+                chartShowStatus.Series[0].Enabled = false;
+                buttonSelectAll.Enabled = true;
+                countCheck--;
+            }
+            if (countCheck == 0)
+            {
+                checkBoxCPUStatus0.Enabled = false;
+                chartShowStatus.Series[0].IsVisibleInLegend = true;
+                chartShowStatus.Series[0].Enabled = true;
+                checkBoxCPUStatus0.Checked = true;
+            }
+            else
+            {
+                checkBoxCPUStatus0.Enabled = true;
+                checkBoxCPUStatus1.Enabled = true;
+                checkBoxCPUStatus2.Enabled = true;
+                checkBoxCPUStatus3.Enabled = true;
+                checkBoxCPUStatus4.Enabled = true;
+                checkBoxCPUStatus5.Enabled = true;
+                checkBoxHDStatus.Enabled = true;
+            }
+
+        }
+
+        private void checkBoxCPUStatus1_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBoxCPUStatus1.Checked == true)
+            {
+                chartShowStatus.Series[1].IsVisibleInLegend = true;
+                chartShowStatus.Series[1].Enabled = true;
+                countCheck++;
+            }
+            else
+            {
+                chartShowStatus.Series[1].IsVisibleInLegend = false;
+                chartShowStatus.Series[1].Enabled = false;
+                buttonSelectAll.Enabled = true;
+                countCheck--;
+            }
+            if (countCheck == 0)
+            {
+                checkBoxCPUStatus1.Enabled = false;
+                chartShowStatus.Series[1].IsVisibleInLegend = true;
+                chartShowStatus.Series[1].Enabled = true;
+                checkBoxCPUStatus1.Checked = true;
+            }
+            else
+            {
+                checkBoxCPUStatus0.Enabled = true;
+                checkBoxCPUStatus1.Enabled = true;
+                checkBoxCPUStatus2.Enabled = true;
+                checkBoxCPUStatus3.Enabled = true;
+                checkBoxCPUStatus4.Enabled = true;
+                checkBoxCPUStatus5.Enabled = true;
+                checkBoxHDStatus.Enabled = true;
+            }
+
+        }
+
+        private void checkBoxCPUStatus2_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBoxCPUStatus2.Checked == true)
+            {
+                chartShowStatus.Series[2].IsVisibleInLegend = true;
+                chartShowStatus.Series[2].Enabled = true;
+                countCheck++;
+            }
+            else
+            {
+                chartShowStatus.Series[2].IsVisibleInLegend = false;
+                chartShowStatus.Series[2].Enabled = false;
+                buttonSelectAll.Enabled = true;
+                countCheck--;
+            }
+            if (countCheck == 0)
+            {
+                checkBoxCPUStatus2.Enabled = false;
+                chartShowStatus.Series[2].IsVisibleInLegend = true;
+                chartShowStatus.Series[2].Enabled = true;
+                checkBoxCPUStatus2.Checked = true;
+            }
+            else
+            {
+                checkBoxCPUStatus0.Enabled = true;
+                checkBoxCPUStatus1.Enabled = true;
+                checkBoxCPUStatus2.Enabled = true;
+                checkBoxCPUStatus3.Enabled = true;
+                checkBoxCPUStatus4.Enabled = true;
+                checkBoxCPUStatus5.Enabled = true;
+                checkBoxHDStatus.Enabled = true;
+            }
+
+        }
+
+        private void checkBoxCPUStatus3_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBoxCPUStatus3.Checked == true)
+            {
+                chartShowStatus.Series[3].IsVisibleInLegend = true;
+                chartShowStatus.Series[3].Enabled = true;
+                countCheck++;
+            }
+            else
+            {
+                chartShowStatus.Series[3].IsVisibleInLegend = false;
+                chartShowStatus.Series[3].Enabled = false;
+                buttonSelectAll.Enabled = true;
+                countCheck--;
+            }
+            if (countCheck == 0)
+            {
+                checkBoxCPUStatus3.Enabled = false;
+                chartShowStatus.Series[3].IsVisibleInLegend = true;
+                chartShowStatus.Series[3].Enabled = true;
+                checkBoxCPUStatus3.Checked = true;
+            }
+            else
+            {
+                checkBoxCPUStatus0.Enabled = true;
+                checkBoxCPUStatus1.Enabled = true;
+                checkBoxCPUStatus2.Enabled = true;
+                checkBoxCPUStatus3.Enabled = true;
+                checkBoxCPUStatus4.Enabled = true;
+                checkBoxCPUStatus5.Enabled = true;
+                checkBoxHDStatus.Enabled = true;
+            }
+        }
+
+        private void checkBoxCPUStatus4_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBoxCPUStatus4.Checked == true)
+            {
+                chartShowStatus.Series[4].IsVisibleInLegend = true;
+                chartShowStatus.Series[4].Enabled = true;
+                countCheck++;
+            }
+            else
+            {
+                chartShowStatus.Series[4].IsVisibleInLegend = false;
+                chartShowStatus.Series[4].Enabled = false;
+                buttonSelectAll.Enabled = true;
+                countCheck--;
+            }
+            if (countCheck == 0)
+            {
+                checkBoxCPUStatus4.Enabled = false;
+                chartShowStatus.Series[4].IsVisibleInLegend = true;
+                chartShowStatus.Series[4].Enabled = true;
+                checkBoxCPUStatus4.Checked = true;
+            }
+            else
+            {
+                checkBoxCPUStatus0.Enabled = true;
+                checkBoxCPUStatus1.Enabled = true;
+                checkBoxCPUStatus2.Enabled = true;
+                checkBoxCPUStatus3.Enabled = true;
+                checkBoxCPUStatus4.Enabled = true;
+                checkBoxCPUStatus5.Enabled = true;
+                checkBoxHDStatus.Enabled = true;
+            }
+        }
+
+        private void checkBoxCPUStatus5_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBoxCPUStatus5.Checked == true)
+            {
+                chartShowStatus.Series[5].IsVisibleInLegend = true;
+                chartShowStatus.Series[5].Enabled = true;
+                countCheck++;
+            }
+            else
+            {
+                chartShowStatus.Series[5].IsVisibleInLegend = false;
+                chartShowStatus.Series[5].Enabled = false;
+                buttonSelectAll.Enabled = true;
+                countCheck--;
+            }
+            if (countCheck == 0)
+            {
+                checkBoxCPUStatus5.Enabled = false;
+                chartShowStatus.Series[5].IsVisibleInLegend = true;
+                chartShowStatus.Series[5].Enabled = true;
+                checkBoxCPUStatus5.Checked = true;
+            }
+            else
+            {
+                checkBoxCPUStatus0.Enabled = true;
+                checkBoxCPUStatus1.Enabled = true;
+                checkBoxCPUStatus2.Enabled = true;
+                checkBoxCPUStatus3.Enabled = true;
+                checkBoxCPUStatus4.Enabled = true;
+                checkBoxCPUStatus5.Enabled = true;
+                checkBoxHDStatus.Enabled = true;
+            }
+        }
+
+        private void checkBoxHDStatus_CheckStateChanged(object sender, EventArgs e)
+        {      
+            if (checkBoxHDStatus.Checked == true)
+            {
+                chartShowStatus.Series[6].IsVisibleInLegend = true;
+                chartShowStatus.Series[6].Enabled = true;
+                countCheck++;
+            }
+            else
+            {
+                chartShowStatus.Series[6].IsVisibleInLegend = false;
+                chartShowStatus.Series[6].Enabled = false;
+                buttonSelectAll.Enabled = true;
+                countCheck--;
+            }
+            if (countCheck == 0)
+            {
+                checkBoxHDStatus.Enabled = false;
+                chartShowStatus.Series[6].IsVisibleInLegend = true;
+                chartShowStatus.Series[6].Enabled = true;
+                checkBoxHDStatus.Checked = true;
+            }
+            else
+            {
+                checkBoxCPUStatus0.Enabled = true;
+                checkBoxCPUStatus1.Enabled = true;
+                checkBoxCPUStatus2.Enabled = true;
+                checkBoxCPUStatus3.Enabled = true;
+                checkBoxCPUStatus4.Enabled = true;
+                checkBoxCPUStatus5.Enabled = true;
+                checkBoxHDStatus.Enabled = true;
+            }
+        }
+
+        private void buttonSelectAll_Click(object sender, EventArgs e)
+        {
+
+            buttonSelectAll.Enabled = false;
+            chartShowStatus.Series[0].IsVisibleInLegend = true;
+            chartShowStatus.Series[0].Enabled = true;
+            checkBoxCPUStatus0.Checked = true;
+            checkBoxCPUStatus0.Enabled = true;
+
+            chartShowStatus.Series[1].IsVisibleInLegend = true;
+            chartShowStatus.Series[1].Enabled = true;
+            checkBoxCPUStatus1.Checked = true;
+            checkBoxCPUStatus1.Enabled = true;
+
+            chartShowStatus.Series[2].IsVisibleInLegend = true;
+            chartShowStatus.Series[2].Enabled = true;
+            checkBoxCPUStatus2.Checked = true;
+            checkBoxCPUStatus2.Enabled = true;
+
+            chartShowStatus.Series[3].IsVisibleInLegend = true;
+            chartShowStatus.Series[3].Enabled = true;
+            checkBoxCPUStatus3.Checked = true;
+            checkBoxCPUStatus3.Enabled = true;
+
+            chartShowStatus.Series[4].IsVisibleInLegend = true;
+            chartShowStatus.Series[4].Enabled = true;
+            checkBoxCPUStatus4.Checked = true;
+            checkBoxCPUStatus4.Enabled = true;
+
+            chartShowStatus.Series[5].IsVisibleInLegend = true;
+            chartShowStatus.Series[5].Enabled = true;
+            checkBoxCPUStatus5.Checked = true;
+            checkBoxCPUStatus5.Enabled = true;
+
+            chartShowStatus.Series[6].IsVisibleInLegend = true;
+            chartShowStatus.Series[6].Enabled = true;
+            checkBoxHDStatus.Checked = true;
+            checkBoxHDStatus.Enabled = true;
         }
     }
 }

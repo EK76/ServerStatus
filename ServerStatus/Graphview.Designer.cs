@@ -57,17 +57,18 @@
             settingsToolStripMenuItem = new ToolStripMenuItem();
             showGaphicToolStripMenuItem = new ToolStripMenuItem();
             panelStatus = new Panel();
-            checkBoxHDstatus = new CheckBox();
-            checkBoxCPUstatus2 = new CheckBox();
-            checkBoxCPUstatus5 = new CheckBox();
-            checkBoxCPUstatus4 = new CheckBox();
-            checkBoxCPUstatus3 = new CheckBox();
-            checkBoxCPUstatus1 = new CheckBox();
-            checkBoxCPUstatus0 = new CheckBox();
+            buttonSelectAll = new Button();
             dat = new System.ComponentModel.BackgroundWorker();
             chartShowStatus = new System.Windows.Forms.DataVisualization.Charting.Chart();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel = new ToolStripStatusLabel();
+            checkBoxCPUStatus0 = new CheckBox();
+            checkBoxCPUStatus1 = new CheckBox();
+            checkBoxCPUStatus2 = new CheckBox();
+            checkBoxCPUStatus3 = new CheckBox();
+            checkBoxCPUStatus4 = new CheckBox();
+            checkBoxCPUStatus5 = new CheckBox();
+            checkBoxHDStatus = new CheckBox();
             menuStrip1.SuspendLayout();
             panelStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)chartShowStatus).BeginInit();
@@ -108,7 +109,7 @@
             // 
             markerSizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { smallToolStripMenuItem, medumToolStripMenuItem, largeToolStripMenuItem });
             markerSizeToolStripMenuItem.Name = "markerSizeToolStripMenuItem";
-            markerSizeToolStripMenuItem.Size = new Size(180, 22);
+            markerSizeToolStripMenuItem.Size = new Size(166, 22);
             markerSizeToolStripMenuItem.Text = "Marker Size";
             // 
             // smallToolStripMenuItem
@@ -137,7 +138,7 @@
             // noneMarkerSizeToolStripMenuItem
             // 
             noneMarkerSizeToolStripMenuItem.Name = "noneMarkerSizeToolStripMenuItem";
-            noneMarkerSizeToolStripMenuItem.Size = new Size(180, 22);
+            noneMarkerSizeToolStripMenuItem.Size = new Size(166, 22);
             noneMarkerSizeToolStripMenuItem.Text = "None Marker Size";
             noneMarkerSizeToolStripMenuItem.Click += noneMarkerSizeToolStripMenuItem_Click;
             // 
@@ -145,7 +146,7 @@
             // 
             markerTypeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { circleToolStripMenuItem, triangleToolStripMenuItem, squareToolStripMenuItem, starToolStripMenuItem });
             markerTypeToolStripMenuItem.Name = "markerTypeToolStripMenuItem";
-            markerTypeToolStripMenuItem.Size = new Size(180, 22);
+            markerTypeToolStripMenuItem.Size = new Size(166, 22);
             markerTypeToolStripMenuItem.Text = "Marker Type";
             // 
             // circleToolStripMenuItem
@@ -181,12 +182,13 @@
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(177, 6);
+            toolStripMenuItem3.Size = new Size(163, 6);
             // 
             // defaultToolStripMenuItem
             // 
+            defaultToolStripMenuItem.Enabled = false;
             defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            defaultToolStripMenuItem.Size = new Size(180, 22);
+            defaultToolStripMenuItem.Size = new Size(166, 22);
             defaultToolStripMenuItem.Text = "Default";
             defaultToolStripMenuItem.Click += defaultToolStripMenuItem_Click;
             // 
@@ -215,116 +217,30 @@
             // 
             // panelStatus
             // 
-            panelStatus.Controls.Add(checkBoxHDstatus);
-            panelStatus.Controls.Add(checkBoxCPUstatus2);
-            panelStatus.Controls.Add(checkBoxCPUstatus5);
-            panelStatus.Controls.Add(checkBoxCPUstatus4);
-            panelStatus.Controls.Add(checkBoxCPUstatus3);
-            panelStatus.Controls.Add(checkBoxCPUstatus1);
-            panelStatus.Controls.Add(checkBoxCPUstatus0);
+            panelStatus.Controls.Add(checkBoxHDStatus);
+            panelStatus.Controls.Add(buttonSelectAll);
+            panelStatus.Controls.Add(checkBoxCPUStatus5);
+            panelStatus.Controls.Add(checkBoxCPUStatus0);
+            panelStatus.Controls.Add(checkBoxCPUStatus4);
+            panelStatus.Controls.Add(checkBoxCPUStatus1);
+            panelStatus.Controls.Add(checkBoxCPUStatus3);
+            panelStatus.Controls.Add(checkBoxCPUStatus2);
             panelStatus.Location = new Point(2278, 27);
             panelStatus.Name = "panelStatus";
-            panelStatus.Size = new Size(211, 809);
+            panelStatus.Size = new Size(211, 462);
             panelStatus.TabIndex = 1;
             panelStatus.Visible = false;
             // 
-            // checkBoxHDstatus
+            // buttonSelectAll
             // 
-            checkBoxHDstatus.AutoSize = true;
-            checkBoxHDstatus.Checked = true;
-            checkBoxHDstatus.CheckState = CheckState.Checked;
-            checkBoxHDstatus.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            checkBoxHDstatus.Location = new Point(14, 265);
-            checkBoxHDstatus.Name = "checkBoxHDstatus";
-            checkBoxHDstatus.Size = new Size(102, 25);
-            checkBoxHDstatus.TabIndex = 7;
-            checkBoxHDstatus.Text = "HD status";
-            checkBoxHDstatus.UseVisualStyleBackColor = true;
-            checkBoxHDstatus.CheckStateChanged += checkBoxHDstatus_CheckStateChanged;
-            // 
-            // checkBoxCPUstatus2
-            // 
-            checkBoxCPUstatus2.AutoSize = true;
-            checkBoxCPUstatus2.Checked = true;
-            checkBoxCPUstatus2.CheckState = CheckState.Checked;
-            checkBoxCPUstatus2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            checkBoxCPUstatus2.Location = new Point(14, 114);
-            checkBoxCPUstatus2.Name = "checkBoxCPUstatus2";
-            checkBoxCPUstatus2.Size = new Size(123, 25);
-            checkBoxCPUstatus2.TabIndex = 6;
-            checkBoxCPUstatus2.Text = "CPU status 2";
-            checkBoxCPUstatus2.UseVisualStyleBackColor = true;
-            checkBoxCPUstatus2.CheckStateChanged += checkBoxCPUstatus2_CheckStateChanged;
-            // 
-            // checkBoxCPUstatus5
-            // 
-            checkBoxCPUstatus5.AutoSize = true;
-            checkBoxCPUstatus5.Checked = true;
-            checkBoxCPUstatus5.CheckState = CheckState.Checked;
-            checkBoxCPUstatus5.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            checkBoxCPUstatus5.Location = new Point(14, 226);
-            checkBoxCPUstatus5.Name = "checkBoxCPUstatus5";
-            checkBoxCPUstatus5.Size = new Size(123, 25);
-            checkBoxCPUstatus5.TabIndex = 5;
-            checkBoxCPUstatus5.Text = "CPU status 5";
-            checkBoxCPUstatus5.UseVisualStyleBackColor = true;
-            checkBoxCPUstatus5.CheckStateChanged += checkBoxCPUstatus5_CheckStateChanged;
-            // 
-            // checkBoxCPUstatus4
-            // 
-            checkBoxCPUstatus4.AutoSize = true;
-            checkBoxCPUstatus4.Checked = true;
-            checkBoxCPUstatus4.CheckState = CheckState.Checked;
-            checkBoxCPUstatus4.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            checkBoxCPUstatus4.Location = new Point(14, 186);
-            checkBoxCPUstatus4.Name = "checkBoxCPUstatus4";
-            checkBoxCPUstatus4.Size = new Size(123, 25);
-            checkBoxCPUstatus4.TabIndex = 4;
-            checkBoxCPUstatus4.Text = "CPU status 4";
-            checkBoxCPUstatus4.UseVisualStyleBackColor = true;
-            checkBoxCPUstatus4.CheckStateChanged += checkBoxCPUstatus4_CheckStateChanged;
-            // 
-            // checkBoxCPUstatus3
-            // 
-            checkBoxCPUstatus3.AutoSize = true;
-            checkBoxCPUstatus3.Checked = true;
-            checkBoxCPUstatus3.CheckState = CheckState.Checked;
-            checkBoxCPUstatus3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            checkBoxCPUstatus3.Location = new Point(14, 151);
-            checkBoxCPUstatus3.Name = "checkBoxCPUstatus3";
-            checkBoxCPUstatus3.Size = new Size(123, 25);
-            checkBoxCPUstatus3.TabIndex = 3;
-            checkBoxCPUstatus3.Text = "CPU status 3";
-            checkBoxCPUstatus3.UseVisualStyleBackColor = true;
-            checkBoxCPUstatus3.CheckStateChanged += checkBoxCPUstatus3_CheckStateChanged;
-            // 
-            // checkBoxCPUstatus1
-            // 
-            checkBoxCPUstatus1.AutoSize = true;
-            checkBoxCPUstatus1.Checked = true;
-            checkBoxCPUstatus1.CheckState = CheckState.Checked;
-            checkBoxCPUstatus1.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            checkBoxCPUstatus1.Location = new Point(14, 76);
-            checkBoxCPUstatus1.Name = "checkBoxCPUstatus1";
-            checkBoxCPUstatus1.Size = new Size(123, 25);
-            checkBoxCPUstatus1.TabIndex = 1;
-            checkBoxCPUstatus1.Text = "CPU status 1";
-            checkBoxCPUstatus1.UseVisualStyleBackColor = true;
-            checkBoxCPUstatus1.CheckStateChanged += checkBoxCPUstatus1_CheckStateChanged;
-            // 
-            // checkBoxCPUstatus0
-            // 
-            checkBoxCPUstatus0.AutoSize = true;
-            checkBoxCPUstatus0.Checked = true;
-            checkBoxCPUstatus0.CheckState = CheckState.Checked;
-            checkBoxCPUstatus0.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            checkBoxCPUstatus0.Location = new Point(14, 37);
-            checkBoxCPUstatus0.Name = "checkBoxCPUstatus0";
-            checkBoxCPUstatus0.Size = new Size(123, 25);
-            checkBoxCPUstatus0.TabIndex = 0;
-            checkBoxCPUstatus0.Text = "CPU status 0";
-            checkBoxCPUstatus0.UseVisualStyleBackColor = true;
-            checkBoxCPUstatus0.CheckStateChanged += checkBoxCPUstatus0_CheckStateChanged;
+            buttonSelectAll.Enabled = false;
+            buttonSelectAll.Location = new Point(31, 378);
+            buttonSelectAll.Name = "buttonSelectAll";
+            buttonSelectAll.Size = new Size(84, 33);
+            buttonSelectAll.TabIndex = 6;
+            buttonSelectAll.Text = "Select All";
+            buttonSelectAll.UseVisualStyleBackColor = true;
+            buttonSelectAll.Click += buttonSelectAll_Click;
             // 
             // chartShowStatus
             // 
@@ -409,6 +325,104 @@
             toolStripStatusLabel.Name = "toolStripStatusLabel";
             toolStripStatusLabel.Size = new Size(0, 17);
             // 
+            // checkBoxCPUStatus0
+            // 
+            checkBoxCPUStatus0.AutoSize = true;
+            checkBoxCPUStatus0.Checked = true;
+            checkBoxCPUStatus0.CheckState = CheckState.Checked;
+            checkBoxCPUStatus0.Font = new Font("Segoe UI", 14.25F);
+            checkBoxCPUStatus0.Location = new Point(31, 26);
+            checkBoxCPUStatus0.Name = "checkBoxCPUStatus0";
+            checkBoxCPUStatus0.Size = new Size(137, 29);
+            checkBoxCPUStatus0.TabIndex = 4;
+            checkBoxCPUStatus0.Text = "CPU Status 0";
+            checkBoxCPUStatus0.UseVisualStyleBackColor = true;
+            checkBoxCPUStatus0.CheckStateChanged += checkBoxCPUStatus0_CheckStateChanged;
+            // 
+            // checkBoxCPUStatus1
+            // 
+            checkBoxCPUStatus1.AutoSize = true;
+            checkBoxCPUStatus1.Checked = true;
+            checkBoxCPUStatus1.CheckState = CheckState.Checked;
+            checkBoxCPUStatus1.Font = new Font("Segoe UI", 14.25F);
+            checkBoxCPUStatus1.Location = new Point(31, 73);
+            checkBoxCPUStatus1.Name = "checkBoxCPUStatus1";
+            checkBoxCPUStatus1.Size = new Size(137, 29);
+            checkBoxCPUStatus1.TabIndex = 5;
+            checkBoxCPUStatus1.Text = "CPU Status 1";
+            checkBoxCPUStatus1.UseVisualStyleBackColor = true;
+            checkBoxCPUStatus1.CheckStateChanged += checkBoxCPUStatus1_CheckStateChanged;
+            // 
+            // checkBoxCPUStatus2
+            // 
+            checkBoxCPUStatus2.AutoSize = true;
+            checkBoxCPUStatus2.Checked = true;
+            checkBoxCPUStatus2.CheckState = CheckState.Checked;
+            checkBoxCPUStatus2.Font = new Font("Segoe UI", 14.25F);
+            checkBoxCPUStatus2.Location = new Point(31, 118);
+            checkBoxCPUStatus2.Name = "checkBoxCPUStatus2";
+            checkBoxCPUStatus2.Size = new Size(137, 29);
+            checkBoxCPUStatus2.TabIndex = 6;
+            checkBoxCPUStatus2.Text = "CPU Status 2";
+            checkBoxCPUStatus2.UseVisualStyleBackColor = true;
+            checkBoxCPUStatus2.CheckStateChanged += checkBoxCPUStatus2_CheckStateChanged;
+            // 
+            // checkBoxCPUStatus3
+            // 
+            checkBoxCPUStatus3.AutoSize = true;
+            checkBoxCPUStatus3.Checked = true;
+            checkBoxCPUStatus3.CheckState = CheckState.Checked;
+            checkBoxCPUStatus3.Font = new Font("Segoe UI", 14.25F);
+            checkBoxCPUStatus3.Location = new Point(31, 162);
+            checkBoxCPUStatus3.Name = "checkBoxCPUStatus3";
+            checkBoxCPUStatus3.Size = new Size(137, 29);
+            checkBoxCPUStatus3.TabIndex = 7;
+            checkBoxCPUStatus3.Text = "CPU Status 3";
+            checkBoxCPUStatus3.UseVisualStyleBackColor = true;
+            checkBoxCPUStatus3.CheckStateChanged += checkBoxCPUStatus3_CheckStateChanged;
+            // 
+            // checkBoxCPUStatus4
+            // 
+            checkBoxCPUStatus4.AutoSize = true;
+            checkBoxCPUStatus4.Checked = true;
+            checkBoxCPUStatus4.CheckState = CheckState.Checked;
+            checkBoxCPUStatus4.Font = new Font("Segoe UI", 14.25F);
+            checkBoxCPUStatus4.Location = new Point(31, 211);
+            checkBoxCPUStatus4.Name = "checkBoxCPUStatus4";
+            checkBoxCPUStatus4.Size = new Size(137, 29);
+            checkBoxCPUStatus4.TabIndex = 8;
+            checkBoxCPUStatus4.Text = "CPU Status 4";
+            checkBoxCPUStatus4.UseVisualStyleBackColor = true;
+            checkBoxCPUStatus4.CheckStateChanged += checkBoxCPUStatus4_CheckStateChanged;
+            // 
+            // checkBoxCPUStatus5
+            // 
+            checkBoxCPUStatus5.AutoSize = true;
+            checkBoxCPUStatus5.Checked = true;
+            checkBoxCPUStatus5.CheckState = CheckState.Checked;
+            checkBoxCPUStatus5.Font = new Font("Segoe UI", 14.25F);
+            checkBoxCPUStatus5.Location = new Point(31, 259);
+            checkBoxCPUStatus5.Name = "checkBoxCPUStatus5";
+            checkBoxCPUStatus5.Size = new Size(137, 29);
+            checkBoxCPUStatus5.TabIndex = 9;
+            checkBoxCPUStatus5.Text = "CPU Status 5";
+            checkBoxCPUStatus5.UseVisualStyleBackColor = true;
+            checkBoxCPUStatus5.CheckStateChanged += checkBoxCPUStatus5_CheckStateChanged;
+            // 
+            // checkBoxHDStatus
+            // 
+            checkBoxHDStatus.AutoSize = true;
+            checkBoxHDStatus.Checked = true;
+            checkBoxHDStatus.CheckState = CheckState.Checked;
+            checkBoxHDStatus.Font = new Font("Segoe UI", 14.25F);
+            checkBoxHDStatus.Location = new Point(31, 309);
+            checkBoxHDStatus.Name = "checkBoxHDStatus";
+            checkBoxHDStatus.Size = new Size(112, 29);
+            checkBoxHDStatus.TabIndex = 10;
+            checkBoxHDStatus.Text = "HD Status";
+            checkBoxHDStatus.UseVisualStyleBackColor = true;
+            checkBoxHDStatus.CheckStateChanged += checkBoxHDStatus_CheckStateChanged;
+            // 
             // FormGraphView
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -445,13 +459,6 @@
         private ToolStripMenuItem viewToolStripMenuItem;
         private ToolStripMenuItem settingsToolStripMenuItem;
         private Panel panelStatus;
-        private CheckBox checkBoxCPUstatus2;
-        private CheckBox checkBoxCPUstatus5;
-        private CheckBox checkBoxCPUstatus4;
-        private CheckBox checkBoxCPUstatus3;
-        private CheckBox checkBoxCPUstatus1;
-        private CheckBox checkBoxCPUstatus0;
-        private CheckBox checkBoxHDstatus;
         private System.ComponentModel.BackgroundWorker dat;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartShowStatus;
         private StatusStrip statusStrip1;
@@ -470,5 +477,13 @@
         private ToolStripMenuItem starToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem3;
         private ToolStripMenuItem defaultToolStripMenuItem;
+        private CheckBox checkBoxCPUStatus0;
+        private CheckBox checkBoxCPUStatus1;
+        private CheckBox checkBoxCPUStatus2;
+        private CheckBox checkBoxCPUStatus3;
+        private CheckBox checkBoxCPUStatus4;
+        private CheckBox checkBoxCPUStatus5;
+        private CheckBox checkBoxHDStatus;
+        private Button buttonSelectAll;
     }
 }
