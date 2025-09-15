@@ -32,7 +32,6 @@ namespace ServerStatus.ServerStatus
         int addPoint = -1;
         int checkSize, checkType, checkItems = 7;
         int countCheck = 7;
-        bool allowReset = false;
 
 
         public static string Decrypt(string encrypt, string key)
@@ -143,9 +142,6 @@ namespace ServerStatus.ServerStatus
                 addPoint++;
                 chartShowStatus.Series[0].Points[addPoint].AxisLabel = FormMain.listDate[addPoint];
             }
-
-            //  chartShowStatus.ChartAreas[0].AxisX.LabelStyle.Interval = -1;
-            //            chartShowStatus.ChartAreas[0].AxisX.LabelStyle.Angle = -90;
             chartShowStatus.ChartAreas[0].AxisY.Minimum = 0;
             chartShowStatus.ChartAreas[0].AxisY.Maximum = 100;
 
@@ -204,12 +200,6 @@ namespace ServerStatus.ServerStatus
                 Clipboard.SetImage(newpic);
             }
         }
-
-        private void showGaphicToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void showGaphicToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             if (showGaphicToolStripMenuItem.Checked == true)
@@ -232,7 +222,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = true;
             medumToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = false;
-            defaultToolStripMenuItem.Checked = true;
+            defaultToolStripMenuItem.Enabled = true;
             checkSize = 1;
         }
 
@@ -246,7 +236,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = false;
             medumToolStripMenuItem.Checked = true;
             largeToolStripMenuItem.Checked = false;
-            defaultToolStripMenuItem.Checked = true;
+            defaultToolStripMenuItem.Enabled = true;
             checkSize = 2;
         }
 
@@ -260,7 +250,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = false;
             medumToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = true;
-            defaultToolStripMenuItem.Checked = true;
+            defaultToolStripMenuItem.Enabled = true;
             checkSize = 3;
         }
 
@@ -347,7 +337,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = false;
             squareToolStripMenuItem.Checked = false;
             starToolStripMenuItem.Checked = false;
-            defaultToolStripMenuItem.Checked = true;
+            defaultToolStripMenuItem.Enabled = true;
             checkType = 1;
         }
 
@@ -362,7 +352,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = true;
             squareToolStripMenuItem.Checked = false;
             starToolStripMenuItem.Checked = false;
-            defaultToolStripMenuItem.Checked = true;
+            defaultToolStripMenuItem.Enabled = true;
             checkType = 2;
         }
 
@@ -377,7 +367,7 @@ namespace ServerStatus.ServerStatus
             triangleToolStripMenuItem.Checked = false;
             squareToolStripMenuItem.Checked = true;
             starToolStripMenuItem.Checked = false;
-            defaultToolStripMenuItem.Checked = true;
+            defaultToolStripMenuItem.Enabled = true;
             checkType = 3;
         }
 
@@ -419,7 +409,7 @@ namespace ServerStatus.ServerStatus
             starToolStripMenuItem.Checked = false;
             smallToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = false;
-            defaultToolStripMenuItem.Checked = false;
+            defaultToolStripMenuItem.Enabled = false;
         } 
 
         private void checkBoxCPUStatus0_CheckStateChanged(object sender, EventArgs e)

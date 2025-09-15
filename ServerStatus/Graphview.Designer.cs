@@ -213,7 +213,7 @@
             showGaphicToolStripMenuItem.Size = new Size(132, 22);
             showGaphicToolStripMenuItem.Text = "3D Graphic";
             showGaphicToolStripMenuItem.CheckedChanged += showGaphicToolStripMenuItem_CheckedChanged;
-            showGaphicToolStripMenuItem.Click += showGaphicToolStripMenuItem_Click;
+            showGaphicToolStripMenuItem.CheckedChanged += showGaphicToolStripMenuItem_CheckedChanged;
             // 
             // panelStatus
             // 
