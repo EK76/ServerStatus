@@ -21,7 +21,7 @@ datecreated datetime default (current_timestamp),
 primary key(id)
 );
 
-create table seystemstatus( 
+create table systemstatus( 
 id int not null auto_increment, 
 dateupdated datetime, 
 primary key(id)
