@@ -1,8 +1,11 @@
 # Server Status
-Purpose for this project is to monitor the temperature of computer's CPU and harddisk when using a Linux operatingsystem. In my case I used the Ubuntu 25.04 LTS.
-But you can also use any kind of the most common Linux operating system for this purpose. It is also possible to check when the Linux computer have been last rebooted.
+This project is done with help of Visual Studio C#. Purpose for this project is to monitor both the computer's CPU 
+and harddisk temperature when using a Linux operatingsystem. In my case I used the Ubuntu 25.04 LTS. 
+You should also be able to use any kind of the most common Linux operating system for this purpose, but I have only tested on Ubuntu.
+It is also possible to check when the Linux computer have been last rebooted.
 
 In order to use this application, you must create following database and tables according to the directive below.
+MySQL have been chosen as database language for this project..
 
 ```
 create database serverpcstatus;
