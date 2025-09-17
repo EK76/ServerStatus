@@ -468,26 +468,8 @@ namespace WinFormsApp1
 
         private void showServerRebootTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MySqlConnection conn = new MySqlConnection(connString);
-            conn.Open();
-            queryString = "select dateupdated from systemstatus where id = 1";
-
-            try
-            {
-                MySqlCommand command = new MySqlCommand(queryString, conn);
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    showUpdateDate = reader.GetDateTime("dateupdated").ToString("dd.MM.yyyy HH:mm");
-                }
-                conn.Close();
-                MessageBox.Show("ServerPC reboot time: " + showUpdateDate, "Server Status");
-                 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Check database password! Otherwise contact the administrator.", "Server Status");
-            }
+            FormSystemTime showSystemTime = new FormSystemTime();
+            showSystemTime.ShowDialog();
         }
     }
 }
