@@ -39,6 +39,7 @@
             markToolStripMenuItem = new ToolStripMenuItem();
             showToolStripMenuItem = new ToolStripMenuItem();
             daytoolStripComboBox = new ToolStripComboBox();
+            showServerRebootTimeToolStripMenuItem = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
             modifyPasswordToolStripMenuItem = new ToolStripMenuItem();
             emptyTableToolStripMenuItem = new ToolStripMenuItem();
@@ -55,7 +56,7 @@
             columnHeaderDate = new ColumnHeader();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            showServerRebootTimeToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -100,7 +101,7 @@
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { graphViewToolStripMenuItem, reloadTableToolStripMenuItem, markToolStripMenuItem, showToolStripMenuItem, showServerRebootTimeToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { graphViewToolStripMenuItem, reloadTableToolStripMenuItem, markToolStripMenuItem, showToolStripMenuItem, toolStripMenuItem1, showServerRebootTimeToolStripMenuItem });
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             viewToolStripMenuItem.Size = new Size(44, 20);
             viewToolStripMenuItem.Text = "View";
@@ -143,6 +144,13 @@
             daytoolStripComboBox.Text = "Select Day";
             daytoolStripComboBox.SelectedIndexChanged += daytoolStripComboBox_SelectedIndexChanged;
             daytoolStripComboBox.Click += daytoolStripComboBox_Click;
+            // 
+            // showServerRebootTimeToolStripMenuItem
+            // 
+            showServerRebootTimeToolStripMenuItem.Name = "showServerRebootTimeToolStripMenuItem";
+            showServerRebootTimeToolStripMenuItem.Size = new Size(209, 22);
+            showServerRebootTimeToolStripMenuItem.Text = "Show Server Reboot Time";
+            showServerRebootTimeToolStripMenuItem.Click += showServerRebootTimeToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
             // 
@@ -248,12 +256,12 @@
             toolStripStatusLabel.Name = "toolStripStatusLabel";
             toolStripStatusLabel.Size = new Size(0, 17);
             // 
-            // showServerRebootTimeToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            showServerRebootTimeToolStripMenuItem.Name = "showServerRebootTimeToolStripMenuItem";
-            showServerRebootTimeToolStripMenuItem.Size = new Size(209, 22);
-            showServerRebootTimeToolStripMenuItem.Text = "Show Server Reboot Time";
-            showServerRebootTimeToolStripMenuItem.Click += showServerRebootTimeToolStripMenuItem_Click;
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(209, 22);
+            toolStripMenuItem1.Text = "Set Date Interval";
+            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // FormMain
             // 
@@ -310,5 +318,6 @@
         private ToolStripMenuItem showToolStripMenuItem;
         private ToolStripComboBox daytoolStripComboBox;
         private ToolStripMenuItem showServerRebootTimeToolStripMenuItem;
+        private ToolStripMenuItem toolStripMenuItem1;
     }
 }

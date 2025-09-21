@@ -17,9 +17,9 @@ namespace WinFormsApp1
 
         string queryString, connString, passwordString, checkValue, checkNewValue, firstItem, lastItem, dayString, configPass, showUpdateDate;
         public static string dateDetails, cpuDetails, cpuDetails1, cpuDetails2, cpuDetails3, cpuDetails4, cpuDetails5, hdDetails;
-        int countItems, indexNumber, countStatus,  countRows;
+        int countItems, indexNumber, countStatus, countRows;
         public static int convertValue, convertValue1, convertValue2, convertValue3, convertValue4, convertValue5, convertValue6;
-        public static bool checkExist = false;
+        public static bool checkExist = false, checkIntervalDate = false;
         bool localData = false;
 
         public static List<string> cpuItems = new List<string>();
@@ -63,7 +63,7 @@ namespace WinFormsApp1
             }
         }
 
-        void readTable()
+        void readTable(string readValue)
         {
             countItems = -1;
             countRows = 0;
@@ -95,12 +95,11 @@ namespace WinFormsApp1
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
 
-            queryString = "select * from infostatus;";
             try
             {
                 MySqlConnection conn = new MySqlConnection(connString);
                 conn.Open();
-                MySqlCommand command = new MySqlCommand(queryString, conn);
+                MySqlCommand command = new MySqlCommand(readValue, conn);
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -145,11 +144,11 @@ namespace WinFormsApp1
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            readTable();
+            readTable("select * from infostatus ");
         }
         private void reloadTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            readTable();
+            readTable("select * from infostatus ");
         }
 
         private void modifyPasswordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -162,9 +161,15 @@ namespace WinFormsApp1
         {
             if (checkExist == true)
             {
-                readTable();
+                readTable("select * from infostatus ");
             }
             checkExist = false;
+
+            if (checkIntervalDate == true)
+            {
+                readTable("select * from infostatus where datecreated >= '"+ FormDateInterval.startDate+ "' and datecreated <= '" + FormDateInterval.endDate+ "' + INTERVAL 1 DAY;");
+            }
+            checkIntervalDate = false;
         }
         private void aboutServerStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -209,7 +214,7 @@ namespace WinFormsApp1
             openContent.Filter = "Status File (.stf) | *.stf";
             try
             {
-               
+
                 if (openContent.ShowDialog() == DialogResult.OK)
                 {
                     StreamReader fileName = new StreamReader(openContent.FileName.ToString());
@@ -248,7 +253,7 @@ namespace WinFormsApp1
                 saveToolStripMenuItem.Enabled = true;
                 firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
                 lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
-                toolStripStatusLabel.Text = "Date intervall " + firstItem + " between " + lastItem + " (Data from text file: " + Path.GetFileName(openContent.FileName) +") Rows " + countRows.ToString();
+                toolStripStatusLabel.Text = "Date intervall " + firstItem + " between " + lastItem + " (Data from text file: " + Path.GetFileName(openContent.FileName) + ") Rows " + countRows.ToString();
             }
         }
 
@@ -470,6 +475,12 @@ namespace WinFormsApp1
         {
             FormSystemTime showSystemTime = new FormSystemTime();
             showSystemTime.ShowDialog();
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FormDateInterval showDateInterval = new FormDateInterval();
+            showDateInterval.ShowDialog();
         }
     }
 }
