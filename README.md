@@ -5,7 +5,7 @@ You should also be able to use any kind of the most common Linux operating syste
 It is also possible to check when the Linux computer have been last rebooted.
 
 In order to use this application, you must create following database and tables according to the directive below.
-MySQL have been chosen as database language for this project..
+MySQL have been chosen as database language for this project.
 
 ```
 create database serverpcstatus;
@@ -64,6 +64,10 @@ mysql> desc systemstatus;
 After creation of database and tables are done.
 Edit configdb.txt file with the correct info about your MySQL credentials with text editor of your choosing.
 Compaile or publish the project with Visual Studio 2022 to test it.
+
+I have also installed MySql.Data plugin from Oracle Corporation trough Visual Studio NuGet Package Manager
+when I developed this project. MySql.Data makes it easier to read from and make changes to MySQL database when
+using Visual Studio.
 
 **Two pictures of the application.**
 ![image](https://github.com/user-attachments/assets/95aaf302-ddfd-45f1-aec9-0f0012a2b11a)
