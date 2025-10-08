@@ -136,15 +136,15 @@ namespace ServerStatus.ServerStatus
                 chartShowStatus.Series[6].Points.AddXY(addPoint, convertValue);
             }
 
-            addPoint = -1;
+            addPoint = 0;
             foreach (var addValue in FormMain.listDate)
             {
+               chartShowStatus.Series[0].Points[addPoint].AxisLabel = FormMain.listDate[addPoint];
                 addPoint++;
-                chartShowStatus.Series[0].Points[addPoint].AxisLabel = FormMain.listDate[addPoint];
             }
+
             chartShowStatus.ChartAreas[0].AxisY.Minimum = 0;
             chartShowStatus.ChartAreas[0].AxisY.Maximum = 100;
-
 
             firstItem = FormMain.listDate.First();
             lastItem = FormMain.listDate.Last();
