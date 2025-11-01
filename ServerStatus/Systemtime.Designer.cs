@@ -35,7 +35,7 @@
             // 
             // buttonOk
             // 
-            buttonOk.Location = new Point(204, 468);
+            buttonOk.Location = new Point(204, 481);
             buttonOk.Name = "buttonOk";
             buttonOk.Size = new Size(75, 23);
             buttonOk.TabIndex = 0;
@@ -47,9 +47,9 @@
             // 
             listBoxSystemTime.Font = new Font("Segoe UI", 12F);
             listBoxSystemTime.FormattingEnabled = true;
-            listBoxSystemTime.Location = new Point(12, 46);
+            listBoxSystemTime.Location = new Point(12, 42);
             listBoxSystemTime.Name = "listBoxSystemTime";
-            listBoxSystemTime.Size = new Size(267, 403);
+            listBoxSystemTime.Size = new Size(267, 424);
             listBoxSystemTime.TabIndex = 1;
             // 
             // labelText
@@ -58,15 +58,15 @@
             labelText.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelText.Location = new Point(12, 18);
             labelText.Name = "labelText";
-            labelText.Size = new Size(267, 21);
+            labelText.Size = new Size(270, 21);
             labelText.TabIndex = 2;
-            labelText.Text = "List over reboot times for the system.";
+            labelText.Text = "List over startup times for the system.";
             // 
             // FormSystemTime
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(294, 503);
+            ClientSize = new Size(292, 517);
             Controls.Add(labelText);
             Controls.Add(listBoxSystemTime);
             Controls.Add(buttonOk);

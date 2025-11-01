@@ -39,6 +39,7 @@
             markToolStripMenuItem = new ToolStripMenuItem();
             showToolStripMenuItem = new ToolStripMenuItem();
             daytoolStripComboBox = new ToolStripComboBox();
+            toolStripMenuItem1 = new ToolStripMenuItem();
             showServerRebootTimeToolStripMenuItem = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
             modifyPasswordToolStripMenuItem = new ToolStripMenuItem();
@@ -56,7 +57,6 @@
             columnHeaderDate = new ColumnHeader();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel = new ToolStripStatusLabel();
-            toolStripMenuItem1 = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -80,7 +80,7 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(165, 22);
+            openToolStripMenuItem.Size = new Size(180, 22);
             openToolStripMenuItem.Text = "Open Status Data";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
@@ -88,14 +88,14 @@
             // 
             saveToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(165, 22);
+            saveToolStripMenuItem.Size = new Size(180, 22);
             saveToolStripMenuItem.Text = "Save Status Data";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(165, 22);
+            exitToolStripMenuItem.Size = new Size(180, 22);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -145,25 +145,32 @@
             daytoolStripComboBox.SelectedIndexChanged += daytoolStripComboBox_SelectedIndexChanged;
             daytoolStripComboBox.Click += daytoolStripComboBox_Click;
             // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(209, 22);
+            toolStripMenuItem1.Text = "Set Date Interval";
+            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
+            // 
             // showServerRebootTimeToolStripMenuItem
             // 
             showServerRebootTimeToolStripMenuItem.Name = "showServerRebootTimeToolStripMenuItem";
             showServerRebootTimeToolStripMenuItem.Size = new Size(209, 22);
-            showServerRebootTimeToolStripMenuItem.Text = "Show Server Reboot Time";
+            showServerRebootTimeToolStripMenuItem.Text = "Show Server Startup Time";
             showServerRebootTimeToolStripMenuItem.Click += showServerRebootTimeToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
             // 
             toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { modifyPasswordToolStripMenuItem, emptyTableToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(47, 20);
+            toolsToolStripMenuItem.Size = new Size(122, 20);
             toolsToolStripMenuItem.Text = "Tools";
             // 
             // modifyPasswordToolStripMenuItem
             // 
             modifyPasswordToolStripMenuItem.Name = "modifyPasswordToolStripMenuItem";
             modifyPasswordToolStripMenuItem.Size = new Size(180, 22);
-            modifyPasswordToolStripMenuItem.Text = "ModifyPassword";
+            modifyPasswordToolStripMenuItem.Text = "Change Password";
             modifyPasswordToolStripMenuItem.Click += modifyPasswordToolStripMenuItem_Click;
             // 
             // emptyTableToolStripMenuItem
@@ -255,13 +262,6 @@
             toolStripStatusLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             toolStripStatusLabel.Name = "toolStripStatusLabel";
             toolStripStatusLabel.Size = new Size(0, 17);
-            // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(209, 22);
-            toolStripMenuItem1.Text = "Set Date Interval";
-            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // FormMain
             // 

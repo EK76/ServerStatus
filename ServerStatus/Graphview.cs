@@ -59,13 +59,11 @@ namespace ServerStatus.ServerStatus
 
             string addNewValue;
             decimal convertValue;
+            int lastValue = 0;
+
 
             chartShowStatus.Width = 2504;
-            chartShowStatus.Update();
-            //chartShowStatus.Series[0].Points.Clear();
-            chartShowStatus.Series[0].XValueType = ChartValueType.DateTime;
-            chartShowStatus.ChartAreas[0].AxisX.IntervalType = (DateTimeIntervalType)DateRangeType.DayOfMonth;
-            chartShowStatus.ChartAreas[0].AxisX.LabelStyle.Format = "mm-hh-dd";
+            chartShowStatus.ChartAreas["ChartArea1"].AxisX.LabelStyle.Enabled = false;
 
             foreach (var addValue in FormMain.cpuItems)
             {
@@ -74,6 +72,7 @@ namespace ServerStatus.ServerStatus
                 addNewValue = addValue.TrimEnd(newChar);
                 convertValue = decimal.Parse(addNewValue);
                 chartShowStatus.Series[0].Points.AddXY(addPoint, convertValue);
+                lastValue++;
             }
 
             addPoint = -1;
@@ -136,18 +135,14 @@ namespace ServerStatus.ServerStatus
                 chartShowStatus.Series[6].Points.AddXY(addPoint, convertValue);
             }
 
-            addPoint = 0;
-            foreach (var addValue in FormMain.listDate)
-            {
-               chartShowStatus.Series[0].Points[addPoint].AxisLabel = FormMain.listDate[addPoint];
-                addPoint++;
-            }
-
             chartShowStatus.ChartAreas[0].AxisY.Minimum = 0;
             chartShowStatus.ChartAreas[0].AxisY.Maximum = 100;
+            chartShowStatus.ChartAreas["ChartArea1"].AxisX.Maximum = lastValue - 1;
 
             firstItem = FormMain.listDate.First();
             lastItem = FormMain.listDate.Last();
+            labelFirstDate.Text = firstItem;
+            labelLastDate.Text = lastItem;
             toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + ".";
         }
 
@@ -410,7 +405,7 @@ namespace ServerStatus.ServerStatus
             smallToolStripMenuItem.Checked = false;
             largeToolStripMenuItem.Checked = false;
             defaultToolStripMenuItem.Enabled = false;
-        } 
+        }
 
         private void checkBoxCPUStatus0_CheckStateChanged(object sender, EventArgs e)
         {
@@ -620,7 +615,7 @@ namespace ServerStatus.ServerStatus
         }
 
         private void checkBoxHDStatus_CheckStateChanged(object sender, EventArgs e)
-        {      
+        {
             if (checkBoxHDStatus.Checked == true)
             {
                 chartShowStatus.Series[6].IsVisibleInLegend = true;

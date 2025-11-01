@@ -78,7 +78,7 @@ namespace ServerStatus.ServerStatus
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
 
-            queryString = "select * from systemstatus;";
+            queryString = "select * from systemstatus order by datecreated desc;";
             try
             {
                 MySqlConnection conn = new MySqlConnection(connString);
@@ -87,8 +87,8 @@ namespace ServerStatus.ServerStatus
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    listBoxSystemTime.Items.Add(reader.GetDateTime("datecreated").ToString());
-                }
+                    listBoxSystemTime.Items.Add(reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm"));
+                }    
                 conn.Close();
             }
             catch
