@@ -332,8 +332,7 @@ namespace WinFormsApp1
                     checkNewValue = checkNewValue.Split(',')[0];
                     convertValue6 = Int32.Parse(checkNewValue);
 
-
-                    if ((convertValue > 33) || (convertValue1 > 33) || (convertValue2 > 33) || (convertValue3 > 33) || (convertValue4 > 33) || (convertValue5 > 33) || (convertValue6 > 33))
+                    if ((convertValue > 49) || (convertValue1 > 49) || (convertValue2 > 49) || (convertValue3 > 49) || (convertValue4 > 49) || (convertValue5 > 49) || (convertValue6 > 49))
                     {
                         item.SubItems[0].BackColor = Color.Red;
                         markToolStripMenuItem.Checked = true;
@@ -342,7 +341,7 @@ namespace WinFormsApp1
                 }
                 if (countStatus == 0)
                 {
-                    MessageBox.Show("There are none critical status!", "Server Status");
+                    MessageBox.Show("There are none critical status!" + countStatus.ToString(), "Server Status");
                 }
             }
             else

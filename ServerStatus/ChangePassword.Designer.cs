@@ -41,9 +41,9 @@
             labelText1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             labelText1.Location = new Point(18, 22);
             labelText1.Name = "labelText1";
-            labelText1.Size = new Size(128, 15);
+            labelText1.Size = new Size(140, 15);
             labelText1.TabIndex = 1;
-            labelText1.Text = "Type correct assword.";
+            labelText1.Text = "Type the new password.";
             // 
             // buttonSave
             // 

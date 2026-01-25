@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ServerStatus.ServerStatus
 {
@@ -24,7 +25,10 @@ namespace ServerStatus.ServerStatus
         string[] inputPass;
         string[] chooseDatabase;
         string queryString, connString, passwordString;
- 
+        int countLabel = 0;
+        List<Label> dateLabels = new List<Label>();
+
+
 
         public string Encrypt(string source, string key)
         {
@@ -61,7 +65,8 @@ namespace ServerStatus.ServerStatus
         }
 
         private void ForSystemTime_Load(object sender, EventArgs e)
-        {         
+        {
+            int loc = 15;
             try
             {
                 chooseDatabase = File.ReadAllLines("configdb.txt");
@@ -72,8 +77,6 @@ namespace ServerStatus.ServerStatus
                 MessageBox.Show("Check database password! Otherwise contact the administrator.", "Server Status");
             }
 
-
-            listBoxSystemTime.Items.Clear();
             passwordString = Decrypt(inputPass[0], "status");
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
@@ -87,7 +90,15 @@ namespace ServerStatus.ServerStatus
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    listBoxSystemTime.Items.Add(reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm"));
+                    Label labelShowDate = new Label();
+                    labelShowDate.Location = new System.Drawing.Point(18, loc);
+                    labelShowDate.Visible = true;
+                    labelShowDate.AutoSize = true;
+                    labelShowDate.Font = new Font("Arial", 12);
+                    labelShowDate.Text = reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm");
+                    loc += 25;
+                    this.Controls.Add(labelShowDate);
+
                 }    
                 conn.Close();
             }

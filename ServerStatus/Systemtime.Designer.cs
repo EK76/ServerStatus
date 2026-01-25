@@ -29,13 +29,12 @@
         private void InitializeComponent()
         {
             buttonOk = new Button();
-            listBoxSystemTime = new ListBox();
             labelText = new Label();
             SuspendLayout();
             // 
             // buttonOk
             // 
-            buttonOk.Location = new Point(204, 481);
+            buttonOk.Location = new Point(205, 516);
             buttonOk.Name = "buttonOk";
             buttonOk.Size = new Size(75, 23);
             buttonOk.TabIndex = 0;
@@ -43,20 +42,11 @@
             buttonOk.UseVisualStyleBackColor = true;
             buttonOk.Click += buttonOk_Click;
             // 
-            // listBoxSystemTime
-            // 
-            listBoxSystemTime.Font = new Font("Segoe UI", 12F);
-            listBoxSystemTime.FormattingEnabled = true;
-            listBoxSystemTime.Location = new Point(12, 42);
-            listBoxSystemTime.Name = "listBoxSystemTime";
-            listBoxSystemTime.Size = new Size(267, 424);
-            listBoxSystemTime.TabIndex = 1;
-            // 
             // labelText
             // 
             labelText.AutoSize = true;
             labelText.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            labelText.Location = new Point(12, 18);
+            labelText.Location = new Point(10, 9);
             labelText.Name = "labelText";
             labelText.Size = new Size(270, 21);
             labelText.TabIndex = 2;
@@ -66,9 +56,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(292, 517);
+            ClientSize = new Size(292, 543);
             Controls.Add(labelText);
-            Controls.Add(listBoxSystemTime);
             Controls.Add(buttonOk);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -84,7 +73,6 @@
         #endregion
 
         private Button buttonOk;
-        private ListBox listBoxSystemTime;
         private Label labelText;
     }
 }
