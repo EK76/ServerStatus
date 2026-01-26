@@ -8,8 +8,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using WinFormsApp1;
+using secInfo; 
 
 namespace ReadTemp
 {
@@ -22,35 +22,6 @@ namespace ReadTemp
 
         string oldPassword, newPassword, newPassword2, connString, passwordQuery;
 
-        public string Encrypt(string source, string key)
-        {
-            using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
-            {
-                using (MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider())
-                {
-                    byte[] byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
-                    tripleDESCryptoService.Key = byteHash;
-                    tripleDESCryptoService.Mode = CipherMode.ECB;//CBC, CFB
-                    byte[] data = Encoding.Unicode.GetBytes(source);
-                    return Convert.ToBase64String(tripleDESCryptoService.CreateEncryptor().TransformFinalBlock(data, 0, data.Length));
-                }
-            }
-        }
-
-        public static string Decrypt(string encrypt, string key)
-        {
-            using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
-            {
-                using (MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider())
-                {
-                    byte[] byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
-                    tripleDESCryptoService.Key = byteHash;
-                    tripleDESCryptoService.Mode = CipherMode.ECB;//CBC, CFB
-                    byte[] byteBuff = Convert.FromBase64String(encrypt);
-                    return Encoding.Unicode.GetString(tripleDESCryptoService.CreateDecryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
-                }
-            }
-        }
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
@@ -58,7 +29,7 @@ namespace ReadTemp
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            textBoxNewPassword.Text = Encrypt(textBoxNewPassword.Text, "status");
+            textBoxNewPassword.Text = Security.encrypt(textBoxNewPassword.Text, "status");
             File.WriteAllText(System.Environment.CurrentDirectory + "\\input.txt", textBoxNewPassword.Text);
             FormMain.checkExist = true;
             Close();

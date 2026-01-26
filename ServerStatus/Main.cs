@@ -5,6 +5,7 @@ using System.Data;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using secInfo;
 
 namespace WinFormsApp1
 {
@@ -33,7 +34,7 @@ namespace WinFormsApp1
         string[] chooseDatabase;
         string[] inputPass;
 
-        public string Encrypt(string source, string key)
+     /*   public string Encrypt(string source, string key)
         {
             using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
             {
@@ -61,7 +62,7 @@ namespace WinFormsApp1
                     return Encoding.Unicode.GetString(tripleDESCryptoService.CreateDecryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
                 }
             }
-        }
+        }*/
 
         void readTable(string readValue)
         {
@@ -69,7 +70,7 @@ namespace WinFormsApp1
             countRows = 0;
             if (!File.Exists("input.txt"))
             {
-                configPass = Encrypt("password", "status");
+                configPass = Security.encrypt("password", "status");
                 File.AppendAllText("input.txt", configPass);
             }
 
@@ -91,7 +92,7 @@ namespace WinFormsApp1
             }
 
             listViewShowStatus.Items.Clear();
-            passwordString = Decrypt(inputPass[0], "status");
+            passwordString = Security.decrypt(inputPass[0], "status");
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
 
