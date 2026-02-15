@@ -4,9 +4,9 @@ and harddisk temperature when using a Linux operatingsystem. In my case I used t
 You should also be able to use any kind of the most common Linux operating system for this purpose, but I have only tested on Ubuntu
 and Debian. It is also possible to check when the Linux computer have been last rebooted. It stores 20 most recent reboot times.
 
-You need to install smartmontools for reading the harddisk's temperature and use the harddisk's device path
-which in my case is */dev/nvme0n1p3*
-The read the cpu's temperature you use this simple command, cat "/sys/class/thermal/thermal_zone0/temp
+You need to install smartmontools and use the harddisk's device path which in my case is 	**/dev/nvme0n1p3**
+for reading the harddisk's temperature. The read the cpu's temperature you use this simple command, 	**cat "/sys/class/thermal/thermal_zone0/temp**
+This command may be different in other linux operating system. Check your Linux operatingssystem' user guide for the right command.
 
 For checking the both cpu's and harddisk'a temperatures I created this bash script. The bash script alsp store
 the temperature values into a MySQL table.
@@ -80,8 +80,10 @@ when I developed this project. MySql.Data makes it easier to read from and make 
 using Visual Studio.
 
 **Two pictures of the application.**
-![image](https://github.com/user-attachments/assets/95aaf302-ddfd-45f1-aec9-0f0012a2b11a)
-![image](https://github.com/user-attachments/assets/92811a9f-766a-4b51-a065-d6da2243e2f4)
+<img width="442" height="968" alt="image" src="https://github.com/user-attachments/assets/e9513558-411d-433d-bc93-c866a0f2672a" />
+<img width="2517" height="1197" alt="image" src="https://github.com/user-attachments/assets/cf93d048-e6d2-4884-8a9a-2c8c5fbd67b0" />
+
+
 
 **How to clone this repository with git.**
 https://github.com/EK76/ServerStatus.git<br/>
