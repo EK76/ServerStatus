@@ -28,15 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             closeToolStripMenuItem = new ToolStripMenuItem();
@@ -57,15 +52,15 @@
             settingsToolStripMenuItem = new ToolStripMenuItem();
             showGaphicToolStripMenuItem = new ToolStripMenuItem();
             panelStatus = new Panel();
+            radioButtonHd = new RadioButton();
+            radioButtonCpuStatus = new RadioButton();
+            labelAvgTemp = new Label();
+            labelMinTemp = new Label();
+            labelMaxTemp = new Label();
+            labelDate = new Label();
+            labelTemp = new Label();
             checkBoxHDStatus = new CheckBox();
-            buttonSelectAll = new Button();
-            checkBoxCPUStatus5 = new CheckBox();
-            checkBoxCPUStatus0 = new CheckBox();
-            checkBoxCPUStatus4 = new CheckBox();
-            checkBoxCPUStatus1 = new CheckBox();
-            checkBoxCPUStatus3 = new CheckBox();
-            checkBoxCPUStatus2 = new CheckBox();
-            dat = new System.ComponentModel.BackgroundWorker();
+            checkBoxCPUStatus = new CheckBox();
             chartShowStatus = new System.Windows.Forms.DataVisualization.Charting.Chart();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel = new ToolStripStatusLabel();
@@ -82,7 +77,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, toolStripMenuItem1, viewToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(2489, 24);
+            menuStrip1.Size = new Size(2519, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -111,7 +106,7 @@
             // 
             markerSizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { smallToolStripMenuItem, medumToolStripMenuItem, largeToolStripMenuItem });
             markerSizeToolStripMenuItem.Name = "markerSizeToolStripMenuItem";
-            markerSizeToolStripMenuItem.Size = new Size(166, 22);
+            markerSizeToolStripMenuItem.Size = new Size(180, 22);
             markerSizeToolStripMenuItem.Text = "Marker Size";
             // 
             // smallToolStripMenuItem
@@ -140,15 +135,16 @@
             // noneMarkerSizeToolStripMenuItem
             // 
             noneMarkerSizeToolStripMenuItem.Name = "noneMarkerSizeToolStripMenuItem";
-            noneMarkerSizeToolStripMenuItem.Size = new Size(166, 22);
+            noneMarkerSizeToolStripMenuItem.Size = new Size(180, 22);
             noneMarkerSizeToolStripMenuItem.Text = "None Marker Size";
+            noneMarkerSizeToolStripMenuItem.CheckStateChanged += noneMarkerSizeToolStripMenuItem_CheckStateChanged;
             noneMarkerSizeToolStripMenuItem.Click += noneMarkerSizeToolStripMenuItem_Click;
             // 
             // markerTypeToolStripMenuItem
             // 
             markerTypeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { circleToolStripMenuItem, triangleToolStripMenuItem, squareToolStripMenuItem, starToolStripMenuItem });
             markerTypeToolStripMenuItem.Name = "markerTypeToolStripMenuItem";
-            markerTypeToolStripMenuItem.Size = new Size(166, 22);
+            markerTypeToolStripMenuItem.Size = new Size(180, 22);
             markerTypeToolStripMenuItem.Text = "Marker Type";
             // 
             // circleToolStripMenuItem
@@ -184,13 +180,13 @@
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(163, 6);
+            toolStripMenuItem3.Size = new Size(177, 6);
             // 
             // defaultToolStripMenuItem
             // 
             defaultToolStripMenuItem.Enabled = false;
             defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            defaultToolStripMenuItem.Size = new Size(166, 22);
+            defaultToolStripMenuItem.Size = new Size(180, 22);
             defaultToolStripMenuItem.Text = "Default";
             defaultToolStripMenuItem.Click += defaultToolStripMenuItem_Click;
             // 
@@ -218,19 +214,98 @@
             // 
             // panelStatus
             // 
+            panelStatus.Controls.Add(radioButtonHd);
+            panelStatus.Controls.Add(radioButtonCpuStatus);
+            panelStatus.Controls.Add(labelAvgTemp);
+            panelStatus.Controls.Add(labelMinTemp);
+            panelStatus.Controls.Add(labelMaxTemp);
+            panelStatus.Controls.Add(labelDate);
+            panelStatus.Controls.Add(labelTemp);
             panelStatus.Controls.Add(checkBoxHDStatus);
-            panelStatus.Controls.Add(buttonSelectAll);
-            panelStatus.Controls.Add(checkBoxCPUStatus5);
-            panelStatus.Controls.Add(checkBoxCPUStatus0);
-            panelStatus.Controls.Add(checkBoxCPUStatus4);
-            panelStatus.Controls.Add(checkBoxCPUStatus1);
-            panelStatus.Controls.Add(checkBoxCPUStatus3);
-            panelStatus.Controls.Add(checkBoxCPUStatus2);
+            panelStatus.Controls.Add(checkBoxCPUStatus);
             panelStatus.Location = new Point(2278, 27);
             panelStatus.Name = "panelStatus";
-            panelStatus.Size = new Size(211, 462);
+            panelStatus.Size = new Size(229, 372);
             panelStatus.TabIndex = 1;
             panelStatus.Visible = false;
+            // 
+            // radioButtonHd
+            // 
+            radioButtonHd.AutoSize = true;
+            radioButtonHd.Font = new Font("Segoe UI", 14.25F);
+            radioButtonHd.Location = new Point(105, 118);
+            radioButtonHd.Name = "radioButtonHd";
+            radioButtonHd.Size = new Size(56, 29);
+            radioButtonHd.TabIndex = 17;
+            radioButtonHd.Text = "HD";
+            radioButtonHd.UseVisualStyleBackColor = true;
+            radioButtonHd.Click += radioButtonHd_Click;
+            // 
+            // radioButtonCpuStatus
+            // 
+            radioButtonCpuStatus.AutoSize = true;
+            radioButtonCpuStatus.Checked = true;
+            radioButtonCpuStatus.Font = new Font("Segoe UI", 14.25F);
+            radioButtonCpuStatus.Location = new Point(12, 118);
+            radioButtonCpuStatus.Name = "radioButtonCpuStatus";
+            radioButtonCpuStatus.Size = new Size(66, 29);
+            radioButtonCpuStatus.TabIndex = 16;
+            radioButtonCpuStatus.TabStop = true;
+            radioButtonCpuStatus.Text = "CPU";
+            radioButtonCpuStatus.UseVisualStyleBackColor = true;
+            radioButtonCpuStatus.Click += radioButtonCpuStatus_Click;
+            // 
+            // labelAvgTemp
+            // 
+            labelAvgTemp.AutoSize = true;
+            labelAvgTemp.Font = new Font("Segoe UI", 14.25F);
+            labelAvgTemp.Location = new Point(3, 229);
+            labelAvgTemp.Name = "labelAvgTemp";
+            labelAvgTemp.Size = new Size(157, 25);
+            labelAvgTemp.TabIndex = 15;
+            labelAvgTemp.Text = "Avg temperature:";
+            // 
+            // labelMinTemp
+            // 
+            labelMinTemp.AutoSize = true;
+            labelMinTemp.Font = new Font("Segoe UI", 14.25F);
+            labelMinTemp.Location = new Point(3, 190);
+            labelMinTemp.Name = "labelMinTemp";
+            labelMinTemp.Size = new Size(158, 25);
+            labelMinTemp.TabIndex = 14;
+            labelMinTemp.Text = "Min temperature:";
+            // 
+            // labelMaxTemp
+            // 
+            labelMaxTemp.AutoSize = true;
+            labelMaxTemp.Font = new Font("Segoe UI", 14.25F);
+            labelMaxTemp.Location = new Point(3, 150);
+            labelMaxTemp.Name = "labelMaxTemp";
+            labelMaxTemp.Size = new Size(161, 25);
+            labelMaxTemp.TabIndex = 13;
+            labelMaxTemp.Text = "Max temperature:";
+            // 
+            // labelDate
+            // 
+            labelDate.AutoSize = true;
+            labelDate.Font = new Font("Segoe UI", 14.25F);
+            labelDate.Location = new Point(3, 318);
+            labelDate.Name = "labelDate";
+            labelDate.Size = new Size(55, 25);
+            labelDate.TabIndex = 12;
+            labelDate.Text = "Date:";
+            labelDate.Visible = false;
+            // 
+            // labelTemp
+            // 
+            labelTemp.AutoSize = true;
+            labelTemp.Font = new Font("Segoe UI", 14.25F);
+            labelTemp.Location = new Point(3, 282);
+            labelTemp.Name = "labelTemp";
+            labelTemp.Size = new Size(122, 25);
+            labelTemp.TabIndex = 11;
+            labelTemp.Text = "Temperature:";
+            labelTemp.Visible = false;
             // 
             // checkBoxHDStatus
             // 
@@ -238,177 +313,62 @@
             checkBoxHDStatus.Checked = true;
             checkBoxHDStatus.CheckState = CheckState.Checked;
             checkBoxHDStatus.Font = new Font("Segoe UI", 14.25F);
-            checkBoxHDStatus.Location = new Point(31, 309);
+            checkBoxHDStatus.Location = new Point(12, 59);
             checkBoxHDStatus.Name = "checkBoxHDStatus";
             checkBoxHDStatus.Size = new Size(112, 29);
             checkBoxHDStatus.TabIndex = 10;
             checkBoxHDStatus.Text = "HD Status";
             checkBoxHDStatus.UseVisualStyleBackColor = true;
             checkBoxHDStatus.CheckStateChanged += checkBoxHDStatus_CheckStateChanged;
+            checkBoxHDStatus.Click += checkBoxHDStatus_Click;
             // 
-            // buttonSelectAll
+            // checkBoxCPUStatus
             // 
-            buttonSelectAll.Enabled = false;
-            buttonSelectAll.Location = new Point(31, 378);
-            buttonSelectAll.Name = "buttonSelectAll";
-            buttonSelectAll.Size = new Size(84, 33);
-            buttonSelectAll.TabIndex = 6;
-            buttonSelectAll.Text = "Select All";
-            buttonSelectAll.UseVisualStyleBackColor = true;
-            buttonSelectAll.Click += buttonSelectAll_Click;
-            // 
-            // checkBoxCPUStatus5
-            // 
-            checkBoxCPUStatus5.AutoSize = true;
-            checkBoxCPUStatus5.Checked = true;
-            checkBoxCPUStatus5.CheckState = CheckState.Checked;
-            checkBoxCPUStatus5.Font = new Font("Segoe UI", 14.25F);
-            checkBoxCPUStatus5.Location = new Point(31, 259);
-            checkBoxCPUStatus5.Name = "checkBoxCPUStatus5";
-            checkBoxCPUStatus5.Size = new Size(137, 29);
-            checkBoxCPUStatus5.TabIndex = 9;
-            checkBoxCPUStatus5.Text = "CPU Status 5";
-            checkBoxCPUStatus5.UseVisualStyleBackColor = true;
-            checkBoxCPUStatus5.CheckStateChanged += checkBoxCPUStatus5_CheckStateChanged;
-            // 
-            // checkBoxCPUStatus0
-            // 
-            checkBoxCPUStatus0.AutoSize = true;
-            checkBoxCPUStatus0.Checked = true;
-            checkBoxCPUStatus0.CheckState = CheckState.Checked;
-            checkBoxCPUStatus0.Font = new Font("Segoe UI", 14.25F);
-            checkBoxCPUStatus0.Location = new Point(31, 26);
-            checkBoxCPUStatus0.Name = "checkBoxCPUStatus0";
-            checkBoxCPUStatus0.Size = new Size(137, 29);
-            checkBoxCPUStatus0.TabIndex = 4;
-            checkBoxCPUStatus0.Text = "CPU Status 0";
-            checkBoxCPUStatus0.UseVisualStyleBackColor = true;
-            checkBoxCPUStatus0.CheckStateChanged += checkBoxCPUStatus0_CheckStateChanged;
-            // 
-            // checkBoxCPUStatus4
-            // 
-            checkBoxCPUStatus4.AutoSize = true;
-            checkBoxCPUStatus4.Checked = true;
-            checkBoxCPUStatus4.CheckState = CheckState.Checked;
-            checkBoxCPUStatus4.Font = new Font("Segoe UI", 14.25F);
-            checkBoxCPUStatus4.Location = new Point(31, 211);
-            checkBoxCPUStatus4.Name = "checkBoxCPUStatus4";
-            checkBoxCPUStatus4.Size = new Size(137, 29);
-            checkBoxCPUStatus4.TabIndex = 8;
-            checkBoxCPUStatus4.Text = "CPU Status 4";
-            checkBoxCPUStatus4.UseVisualStyleBackColor = true;
-            checkBoxCPUStatus4.CheckStateChanged += checkBoxCPUStatus4_CheckStateChanged;
-            // 
-            // checkBoxCPUStatus1
-            // 
-            checkBoxCPUStatus1.AutoSize = true;
-            checkBoxCPUStatus1.Checked = true;
-            checkBoxCPUStatus1.CheckState = CheckState.Checked;
-            checkBoxCPUStatus1.Font = new Font("Segoe UI", 14.25F);
-            checkBoxCPUStatus1.Location = new Point(31, 73);
-            checkBoxCPUStatus1.Name = "checkBoxCPUStatus1";
-            checkBoxCPUStatus1.Size = new Size(137, 29);
-            checkBoxCPUStatus1.TabIndex = 5;
-            checkBoxCPUStatus1.Text = "CPU Status 1";
-            checkBoxCPUStatus1.UseVisualStyleBackColor = true;
-            checkBoxCPUStatus1.CheckStateChanged += checkBoxCPUStatus1_CheckStateChanged;
-            // 
-            // checkBoxCPUStatus3
-            // 
-            checkBoxCPUStatus3.AutoSize = true;
-            checkBoxCPUStatus3.Checked = true;
-            checkBoxCPUStatus3.CheckState = CheckState.Checked;
-            checkBoxCPUStatus3.Font = new Font("Segoe UI", 14.25F);
-            checkBoxCPUStatus3.Location = new Point(31, 162);
-            checkBoxCPUStatus3.Name = "checkBoxCPUStatus3";
-            checkBoxCPUStatus3.Size = new Size(137, 29);
-            checkBoxCPUStatus3.TabIndex = 7;
-            checkBoxCPUStatus3.Text = "CPU Status 3";
-            checkBoxCPUStatus3.UseVisualStyleBackColor = true;
-            checkBoxCPUStatus3.CheckStateChanged += checkBoxCPUStatus3_CheckStateChanged;
-            // 
-            // checkBoxCPUStatus2
-            // 
-            checkBoxCPUStatus2.AutoSize = true;
-            checkBoxCPUStatus2.Checked = true;
-            checkBoxCPUStatus2.CheckState = CheckState.Checked;
-            checkBoxCPUStatus2.Font = new Font("Segoe UI", 14.25F);
-            checkBoxCPUStatus2.Location = new Point(31, 118);
-            checkBoxCPUStatus2.Name = "checkBoxCPUStatus2";
-            checkBoxCPUStatus2.Size = new Size(137, 29);
-            checkBoxCPUStatus2.TabIndex = 6;
-            checkBoxCPUStatus2.Text = "CPU Status 2";
-            checkBoxCPUStatus2.UseVisualStyleBackColor = true;
-            checkBoxCPUStatus2.CheckStateChanged += checkBoxCPUStatus2_CheckStateChanged;
+            checkBoxCPUStatus.AutoSize = true;
+            checkBoxCPUStatus.Checked = true;
+            checkBoxCPUStatus.CheckState = CheckState.Checked;
+            checkBoxCPUStatus.Font = new Font("Segoe UI", 14.25F);
+            checkBoxCPUStatus.Location = new Point(12, 24);
+            checkBoxCPUStatus.Name = "checkBoxCPUStatus";
+            checkBoxCPUStatus.Size = new Size(122, 29);
+            checkBoxCPUStatus.TabIndex = 4;
+            checkBoxCPUStatus.Text = "CPU Status";
+            checkBoxCPUStatus.UseVisualStyleBackColor = true;
+            checkBoxCPUStatus.CheckStateChanged += checkBoxCPUStatus_CheckStateChanged;
+            checkBoxCPUStatus.Click += checkBoxCPUStatus_Click;
             // 
             // chartShowStatus
             // 
-            chartArea2.AxisX.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea2.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea2.AxisX.Minimum = 1D;
-            chartArea2.AxisX.Title = "Date";
-            chartArea2.AxisX.TitleFont = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            chartArea2.AxisY.Title = "Temperature (°C)";
-            chartArea2.AxisY.TitleFont = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            chartArea2.Name = "ChartArea1";
-            chartShowStatus.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            chartShowStatus.Legends.Add(legend2);
+            chartArea1.AxisX.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea1.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea1.AxisX.Minimum = 1D;
+            chartArea1.AxisX.Title = "Date";
+            chartArea1.AxisX.TitleFont = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            chartArea1.AxisY.Title = "Temperature (°C)";
+            chartArea1.AxisY.TitleFont = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            chartArea1.Name = "ChartArea1";
+            chartShowStatus.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chartShowStatus.Legends.Add(legend1);
             chartShowStatus.Location = new Point(0, 27);
             chartShowStatus.Name = "chartShowStatus";
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.Legend = "Legend1";
-            series8.MarkerSize = 14;
-            series8.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series8.Name = "CPU status 0";
-            series9.ChartArea = "ChartArea1";
-            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series9.Legend = "Legend1";
-            series9.MarkerSize = 14;
-            series9.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series9.Name = "CPU status 1";
-            series10.ChartArea = "ChartArea1";
-            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series10.Legend = "Legend1";
-            series10.MarkerSize = 14;
-            series10.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series10.Name = "CPU status 2";
-            series11.ChartArea = "ChartArea1";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series11.Legend = "Legend1";
-            series11.MarkerSize = 14;
-            series11.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series11.Name = "CPU status 3";
-            series12.ChartArea = "ChartArea1";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series12.Legend = "Legend1";
-            series12.MarkerSize = 14;
-            series12.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series12.Name = "CPU status 4";
-            series13.ChartArea = "ChartArea1";
-            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series13.Legend = "Legend1";
-            series13.MarkerSize = 14;
-            series13.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series13.Name = "CPU status 5";
-            series13.YValuesPerPoint = 2;
-            series14.ChartArea = "ChartArea1";
-            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series14.Legend = "Legend1";
-            series14.MarkerSize = 14;
-            series14.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series14.Name = "HD status";
-            chartShowStatus.Series.Add(series8);
-            chartShowStatus.Series.Add(series9);
-            chartShowStatus.Series.Add(series10);
-            chartShowStatus.Series.Add(series11);
-            chartShowStatus.Series.Add(series12);
-            chartShowStatus.Series.Add(series13);
-            chartShowStatus.Series.Add(series14);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.MarkerSize = 14;
+            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series1.Name = "CPU status";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Legend = "Legend1";
+            series2.MarkerSize = 14;
+            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series2.Name = "HD status";
+            chartShowStatus.Series.Add(series1);
+            chartShowStatus.Series.Add(series2);
             chartShowStatus.Size = new Size(2272, 1140);
             chartShowStatus.TabIndex = 2;
-            chartShowStatus.Text = "chartStatus";
+            chartShowStatus.Text = "ls";
             chartShowStatus.GetToolTipText += chartShowStatus_GetToolTipText;
             // 
             // statusStrip1
@@ -416,7 +376,7 @@
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel });
             statusStrip1.Location = new Point(0, 1148);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(2489, 22);
+            statusStrip1.Size = new Size(2519, 22);
             statusStrip1.TabIndex = 3;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -452,7 +412,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2489, 1170);
+            ClientSize = new Size(2519, 1170);
             Controls.Add(labelFirstDate);
             Controls.Add(labelLastDate);
             Controls.Add(statusStrip1);
@@ -486,7 +446,6 @@
         private ToolStripMenuItem viewToolStripMenuItem;
         private ToolStripMenuItem settingsToolStripMenuItem;
         private Panel panelStatus;
-        private System.ComponentModel.BackgroundWorker dat;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartShowStatus;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel;
@@ -504,15 +463,16 @@
         private ToolStripMenuItem starToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem3;
         private ToolStripMenuItem defaultToolStripMenuItem;
-        private CheckBox checkBoxCPUStatus0;
-        private CheckBox checkBoxCPUStatus1;
-        private CheckBox checkBoxCPUStatus2;
-        private CheckBox checkBoxCPUStatus3;
-        private CheckBox checkBoxCPUStatus4;
-        private CheckBox checkBoxCPUStatus5;
+        private CheckBox checkBoxCPUStatus;
         private CheckBox checkBoxHDStatus;
-        private Button buttonSelectAll;
         private Label labelLastDate;
         private Label labelFirstDate;
+        private Label labelTemp;
+        private Label labelDate;
+        private Label labelAvgTemp;
+        private Label labelMinTemp;
+        private Label labelMaxTemp;
+        private RadioButton radioButtonHd;
+        private RadioButton radioButtonCpuStatus;
     }
 }

@@ -30,8 +30,11 @@ namespace ServerStatus.ServerStatus
 
         string firstItem, lastItem;
         int addPoint = -1;
-        int checkSize, checkType, checkItems = 7;
-        int countCheck = 7;
+        int checkSize = 2, checkType = 1;
+        decimal cpuMax, cpuMin, cpuAVG, hdMax, hdMin, hdAvg;
+        List<decimal> listCPUSum = new List<decimal>();
+        List<decimal> listHDSum = new List<decimal>();
+
 
 
         public static string Decrypt(string encrypt, string key)
@@ -61,6 +64,8 @@ namespace ServerStatus.ServerStatus
             decimal convertValue;
             int lastValue = 0;
 
+            listCPUSum.Clear();
+            listHDSum.Clear();
 
             chartShowStatus.Width = 2504;
             chartShowStatus.ChartAreas["ChartArea1"].AxisX.LabelStyle.Enabled = false;
@@ -72,58 +77,10 @@ namespace ServerStatus.ServerStatus
                 addNewValue = addValue.TrimEnd(newChar);
                 convertValue = decimal.Parse(addNewValue);
                 chartShowStatus.Series[0].Points.AddXY(addPoint, convertValue);
+                listCPUSum.Add(convertValue);
                 lastValue++;
             }
 
-            addPoint = -1;
-            foreach (var addValue in FormMain.cpuItems1)
-            {
-                addPoint++;
-                char[] newChar = { '°', 'C' };
-                addNewValue = addValue.TrimEnd(newChar);
-                convertValue = decimal.Parse(addNewValue);
-                chartShowStatus.Series[1].Points.AddXY(addPoint, convertValue);
-            }
-
-            addPoint = -1;
-            foreach (var addValue in FormMain.cpuItems2)
-            {
-                addPoint++;
-                char[] newChar = { '°', 'C' };
-                addNewValue = addValue.TrimEnd(newChar);
-                convertValue = decimal.Parse(addNewValue);
-                chartShowStatus.Series[2].Points.AddXY(addPoint, convertValue);
-            }
-
-            addPoint = -1;
-            foreach (var addValue in FormMain.cpuItems3)
-            {
-                addPoint++;
-                char[] newChar = { '°', 'C' };
-                addNewValue = addValue.TrimEnd(newChar);
-                convertValue = decimal.Parse(addNewValue);
-                chartShowStatus.Series[3].Points.AddXY(addPoint, convertValue);
-            }
-
-            addPoint = -1;
-            foreach (var addValue in FormMain.cpuItems4)
-            {
-                addPoint++;
-                char[] newChar = { '°', 'C' };
-                addNewValue = addValue.TrimEnd(newChar);
-                convertValue = decimal.Parse(addNewValue);
-                chartShowStatus.Series[4].Points.AddXY(addPoint, convertValue);
-            }
-
-            addPoint = -1;
-            foreach (var addValue in FormMain.cpuItems5)
-            {
-                addPoint++;
-                char[] newChar = { '°', 'C' };
-                addNewValue = addValue.TrimEnd(newChar);
-                convertValue = decimal.Parse(addNewValue);
-                chartShowStatus.Series[5].Points.AddXY(addPoint, convertValue);
-            }
 
             addPoint = -1;
             foreach (var addValue in FormMain.hdItems)
@@ -132,7 +89,8 @@ namespace ServerStatus.ServerStatus
                 char[] newChar = { '°', 'C' };
                 addNewValue = addValue.TrimEnd(newChar);
                 convertValue = decimal.Parse(addNewValue);
-                chartShowStatus.Series[6].Points.AddXY(addPoint, convertValue);
+                chartShowStatus.Series[1].Points.AddXY(addPoint, convertValue);
+                listHDSum.Add(convertValue);
             }
 
             chartShowStatus.ChartAreas[0].AxisY.Minimum = 0;
@@ -144,6 +102,11 @@ namespace ServerStatus.ServerStatus
             labelFirstDate.Text = firstItem;
             labelLastDate.Text = lastItem;
             toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + ".";
+
+            labelMaxTemp.Text = "Max temperature: " + listCPUSum.Max() + " °C";
+            labelMinTemp.Text = "Min temperature: " + listCPUSum.Min() + " °C";
+            labelAvgTemp.Text = "Avg temperature: " + Math.Round(listCPUSum.Average(), 1) + " °C";
+
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -169,20 +132,28 @@ namespace ServerStatus.ServerStatus
 
         private void chartShowStatus_GetToolTipText(object sender, ToolTipEventArgs e)
         {
-            switch (e.HitTestResult.ChartElementType)
+            if (!noneMarkerSizeToolStripMenuItem.Checked)
             {
+                switch (e.HitTestResult.ChartElementType)
+                {
 
-                case ChartElementType.DataPoint:
-                    var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
-                    e.Text = string.Format("Date: {0}\n  Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                    //  toolStripStatusLabel.Text = string.Format("Date: {0} Temperature: {1} °C",  FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                    case ChartElementType.DataPoint:
+                        var dataPoint = e.HitTestResult.Series.Points[e.HitTestResult.PointIndex];
+                        e.Text = string.Format("Date: {0}\n  Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                        labelTemp.Visible = true;
+                        labelDate.Visible = true;
+                        labelTemp.Text = string.Format("Date: {0}", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                        labelDate.Text = string.Format("Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]); ;
+                        toolStripStatusLabel.Text = string.Format("Date: {0} Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
+                        break;
 
-                    toolStripStatusLabel.Text = string.Format("Date: {0} Temperature: {1} °C", FormMain.listDate[(int)dataPoint.XValue], dataPoint.YValues[0]);
-                    break;
+                    default:
+                        toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + ".";
+                        labelTemp.Visible = false;
+                        labelDate.Visible = false;
 
-                default:
-                    toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + ".";
-                    break;
+                        break;
+                }
             }
         }
 
@@ -209,7 +180,7 @@ namespace ServerStatus.ServerStatus
 
         private void smallToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 chartShowStatus.Series[i].MarkerSize = 8;
             }
@@ -223,7 +194,7 @@ namespace ServerStatus.ServerStatus
 
         private void medumToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 chartShowStatus.Series[i].MarkerSize = 14;
             }
@@ -237,7 +208,7 @@ namespace ServerStatus.ServerStatus
 
         private void largeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 chartShowStatus.Series[i].MarkerSize = 20;
             }
@@ -251,79 +222,19 @@ namespace ServerStatus.ServerStatus
 
         private void noneMarkerSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 7; i++)
+            if (!noneMarkerSizeToolStripMenuItem.Checked)
             {
-                chartShowStatus.Series[i].MarkerSize = 0;
-            }
-
-            if (noneMarkerSizeToolStripMenuItem.Checked)
-            {
-                markerSizeToolStripMenuItem.Enabled = true;
-                markerTypeToolStripMenuItem.Enabled = true;
-                noneMarkerSizeToolStripMenuItem.Checked = false;
-                switch (checkSize)
-                {
-                    case 1:
-                        for (int i = 0; i < 7; i++)
-                        {
-                            chartShowStatus.Series[i].MarkerSize = 8;
-                        }
-                        break;
-
-                    case 2:
-                        for (int i = 0; i < 7; i++)
-                        {
-                            chartShowStatus.Series[i].MarkerSize = 14;
-                        }
-                        break;
-                    case 3:
-                        for (int i = 0; i < 7; i++)
-                        {
-                            chartShowStatus.Series[i].MarkerSize = 20;
-                        }
-                        break;
-                }
-
-                switch (checkType)
-                {
-                    case 1:
-                        for (int i = 0; i < 7; i++)
-                        {
-                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Circle;
-                        }
-                        break;
-
-                    case 2:
-                        for (int i = 0; i < 7; i++)
-                        {
-                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Triangle;
-                        }
-                        break;
-                    case 3:
-                        for (int i = 0; i < 7; i++)
-                        {
-                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Square;
-                        }
-                        break;
-                    case 4:
-                        for (int i = 0; i < 7; i++)
-                        {
-                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Star5;
-                        }
-                        break;
-                }
+                noneMarkerSizeToolStripMenuItem.Checked = true;
             }
             else
             {
-
-                markerSizeToolStripMenuItem.Enabled = false;
-                markerTypeToolStripMenuItem.Enabled = false;
-                noneMarkerSizeToolStripMenuItem.Checked = true;
+                noneMarkerSizeToolStripMenuItem.Checked = false;
             }
+
         }
         private void circleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Circle;
             }
@@ -338,7 +249,7 @@ namespace ServerStatus.ServerStatus
 
         private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Triangle;
             }
@@ -353,7 +264,7 @@ namespace ServerStatus.ServerStatus
 
         private void squareToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Square;
             }
@@ -368,7 +279,7 @@ namespace ServerStatus.ServerStatus
 
         private void starToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Star5;
             }
@@ -382,12 +293,12 @@ namespace ServerStatus.ServerStatus
 
         private void defaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 chartShowStatus.Series[i].MarkerSize = 14;
             }
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Circle;
             }
@@ -409,283 +320,140 @@ namespace ServerStatus.ServerStatus
 
         private void checkBoxCPUStatus0_CheckStateChanged(object sender, EventArgs e)
         {
-            if (checkBoxCPUStatus0.Checked == true)
-            {
-                chartShowStatus.Series[0].IsVisibleInLegend = true;
-                chartShowStatus.Series[0].Enabled = true;
-                countCheck++;
-            }
-            else
-            {
-                chartShowStatus.Series[0].IsVisibleInLegend = false;
-                chartShowStatus.Series[0].Enabled = false;
-                buttonSelectAll.Enabled = true;
-                countCheck--;
-            }
-            if (countCheck == 0)
-            {
-                checkBoxCPUStatus0.Enabled = false;
-                chartShowStatus.Series[0].IsVisibleInLegend = true;
-                chartShowStatus.Series[0].Enabled = true;
-                checkBoxCPUStatus0.Checked = true;
-            }
-            else
-            {
-                checkBoxCPUStatus0.Enabled = true;
-                checkBoxCPUStatus1.Enabled = true;
-                checkBoxCPUStatus2.Enabled = true;
-                checkBoxCPUStatus3.Enabled = true;
-                checkBoxCPUStatus4.Enabled = true;
-                checkBoxCPUStatus5.Enabled = true;
-                checkBoxHDStatus.Enabled = true;
-            }
 
         }
 
-        private void checkBoxCPUStatus1_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUStatus1.Checked == true)
-            {
-                chartShowStatus.Series[1].IsVisibleInLegend = true;
-                chartShowStatus.Series[1].Enabled = true;
-                countCheck++;
-            }
-            else
-            {
-                chartShowStatus.Series[1].IsVisibleInLegend = false;
-                chartShowStatus.Series[1].Enabled = false;
-                buttonSelectAll.Enabled = true;
-                countCheck--;
-            }
-            if (countCheck == 0)
-            {
-                checkBoxCPUStatus1.Enabled = false;
-                chartShowStatus.Series[1].IsVisibleInLegend = true;
-                chartShowStatus.Series[1].Enabled = true;
-                checkBoxCPUStatus1.Checked = true;
-            }
-            else
-            {
-                checkBoxCPUStatus0.Enabled = true;
-                checkBoxCPUStatus1.Enabled = true;
-                checkBoxCPUStatus2.Enabled = true;
-                checkBoxCPUStatus3.Enabled = true;
-                checkBoxCPUStatus4.Enabled = true;
-                checkBoxCPUStatus5.Enabled = true;
-                checkBoxHDStatus.Enabled = true;
-            }
 
-        }
-
-        private void checkBoxCPUStatus2_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUStatus2.Checked == true)
-            {
-                chartShowStatus.Series[2].IsVisibleInLegend = true;
-                chartShowStatus.Series[2].Enabled = true;
-                countCheck++;
-            }
-            else
-            {
-                chartShowStatus.Series[2].IsVisibleInLegend = false;
-                chartShowStatus.Series[2].Enabled = false;
-                buttonSelectAll.Enabled = true;
-                countCheck--;
-            }
-            if (countCheck == 0)
-            {
-                checkBoxCPUStatus2.Enabled = false;
-                chartShowStatus.Series[2].IsVisibleInLegend = true;
-                chartShowStatus.Series[2].Enabled = true;
-                checkBoxCPUStatus2.Checked = true;
-            }
-            else
-            {
-                checkBoxCPUStatus0.Enabled = true;
-                checkBoxCPUStatus1.Enabled = true;
-                checkBoxCPUStatus2.Enabled = true;
-                checkBoxCPUStatus3.Enabled = true;
-                checkBoxCPUStatus4.Enabled = true;
-                checkBoxCPUStatus5.Enabled = true;
-                checkBoxHDStatus.Enabled = true;
-            }
-
-        }
-
-        private void checkBoxCPUStatus3_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUStatus3.Checked == true)
-            {
-                chartShowStatus.Series[3].IsVisibleInLegend = true;
-                chartShowStatus.Series[3].Enabled = true;
-                countCheck++;
-            }
-            else
-            {
-                chartShowStatus.Series[3].IsVisibleInLegend = false;
-                chartShowStatus.Series[3].Enabled = false;
-                buttonSelectAll.Enabled = true;
-                countCheck--;
-            }
-            if (countCheck == 0)
-            {
-                checkBoxCPUStatus3.Enabled = false;
-                chartShowStatus.Series[3].IsVisibleInLegend = true;
-                chartShowStatus.Series[3].Enabled = true;
-                checkBoxCPUStatus3.Checked = true;
-            }
-            else
-            {
-                checkBoxCPUStatus0.Enabled = true;
-                checkBoxCPUStatus1.Enabled = true;
-                checkBoxCPUStatus2.Enabled = true;
-                checkBoxCPUStatus3.Enabled = true;
-                checkBoxCPUStatus4.Enabled = true;
-                checkBoxCPUStatus5.Enabled = true;
-                checkBoxHDStatus.Enabled = true;
-            }
-        }
-
-        private void checkBoxCPUStatus4_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUStatus4.Checked == true)
-            {
-                chartShowStatus.Series[4].IsVisibleInLegend = true;
-                chartShowStatus.Series[4].Enabled = true;
-                countCheck++;
-            }
-            else
-            {
-                chartShowStatus.Series[4].IsVisibleInLegend = false;
-                chartShowStatus.Series[4].Enabled = false;
-                buttonSelectAll.Enabled = true;
-                countCheck--;
-            }
-            if (countCheck == 0)
-            {
-                checkBoxCPUStatus4.Enabled = false;
-                chartShowStatus.Series[4].IsVisibleInLegend = true;
-                chartShowStatus.Series[4].Enabled = true;
-                checkBoxCPUStatus4.Checked = true;
-            }
-            else
-            {
-                checkBoxCPUStatus0.Enabled = true;
-                checkBoxCPUStatus1.Enabled = true;
-                checkBoxCPUStatus2.Enabled = true;
-                checkBoxCPUStatus3.Enabled = true;
-                checkBoxCPUStatus4.Enabled = true;
-                checkBoxCPUStatus5.Enabled = true;
-                checkBoxHDStatus.Enabled = true;
-            }
-        }
-
-        private void checkBoxCPUStatus5_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBoxCPUStatus5.Checked == true)
-            {
-                chartShowStatus.Series[5].IsVisibleInLegend = true;
-                chartShowStatus.Series[5].Enabled = true;
-                countCheck++;
-            }
-            else
-            {
-                chartShowStatus.Series[5].IsVisibleInLegend = false;
-                chartShowStatus.Series[5].Enabled = false;
-                buttonSelectAll.Enabled = true;
-                countCheck--;
-            }
-            if (countCheck == 0)
-            {
-                checkBoxCPUStatus5.Enabled = false;
-                chartShowStatus.Series[5].IsVisibleInLegend = true;
-                chartShowStatus.Series[5].Enabled = true;
-                checkBoxCPUStatus5.Checked = true;
-            }
-            else
-            {
-                checkBoxCPUStatus0.Enabled = true;
-                checkBoxCPUStatus1.Enabled = true;
-                checkBoxCPUStatus2.Enabled = true;
-                checkBoxCPUStatus3.Enabled = true;
-                checkBoxCPUStatus4.Enabled = true;
-                checkBoxCPUStatus5.Enabled = true;
-                checkBoxHDStatus.Enabled = true;
-            }
-        }
 
         private void checkBoxHDStatus_CheckStateChanged(object sender, EventArgs e)
         {
             if (checkBoxHDStatus.Checked == true)
             {
-                chartShowStatus.Series[6].IsVisibleInLegend = true;
-                chartShowStatus.Series[6].Enabled = true;
-                countCheck++;
+                chartShowStatus.Series[1].IsVisibleInLegend = true;
+                chartShowStatus.Series[1].Enabled = true;
+
             }
             else
             {
-                chartShowStatus.Series[6].IsVisibleInLegend = false;
-                chartShowStatus.Series[6].Enabled = false;
-                buttonSelectAll.Enabled = true;
-                countCheck--;
+                chartShowStatus.Series[1].IsVisibleInLegend = false;
+                chartShowStatus.Series[1].Enabled = false;
             }
-            if (countCheck == 0)
+
+        }
+
+        private void checkBoxCPUStatus_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBoxCPUStatus.Checked == true)
             {
-                checkBoxHDStatus.Enabled = false;
-                chartShowStatus.Series[6].IsVisibleInLegend = true;
-                chartShowStatus.Series[6].Enabled = true;
-                checkBoxHDStatus.Checked = true;
+                chartShowStatus.Series[0].IsVisibleInLegend = true;
+                chartShowStatus.Series[0].Enabled = true;
             }
             else
             {
-                checkBoxCPUStatus0.Enabled = true;
-                checkBoxCPUStatus1.Enabled = true;
-                checkBoxCPUStatus2.Enabled = true;
-                checkBoxCPUStatus3.Enabled = true;
-                checkBoxCPUStatus4.Enabled = true;
-                checkBoxCPUStatus5.Enabled = true;
-                checkBoxHDStatus.Enabled = true;
+                chartShowStatus.Series[0].IsVisibleInLegend = false;
+                chartShowStatus.Series[0].Enabled = false;
             }
         }
 
-        private void buttonSelectAll_Click(object sender, EventArgs e)
+        private void checkBoxCPUStatus_Click(object sender, EventArgs e)
         {
+            if (checkBoxHDStatus.Checked == false)
+            {
+                checkBoxCPUStatus.Checked = true;
+            }
+        }
 
-            buttonSelectAll.Enabled = false;
-            chartShowStatus.Series[0].IsVisibleInLegend = true;
-            chartShowStatus.Series[0].Enabled = true;
-            checkBoxCPUStatus0.Checked = true;
-            checkBoxCPUStatus0.Enabled = true;
+        private void checkBoxHDStatus_Click(object sender, EventArgs e)
+        {
+            if (checkBoxCPUStatus.Checked == false)
+            {
+                checkBoxHDStatus.Checked = true;
+            }
+        }
 
-            chartShowStatus.Series[1].IsVisibleInLegend = true;
-            chartShowStatus.Series[1].Enabled = true;
-            checkBoxCPUStatus1.Checked = true;
-            checkBoxCPUStatus1.Enabled = true;
+        private void radioButtonCpuStatus_Click(object sender, EventArgs e)
+        {
+            labelMaxTemp.Text = "Max temperature: " + listCPUSum.Max() + " °C";
+            labelMinTemp.Text = "Min temperature: " + listCPUSum.Min() + " °C";
+            labelAvgTemp.Text = "Avg temperature: " + Math.Round(listCPUSum.Average(), 1) + " °C";
+        }
 
-            chartShowStatus.Series[2].IsVisibleInLegend = true;
-            chartShowStatus.Series[2].Enabled = true;
-            checkBoxCPUStatus2.Checked = true;
-            checkBoxCPUStatus2.Enabled = true;
+        private void radioButtonHd_Click(object sender, EventArgs e)
+        {
+            labelMaxTemp.Text = "Max temperature: " + listHDSum.Max() + " °C";
+            labelMinTemp.Text = "Min temperature: " + listHDSum.Min() + " °C";
+            labelAvgTemp.Text = "Avg temperature: " + Math.Round(listHDSum.Average(), 1) + " °C";
+        }
 
-            chartShowStatus.Series[3].IsVisibleInLegend = true;
-            chartShowStatus.Series[3].Enabled = true;
-            checkBoxCPUStatus3.Checked = true;
-            checkBoxCPUStatus3.Enabled = true;
+        private void noneMarkerSizeToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (noneMarkerSizeToolStripMenuItem.Checked)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    chartShowStatus.Series[i].MarkerSize = 0;
+                }
+                markerSizeToolStripMenuItem.Enabled = false;
+                markerTypeToolStripMenuItem.Enabled = false;
+                noneMarkerSizeToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                markerSizeToolStripMenuItem.Enabled = true;
+                markerTypeToolStripMenuItem.Enabled = true;
+                noneMarkerSizeToolStripMenuItem.Checked = false;
+                switch (checkSize)
+                {
+                    case 1:
+                        for (int i = 0; i < 2; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerSize = 8;
+                        }
+                        break;
 
-            chartShowStatus.Series[4].IsVisibleInLegend = true;
-            chartShowStatus.Series[4].Enabled = true;
-            checkBoxCPUStatus4.Checked = true;
-            checkBoxCPUStatus4.Enabled = true;
+                    case 2:
+                        for (int i = 0; i < 2; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerSize = 14;
+                        }
+                        break;
+                    case 3:
+                        for (int i = 0; i < 2; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerSize = 20;
+                        }
+                        break;
+                }
 
-            chartShowStatus.Series[5].IsVisibleInLegend = true;
-            chartShowStatus.Series[5].Enabled = true;
-            checkBoxCPUStatus5.Checked = true;
-            checkBoxCPUStatus5.Enabled = true;
+                switch (checkType)
+                {
+                    case 1:
+                        for (int i = 0; i < 2; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Circle;
+                        }
+                        break;
 
-            chartShowStatus.Series[6].IsVisibleInLegend = true;
-            chartShowStatus.Series[6].Enabled = true;
-            checkBoxHDStatus.Checked = true;
-            checkBoxHDStatus.Enabled = true;
+                    case 2:
+                        for (int i = 0; i < 2; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Triangle;
+                        }
+                        break;
+                    case 3:
+                        for (int i = 0; i < 2; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Square;
+                        }
+                        break;
+                    case 4:
+                        for (int i = 0; i < 2; i++)
+                        {
+                            chartShowStatus.Series[i].MarkerStyle = MarkerStyle.Star5;
+                        }
+                        break;
+                }
+            }
         }
     }
 }

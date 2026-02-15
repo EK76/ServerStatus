@@ -1,11 +1,12 @@
 using MySql.Data.MySqlClient;
 using ReadTemp;
+using secInfo;
+using Sensordevice;
 using ServerStatus.ServerStatus;
 using System.Data;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using secInfo;
 
 namespace WinFormsApp1
 {
@@ -16,13 +17,13 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
-        string queryString, connString, passwordString, checkValue, checkNewValue, firstItem, lastItem, dayString, configPass, showUpdateDate;
+        string queryString, passwordString, checkValue, checkNewValue, firstItem, lastItem, dayString, configPass, showUpdateDate;
         public static string dateDetails, cpuDetails, cpuDetails1, cpuDetails2, cpuDetails3, cpuDetails4, cpuDetails5, hdDetails;
         int countItems, indexNumber, countStatus, countRows;
         public static int convertValue, convertValue1, convertValue2, convertValue3, convertValue4, convertValue5, convertValue6;
         public static bool checkExist = false, checkIntervalDate = false;
-        bool localData = false;
-
+        public static bool confirmed = false;
+        public static string connString;
         public static List<string> cpuItems = new List<string>();
         public static List<string> cpuItems1 = new List<string>();
         public static List<string> cpuItems2 = new List<string>();
@@ -34,35 +35,6 @@ namespace WinFormsApp1
         string[] chooseDatabase;
         string[] inputPass;
 
-     /*   public string Encrypt(string source, string key)
-        {
-            using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
-            {
-                using (MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider())
-                {
-                    byte[] byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
-                    tripleDESCryptoService.Key = byteHash;
-                    tripleDESCryptoService.Mode = CipherMode.ECB;//CBC, CFB
-                    byte[] data = Encoding.Unicode.GetBytes(source);
-                    return Convert.ToBase64String(tripleDESCryptoService.CreateEncryptor().TransformFinalBlock(data, 0, data.Length));
-                }
-            }
-        }
-
-        public static string Decrypt(string encrypt, string key)
-        {
-            using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
-            {
-                using (MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider())
-                {
-                    byte[] byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
-                    tripleDESCryptoService.Key = byteHash;
-                    tripleDESCryptoService.Mode = CipherMode.ECB;//CBC, CFB
-                    byte[] byteBuff = Convert.FromBase64String(encrypt);
-                    return Encoding.Unicode.GetString(tripleDESCryptoService.CreateDecryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
-                }
-            }
-        }*/
 
         void readTable(string readValue)
         {
@@ -92,6 +64,7 @@ namespace WinFormsApp1
             }
 
             listViewShowStatus.Items.Clear();
+            listViewShowStatus.Update();
             passwordString = Security.decrypt(inputPass[0], "status");
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
@@ -106,25 +79,31 @@ namespace WinFormsApp1
                 {
                     countItems++;
                     countRows++;
-                    listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus0").ToString() + " °C", reader.GetDecimal("cpustatus1").ToString() + " °C", reader.GetDecimal("cpustatus2").ToString() + " °C", reader.GetDecimal("cpustatus3").ToString() + " °C", reader.GetDecimal("cpustatus4").ToString() + " °C", reader.GetDecimal("cpustatus5").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                    listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
+                MessageBox.Show(reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm"));
                 conn.Close();
-                localData = false;
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Check database password! Otherwise contact the administrator.", "Server Status");
+                reloadTableToolStripMenuItem.Enabled = false;
+                showServerRebootTimeToolStripMenuItem.Enabled = false;
             }
 
-            if (countItems >= 1)
+            if (countRows >= 1)
             {
                 graphViewToolStripMenuItem.Enabled = true;
                 markToolStripMenuItem.Enabled = true;
                 showToolStripMenuItem.Enabled = true;
-                saveToolStripMenuItem.Enabled = true; ;
-                firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
-                lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
-                toolStripStatusLabel.Text = "Date intervall between " + firstItem + " and " + lastItem + " (Data from database). Rows " + countRows.ToString();
+                saveToolStripMenuItem.Enabled = true;
+                setDateToolStripMenuItem.Enabled = true;
+                reloadTableToolStripMenuItem.Enabled = true;
+                showServerRebootTimeToolStripMenuItem.Enabled = true;
+                firstItem = listViewShowStatus.Items[0].SubItems[2].Text;
+                lastItem = listViewShowStatus.Items[countItems].SubItems[2].Text;
+                toolStripStatusLabelRows.Text = "Date intervall between " + firstItem + " and " + lastItem + " (Data from database). Rows " + countRows.ToString();
                 emptyTableToolStripMenuItem.Enabled = true;
             }
             else
@@ -134,7 +113,8 @@ namespace WinFormsApp1
                 showToolStripMenuItem.Enabled = false;
                 saveToolStripMenuItem.Enabled = false;
                 emptyTableToolStripMenuItem.Enabled = false;
-                toolStripStatusLabel.Text = "";
+                setDateToolStripMenuItem.Enabled = false;
+                toolStripStatusLabelRows.Text = "";
             }
         }
 
@@ -149,6 +129,7 @@ namespace WinFormsApp1
         }
         private void reloadTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            confirmed = false;
             readTable("select * from infostatus ");
         }
 
@@ -166,11 +147,25 @@ namespace WinFormsApp1
             }
             checkExist = false;
 
-            if (checkIntervalDate == true)
+        /*    if (checkIntervalDate == true)
             {
-                readTable("select * from infostatus where datecreated >= '"+ FormDateInterval.startDate+ "' and datecreated <= '" + FormDateInterval.endDate+ "' + INTERVAL 1 DAY;");
+                readTable("select * from infostatus where datecreated >= '" + FormDateInterval.startDate + "' and datecreated <= '" + FormDateInterval.endDate + "' + INTERVAL 1 DAY;");
             }
-            checkIntervalDate = false;
+            checkIntervalDate = false;*/
+
+            if (confirmed == true)
+            {
+                listViewShowStatus.Clear();
+                saveToolStripMenuItem.Enabled = false;
+                graphViewToolStripMenuItem.Enabled = false;
+                markToolStripMenuItem.Enabled = false;
+                showToolStripMenuItem.Enabled = false;
+                setDateToolStripMenuItem.Enabled = false;
+                emptyTableToolStripMenuItem.Enabled = false;
+                confirmed = false;
+            }
+            listViewShowStatus.Update();
+
         }
         private void aboutServerStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -181,24 +176,14 @@ namespace WinFormsApp1
         private void graphViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             cpuItems.Clear();
-            cpuItems1.Clear();
-            cpuItems2.Clear();
-            cpuItems3.Clear();
-            cpuItems4.Clear();
-            cpuItems5.Clear();
             hdItems.Clear();
             listDate.Clear();
 
             foreach (ListViewItem item in listViewShowStatus.Items)
             {
                 cpuItems.Add(item.SubItems[0].Text);
-                cpuItems1.Add(item.SubItems[1].Text);
-                cpuItems2.Add(item.SubItems[2].Text);
-                cpuItems3.Add(item.SubItems[3].Text);
-                cpuItems4.Add(item.SubItems[4].Text);
-                cpuItems5.Add(item.SubItems[5].Text);
-                hdItems.Add(item.SubItems[6].Text);
-                listDate.Add(item.SubItems[7].Text);
+                hdItems.Add(item.SubItems[1].Text);
+                listDate.Add(item.SubItems[2].Text);
             }
             FormGraphView showGraph = new FormGraphView();
             showGraph.ShowDialog();
@@ -226,13 +211,11 @@ namespace WinFormsApp1
                         {
                             countItems++;
                             countRows++;
-                            var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(),
-                            line.ToString().Split(';')[2].ToString(), line.ToString().Split(';')[3].ToString(),line.ToString().Split(';')[4].ToString(), line.ToString().Split(';')[5].ToString(), line.ToString().Split(';')[6].ToString(), line.ToString().Split(';')[7].ToString() });
+                            var itemAdd = new ListViewItem(new[] { line.ToString().Split(';')[0].ToString(), line.ToString().Split(';')[1].ToString(), line.ToString().Split(';')[2].ToString() });
                             listViewShowStatus.Items.Add(itemAdd);
                         }
                         fileName.Close();
                         MessageBox.Show("File " + openContent.FileName.ToString() + " is susccessfully imported!", "Server Status");
-                        localData = true;
                         showToolStripMenuItem.Enabled = false;
                     }
                     else
@@ -252,9 +235,9 @@ namespace WinFormsApp1
                 graphViewToolStripMenuItem.Enabled = true;
                 markToolStripMenuItem.Enabled = true;
                 saveToolStripMenuItem.Enabled = true;
-                firstItem = listViewShowStatus.Items[0].SubItems[7].Text;
-                lastItem = listViewShowStatus.Items[countItems].SubItems[7].Text;
-                toolStripStatusLabel.Text = "Date intervall " + firstItem + " between " + lastItem + " (Data from text file: " + Path.GetFileName(openContent.FileName) + ") Rows " + countRows.ToString();
+                firstItem = listViewShowStatus.Items[0].SubItems[2].Text;
+                lastItem = listViewShowStatus.Items[countItems].SubItems[2].Text;
+                toolStripStatusLabelRows.Text = "Date intervall " + firstItem + " between " + lastItem + " (Data from text file: " + Path.GetFileName(openContent.FileName) + ") Rows " + countRows.ToString();
             }
         }
 
@@ -277,7 +260,7 @@ namespace WinFormsApp1
                         {
                             foreach (ListViewItem item in listViewShowStatus.Items)
                             {
-                                sw.WriteLine("{0}{1}{2}{3}{4}{5}{6}{7}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";", item.SubItems[2].Text + ";", item.SubItems[3].Text + ";", item.SubItems[4].Text + ";", item.SubItems[5].Text + ";", item.SubItems[6].Text + ";", item.SubItems[7].Text + ";");
+                                sw.WriteLine("{0}{1}{2}", item.SubItems[0].Text + ";", item.SubItems[1].Text + ";", item.SubItems[2].Text + ";");
                             }
                         }
                         MessageBox.Show("File " + filename + " is susccessfully saved!", "Server Status");
@@ -306,34 +289,10 @@ namespace WinFormsApp1
                     checkValue = item.SubItems[1].Text;
                     checkNewValue = checkValue.TrimEnd(newChar);
                     checkNewValue = checkNewValue.Split(',')[0];
-                    convertValue1 = Int32.Parse(checkNewValue);
-
-                    checkValue = item.SubItems[2].Text;
-                    checkNewValue = checkValue.TrimEnd(newChar);
-                    checkNewValue = checkNewValue.Split(',')[0];
                     convertValue2 = Int32.Parse(checkNewValue);
 
-                    checkValue = item.SubItems[3].Text;
-                    checkNewValue = checkValue.TrimEnd(newChar);
-                    checkNewValue = checkNewValue.Split(',')[0];
-                    convertValue3 = Int32.Parse(checkNewValue);
 
-                    checkValue = item.SubItems[4].Text;
-                    checkNewValue = checkValue.TrimEnd(newChar);
-                    checkNewValue = checkNewValue.Split(',')[0];
-                    convertValue4 = Int32.Parse(checkNewValue);
-
-                    checkValue = item.SubItems[5].Text;
-                    checkNewValue = checkValue.TrimEnd(newChar);
-                    checkNewValue = checkNewValue.Split(',')[0];
-                    convertValue5 = Int32.Parse(checkNewValue);
-
-                    checkValue = item.SubItems[6].Text;
-                    checkNewValue = checkValue.TrimEnd(newChar);
-                    checkNewValue = checkNewValue.Split(',')[0];
-                    convertValue6 = Int32.Parse(checkNewValue);
-
-                    if ((convertValue > 49) || (convertValue1 > 49) || (convertValue2 > 49) || (convertValue3 > 49) || (convertValue4 > 49) || (convertValue5 > 49) || (convertValue6 > 49))
+                    if ((convertValue > 49) || (convertValue2 > 49))
                     {
                         item.SubItems[0].BackColor = Color.Red;
                         markToolStripMenuItem.Checked = true;
@@ -358,13 +317,8 @@ namespace WinFormsApp1
         {
             indexNumber = listViewShowStatus.SelectedIndices[0];
             cpuDetails = listViewShowStatus.Items[indexNumber].SubItems[0].Text;
-            cpuDetails1 = listViewShowStatus.Items[indexNumber].SubItems[1].Text;
-            cpuDetails2 = listViewShowStatus.Items[indexNumber].SubItems[2].Text;
-            cpuDetails3 = listViewShowStatus.Items[indexNumber].SubItems[3].Text;
-            cpuDetails4 = listViewShowStatus.Items[indexNumber].SubItems[4].Text;
-            cpuDetails5 = listViewShowStatus.Items[indexNumber].SubItems[5].Text;
-            hdDetails = listViewShowStatus.Items[indexNumber].SubItems[6].Text;
-            dateDetails = listViewShowStatus.Items[indexNumber].SubItems[7].Text;
+            hdDetails = listViewShowStatus.Items[indexNumber].SubItems[1].Text;
+            dateDetails = listViewShowStatus.Items[indexNumber].SubItems[2].Text;
             FormDetails showDetails = new FormDetails();
             showDetails.Show();
         }
@@ -375,36 +329,8 @@ namespace WinFormsApp1
 
         private void emptyTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult messageInfo = MessageBox.Show("Are you sure to empty the table", "Server Status", MessageBoxButtons.YesNo);
-            if (messageInfo == DialogResult.Yes)
-            {
-                MySqlConnection conn = new MySqlConnection(connString);
-                conn.Open();
-                MySqlCommand command = new MySqlCommand("delete from infostatus", conn);
-                MySqlDataReader reader = command.ExecuteReader();
-                conn.Close();
-
-                conn.Open();
-                MySqlCommand command2 = new MySqlCommand("alter table infostatus auto_increment=1", conn);
-                MySqlDataReader reader2 = command2.ExecuteReader();
-                conn.Close();
-                markToolStripMenuItem.Enabled = false;
-                showToolStripMenuItem.Enabled = false;
-                graphViewToolStripMenuItem.Enabled = false;
-                if (localData == false)
-                {
-                    listViewShowStatus.Items.Clear();
-                    saveToolStripMenuItem.Enabled = false;
-                }
-                else
-                {
-                    graphViewToolStripMenuItem.Enabled = true;
-                    markToolStripMenuItem.Enabled = true;
-                }
-                toolStripStatusLabel.Text = "";
-                MessageBox.Show("The table has been successfully emptied.", "Server Status");
-                emptyTableToolStripMenuItem.Enabled = false;
-            }
+            FormConfirm confirm = new FormConfirm();
+            confirm.ShowDialog();
         }
 
         private void daytoolStripComboBox_Click(object sender, EventArgs e)
@@ -437,7 +363,7 @@ namespace WinFormsApp1
 
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
-            queryString = "select cpustatus0, cpustatus1, cpustatus2, cpustatus3, cpustatus4, cpustatus5, datecreated, hdstatus from infostatus where datecreated like '" + daytoolStripComboBox.Text + "%'; ";
+            queryString = "select cpustatus, datecreated, hdstatus from infostatus where datecreated like '" + daytoolStripComboBox.Text + "%'; ";
 
             try
             {
@@ -447,11 +373,11 @@ namespace WinFormsApp1
                 {
                     countItems++;
                     countRows++;
-                    listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus0").ToString() + " °C", reader.GetDecimal("cpustatus1").ToString() + " °C", reader.GetDecimal("cpustatus2").ToString() + " °C", reader.GetDecimal("cpustatus3").ToString() + " °C", reader.GetDecimal("cpustatus4").ToString() + " °C", reader.GetDecimal("cpustatus5").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
+                    listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
                 conn.Close();
 
-                toolStripStatusLabel.Text = "Date: " + daytoolStripComboBox.Text + " is selected.(Data from database) Rows " + countRows.ToString();
+                toolStripStatusLabelRows.Text = "Date: " + daytoolStripComboBox.Text + " is selected.(Data from database) Rows " + countRows.ToString();
             }
             catch (Exception ex)
             {
@@ -477,7 +403,7 @@ namespace WinFormsApp1
             showSystemTime.ShowDialog();
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void setDateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormDateInterval showDateInterval = new FormDateInterval();
             showDateInterval.ShowDialog();
