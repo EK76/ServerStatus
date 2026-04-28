@@ -82,9 +82,6 @@ using Visual Studio.
 **Two pictures of the application.** <br />
 <img width="442" height="968" alt="image" src="https://github.com/user-attachments/assets/e9513558-411d-433d-bc93-c866a0f2672a" />
 <img width="2517" height="1197" alt="image" src="https://github.com/user-attachments/assets/cf93d048-e6d2-4884-8a9a-2c8c5fbd67b0" />
-
-
-
-**How to clone this repository with git.**
-https://github.com/EK76/ServerStatus.git<br/><br/>
+<br />
+You can clone this repository with git by using https://github.com/EK76/ServerStatus.git<br/>
 If you discover any fault or inaccurate information, feel free to contact me trough epost address: ken.ekholm@live.com
