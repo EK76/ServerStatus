@@ -24,8 +24,8 @@ This bash script check the Linux reboot and store the value into a MySQL table.
 
 ```console
 updatestatus=$(uptime -s)
-mysql --user=pcuser --password=Test0880! \-e "insert into serverpcstatus.systemstatus(datecreated) values ('${updatestatus}');"
-mysql --user=pcuser --password=Test0880! \-e "delete from serverpcstatus.systemstatus where id not in (select id from(select id from serverpcstatus.systemstatus order by id desc limit 20)info);"
+mysql --user=pcuser --password=**** \-e "insert into serverpcstatus.systemstatus(datecreated) values ('${updatestatus}');"
+mysql --user=pcuser --password=**** \-e "delete from serverpcstatus.systemstatus where id not in (select id from(select id from serverpcstatus.systemstatus order by id desc limit 20)info);"
 ```
 In order to use this application, you must create following database and tables according to the directive below.
 MySQL have been chosen as database language for this project.
