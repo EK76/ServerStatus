@@ -32,7 +32,7 @@ mysql --user=pcuser --password=**** \-e "insert into serverpcstatus.systemstatus
 mysql --user=pcuser --password=**** \-e "delete from serverpcstatus.systemstatus where id not in (select id from(select id from serverpcstatus.systemstatus order by id desc limit 20)info);"
 ```
 In order to use this application, you must create following database and tables according to the directive below.
-MySQL have been chosen as database language for this project.
+The MySQL version 8.4.8-0ubuntu0.25.10.1 acts as my database server for this project.
 ```
 create database serverpcstatus;
 use serverpcstatus;
