@@ -1,6 +1,6 @@
 # Server Status
 This project is done with help of Visual Studio C#. Purpose for this project is to monitor both the computer's CPU 
-and harddisk temperature when using a Linux operatingsystem. In my case I used the Ubuntu 25.04 LTS. 
+and harddisk temperature when using a Linux operatingsystem. In my case the operating system is Ubuntu 25.10. 
 You should also be able to use any kind of the most common Linux operating system for this purpose, but I have only tested on Ubuntu
 and Debian. It is also possible to check when the Linux computer have been last rebooted. It stores 20 most recent reboot times.
 
