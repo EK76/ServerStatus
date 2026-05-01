@@ -50,7 +50,7 @@ id int not null auto_increment,
 dateupdated datetime, 
 primary key(id)
 );
-
+```
 Edit configdb.txt file within this Visual Studio C# project with the correct info about your MySQL credentials with text editor of your choosing.
 
 I have also installed MySql.Data plugin from Oracle Corporation trough Visual Studio NuGet Package Manager
