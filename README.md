@@ -4,11 +4,15 @@ and harddisk temperature when using a Linux operatingsystem. In my case I used t
 You should also be able to use any kind of the most common Linux operating system for this purpose, but I have only tested on Ubuntu
 and Debian. It is also possible to check when the Linux computer have been last rebooted. It stores 20 most recent reboot times.
 
+#### Requirements for this Visual Studio C# project.
+- .NET 9.0
+-  C# language version 13.0
+
 You need to install smartmontools and use the harddisk's device path which in my case is 	**/dev/nvme0n1p3**
 for reading the harddisk's temperature. The read the cpu's temperature you use this simple command, 	**cat "/sys/class/thermal/thermal_zone0/temp**
-This command may be different in other linux operating system. Check your Linux operatingssystem' user guide for the right command.
+This command may be different in other linux operating system. Check your Linux operatingssystem's user guide for the right command.
 
-For checking the both cpu's and harddisk'a temperatures I created this bash script. The bash script alsp store
+For checking the both cpu's and harddisk'a temperatures I created this bash script. The bash script also store
 the temperature values into a MySQL table.
 
 ```console
@@ -47,33 +51,7 @@ dateupdated datetime,
 primary key(id)
 );
 
-```
-Description of the tables.
-```
-mysql> desc infostatus;
-+-------------+---------------+------+-----+---------+-------------------+
-| Field       | Type          | Null | Key | Default | Extra             |
-+-------------+---------------+------+-----+---------+-------------------+
-| id          | int           | NO   | PRI | NULL    | auto_increment    |
-| cpustatus   | decimal(10,2) | YES  |     | NULL    |                   |
-| datecreated | datetime      | YES  |     | now()   | DEFAULT_GENERATED |
-| hdstatus    | decimal(10,2) | YES  |     | NULL    |                   |
-+-------------+---------------+------+-----+---------+-------------------+
-9 rows in set (0.00 sec)
-
-mysql> desc systemstatus;
-+-------------+----------+------+-----+---------+----------------+
-| Field       | Type     | Null | Key | Default | Extra          |
-+-------------+----------+------+-----+---------+----------------+
-| id          | int      | NO   | PRI | NULL    | auto_increment |
-| dateupdated | datetime | YES  |     | NULL    |                |
-+-------------+----------+------+-----+---------+----------------+
-2 rows in set (0.00 sec)
-```
-
-After creation of database and tables are done.
-Edit configdb.txt file with the correct info about your MySQL credentials with text editor of your choosing.
-Compaile or publish the project with Visual Studio 2022 to test it.
+Edit configdb.txt file within this Visual Studio C# project with the correct info about your MySQL credentials with text editor of your choosing.
 
 I have also installed MySql.Data plugin from Oracle Corporation trough Visual Studio NuGet Package Manager
 when I developed this project. MySql.Data makes it easier to read from and make changes to MySQL database when
@@ -82,6 +60,3 @@ using Visual Studio.
 **Two pictures of the application.** <br />
 <img width="442" height="968" alt="image" src="https://github.com/user-attachments/assets/e9513558-411d-433d-bc93-c866a0f2672a" />
 <img width="2517" height="1197" alt="image" src="https://github.com/user-attachments/assets/cf93d048-e6d2-4884-8a9a-2c8c5fbd67b0" />
-<br />
-You can clone this repository with git by using https://github.com/EK76/ServerStatus.git<br/>
-If you discover any fault or inaccurate information, feel free to contact me trough epost address: ken.ekholm@live.com
