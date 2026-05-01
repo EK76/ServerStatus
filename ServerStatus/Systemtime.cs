@@ -66,7 +66,7 @@ namespace ServerStatus.ServerStatus
 
         private void ForSystemTime_Load(object sender, EventArgs e)
         {
-            int loc = 15;
+            int loc = 40;
             try
             {
                 chooseDatabase = File.ReadAllLines("configdb.txt");

@@ -106,7 +106,7 @@
             // 
             markerSizeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { smallToolStripMenuItem, medumToolStripMenuItem, largeToolStripMenuItem });
             markerSizeToolStripMenuItem.Name = "markerSizeToolStripMenuItem";
-            markerSizeToolStripMenuItem.Size = new Size(180, 22);
+            markerSizeToolStripMenuItem.Size = new Size(166, 22);
             markerSizeToolStripMenuItem.Text = "Marker Size";
             // 
             // smallToolStripMenuItem
@@ -135,7 +135,7 @@
             // noneMarkerSizeToolStripMenuItem
             // 
             noneMarkerSizeToolStripMenuItem.Name = "noneMarkerSizeToolStripMenuItem";
-            noneMarkerSizeToolStripMenuItem.Size = new Size(180, 22);
+            noneMarkerSizeToolStripMenuItem.Size = new Size(166, 22);
             noneMarkerSizeToolStripMenuItem.Text = "None Marker Size";
             noneMarkerSizeToolStripMenuItem.CheckStateChanged += noneMarkerSizeToolStripMenuItem_CheckStateChanged;
             noneMarkerSizeToolStripMenuItem.Click += noneMarkerSizeToolStripMenuItem_Click;
@@ -144,7 +144,7 @@
             // 
             markerTypeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { circleToolStripMenuItem, triangleToolStripMenuItem, squareToolStripMenuItem, starToolStripMenuItem });
             markerTypeToolStripMenuItem.Name = "markerTypeToolStripMenuItem";
-            markerTypeToolStripMenuItem.Size = new Size(180, 22);
+            markerTypeToolStripMenuItem.Size = new Size(166, 22);
             markerTypeToolStripMenuItem.Text = "Marker Type";
             // 
             // circleToolStripMenuItem
@@ -180,13 +180,13 @@
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(177, 6);
+            toolStripMenuItem3.Size = new Size(163, 6);
             // 
             // defaultToolStripMenuItem
             // 
             defaultToolStripMenuItem.Enabled = false;
             defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            defaultToolStripMenuItem.Size = new Size(180, 22);
+            defaultToolStripMenuItem.Size = new Size(166, 22);
             defaultToolStripMenuItem.Text = "Default";
             defaultToolStripMenuItem.Click += defaultToolStripMenuItem_Click;
             // 

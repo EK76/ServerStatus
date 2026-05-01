@@ -30,21 +30,22 @@
         {
             labelText1 = new Label();
             buttonOk = new Button();
+            labelText2 = new Label();
             SuspendLayout();
             // 
             // labelText1
             // 
             labelText1.AutoSize = true;
-            labelText1.Font = new Font("Calibri", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelText1.Font = new Font("Calibri", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelText1.Location = new Point(12, 9);
             labelText1.Name = "labelText1";
-            labelText1.Size = new Size(304, 138);
+            labelText1.Size = new Size(270, 116);
             labelText1.TabIndex = 0;
-            labelText1.Text = "\r\nServer Status version 1.41\r\nSeptember 2025 All rights reserved. \r\n\r\n\r\nKen Ekholm, @ken.ekholm@live.com";
+            labelText1.Text = "\r\nServer Status version 1.84\r\nFebruary  2026 \r\nAll rights reserved. \r\n";
             // 
             // buttonOk
             // 
-            buttonOk.Location = new Point(256, 165);
+            buttonOk.Location = new Point(256, 184);
             buttonOk.Name = "buttonOk";
             buttonOk.Size = new Size(75, 23);
             buttonOk.TabIndex = 3;
@@ -52,12 +53,23 @@
             buttonOk.UseVisualStyleBackColor = true;
             buttonOk.Click += buttonOk_Click;
             // 
+            // labelText2
+            // 
+            labelText2.AutoSize = true;
+            labelText2.Font = new Font("Calibri", 12F, FontStyle.Bold);
+            labelText2.Location = new Point(12, 149);
+            labelText2.Name = "labelText2";
+            labelText2.Size = new Size(263, 19);
+            labelText2.TabIndex = 4;
+            labelText2.Text = "Ken Ekholm, @ken.ekholm@live.com";
+            // 
             // FormAbout
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(343, 203);
+            ClientSize = new Size(343, 219);
+            Controls.Add(labelText2);
             Controls.Add(buttonOk);
             Controls.Add(labelText1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -74,5 +86,6 @@
 
         private Label labelText1;
         private Button buttonOk;
+        private Label labelText2;
     }
 }

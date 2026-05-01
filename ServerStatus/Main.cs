@@ -64,7 +64,6 @@ namespace WinFormsApp1
             }
 
             listViewShowStatus.Items.Clear();
-            listViewShowStatus.Update();
             passwordString = Security.decrypt(inputPass[0], "status");
             connString = chooseDatabase[0];
             connString = connString + passwordString + ";";
@@ -81,15 +80,22 @@ namespace WinFormsApp1
                     countRows++;
                     listViewShowStatus.Items.Add(new ListViewItem(new string[] { reader.GetDecimal("cpustatus").ToString() + " °C", reader.GetDecimal("hdstatus").ToString() + " °C", reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm") }));
                 }
-                MessageBox.Show(reader.GetDateTime("datecreated").ToString("dd-MM-yyyy HH:mm"));
                 conn.Close();
 
             }
-            catch (Exception ex)
+            catch (MySql.Data.MySqlClient.MySqlException ex)
             {
-                MessageBox.Show("Check database password! Otherwise contact the administrator.", "Server Status");
-                reloadTableToolStripMenuItem.Enabled = false;
-                showServerRebootTimeToolStripMenuItem.Enabled = false;
+                switch (ex.Number)
+                {
+                    case 0:
+                        MessageBox.Show("Cannot connect to server. ontact administrator");
+                        showServerRebootTimeToolStripMenuItem.Enabled = false;
+                        break;
+                    case 1045:
+                        MessageBox.Show("Invalid username/password, please try again");
+                        showServerRebootTimeToolStripMenuItem.Enabled = false;
+                        break;
+                }
             }
 
             if (countRows >= 1)
@@ -103,7 +109,7 @@ namespace WinFormsApp1
                 showServerRebootTimeToolStripMenuItem.Enabled = true;
                 firstItem = listViewShowStatus.Items[0].SubItems[2].Text;
                 lastItem = listViewShowStatus.Items[countItems].SubItems[2].Text;
-                toolStripStatusLabelRows.Text = "Date intervall between " + firstItem + " and " + lastItem + " (Data from database). Rows " + countRows.ToString();
+                toolStripStatusLabelRows.Text = "Data read from database. Number of Rows: " + countRows.ToString();
                 emptyTableToolStripMenuItem.Enabled = true;
             }
             else
@@ -115,6 +121,7 @@ namespace WinFormsApp1
                 emptyTableToolStripMenuItem.Enabled = false;
                 setDateToolStripMenuItem.Enabled = false;
                 toolStripStatusLabelRows.Text = "";
+                MessageBox.Show("The table is empty", "Server Status");
             }
         }
 
@@ -141,27 +148,29 @@ namespace WinFormsApp1
 
         private void FormMain_Activated(object sender, EventArgs e)
         {
-            if (checkExist == true)
-            {
-                readTable("select * from infostatus ");
-            }
-            checkExist = false;
+            /*if (checkExist == true)
+             {
+                 readTable("select * from infostatus ");
+             }
+             checkExist = false;*/
 
-        /*    if (checkIntervalDate == true)
+            if (checkIntervalDate == true)
             {
                 readTable("select * from infostatus where datecreated >= '" + FormDateInterval.startDate + "' and datecreated <= '" + FormDateInterval.endDate + "' + INTERVAL 1 DAY;");
             }
-            checkIntervalDate = false;*/
+            checkIntervalDate = false;
+
 
             if (confirmed == true)
             {
-                listViewShowStatus.Clear();
+                listViewShowStatus.Items.Clear();
                 saveToolStripMenuItem.Enabled = false;
                 graphViewToolStripMenuItem.Enabled = false;
                 markToolStripMenuItem.Enabled = false;
                 showToolStripMenuItem.Enabled = false;
                 setDateToolStripMenuItem.Enabled = false;
                 emptyTableToolStripMenuItem.Enabled = false;
+                reloadTableToolStripMenuItem.Enabled = true;
                 confirmed = false;
             }
             listViewShowStatus.Update();
@@ -235,9 +244,10 @@ namespace WinFormsApp1
                 graphViewToolStripMenuItem.Enabled = true;
                 markToolStripMenuItem.Enabled = true;
                 saveToolStripMenuItem.Enabled = true;
+                showToolStripMenuItem .Enabled = true;
                 firstItem = listViewShowStatus.Items[0].SubItems[2].Text;
                 lastItem = listViewShowStatus.Items[countItems].SubItems[2].Text;
-                toolStripStatusLabelRows.Text = "Date intervall " + firstItem + " between " + lastItem + " (Data from text file: " + Path.GetFileName(openContent.FileName) + ") Rows " + countRows.ToString();
+                toolStripStatusLabelRows.Text = "Data read from text file: " + Path.GetFileName(openContent.FileName) + ". Number of Rows: " + countRows.ToString();
             }
         }
 
@@ -377,7 +387,7 @@ namespace WinFormsApp1
                 }
                 conn.Close();
 
-                toolStripStatusLabelRows.Text = "Date: " + daytoolStripComboBox.Text + " is selected.(Data from database) Rows " + countRows.ToString();
+                toolStripStatusLabelRows.Text = "Data read rom database.Date: " + daytoolStripComboBox.Text + " is selected. Number of Rows: " + countRows.ToString();
             }
             catch (Exception ex)
             {

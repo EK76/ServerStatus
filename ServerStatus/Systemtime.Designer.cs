@@ -34,7 +34,7 @@
             // 
             // buttonOk
             // 
-            buttonOk.Location = new Point(205, 516);
+            buttonOk.Location = new Point(205, 587);
             buttonOk.Name = "buttonOk";
             buttonOk.Size = new Size(75, 23);
             buttonOk.TabIndex = 0;
@@ -56,7 +56,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(292, 543);
+            ClientSize = new Size(292, 622);
             Controls.Add(labelText);
             Controls.Add(buttonOk);
             FormBorderStyle = FormBorderStyle.FixedSingle;

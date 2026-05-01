@@ -165,14 +165,14 @@
             // modifyPasswordToolStripMenuItem
             // 
             modifyPasswordToolStripMenuItem.Name = "modifyPasswordToolStripMenuItem";
-            modifyPasswordToolStripMenuItem.Size = new Size(180, 22);
+            modifyPasswordToolStripMenuItem.Size = new Size(168, 22);
             modifyPasswordToolStripMenuItem.Text = "Change Password";
             modifyPasswordToolStripMenuItem.Click += modifyPasswordToolStripMenuItem_Click;
             // 
             // emptyTableToolStripMenuItem
             // 
             emptyTableToolStripMenuItem.Name = "emptyTableToolStripMenuItem";
-            emptyTableToolStripMenuItem.Size = new Size(180, 22);
+            emptyTableToolStripMenuItem.Size = new Size(168, 22);
             emptyTableToolStripMenuItem.Text = "Empty The Table";
             emptyTableToolStripMenuItem.Click += emptyTableToolStripMenuItem_Click;
             // 
@@ -192,6 +192,7 @@
             // 
             // listViewShowStatus
             // 
+            listViewShowStatus.BorderStyle = BorderStyle.FixedSingle;
             listViewShowStatus.Columns.AddRange(new ColumnHeader[] { columnHeaderCPUstatus, columnHeaderHDstatus, columnHeaderDate });
             listViewShowStatus.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             listViewShowStatus.FullRowSelect = true;
@@ -222,23 +223,22 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelRows });
-            statusStrip1.Location = new Point(0, 921);
+            statusStrip1.Location = new Point(0, 928);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(444, 22);
             statusStrip1.TabIndex = 2;
-            statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabelRows
             // 
             toolStripStatusLabelRows.Name = "toolStripStatusLabelRows";
-            toolStripStatusLabelRows.Size = new Size(140, 17);
-            toolStripStatusLabelRows.Text = "toolStripStatusLabelRows";
+            toolStripStatusLabelRows.Size = new Size(118, 17);
+            toolStripStatusLabelRows.Text = "toolStripStatusLabel1";
             // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(444, 943);
+            ClientSize = new Size(444, 950);
             Controls.Add(statusStrip1);
             Controls.Add(listViewShowStatus);
             Controls.Add(menuStrip1);
