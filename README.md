@@ -1,15 +1,18 @@
 # Server Status
 This project is done with help of Visual Studio C#. Purpose for this project is to monitor both the computer's CPU 
-and harddisk temperature when using a Linux operatingsystem. In my case the operating system is Ubuntu 25.10. 
+and harddisk temperature when using a Linux operatingsystem. In my case the operating system is Ubuntu 25.10. The temperature values
+are stored automatically to a MySQL table. In my case it is after every two hours with help of crontab. More info about crontab, click this link, <https://cronitor.io/guides/cron-jobs>.
+
 You should also be able to use any kind of the most common Linux operating system for this purpose, but I have only tested on Ubuntu
-and Debian. It is also possible to check when the Linux computer have been last rebooted. It stores 20 most recent reboot times.
+and Debian. It is also possible to check when the Linux computer have been last rebooted. It stores 20 most recent reboot times to a MySQL table.
+
 
 #### Requirements for this Visual Studio C# project.
 - .NET 9.0
 -  C# language version 13.0
 
 You need to install smartmontools and use the harddisk's device path which in my case is 	**/dev/nvme0n1p3**
-for reading the harddisk's temperature. The read the cpu's temperature you use this simple command, 	**cat "/sys/class/thermal/thermal_zone0/temp**
+For reading the harddisk's temperature. The read the cpu's temperature you use this simple command, 	**cat "/sys/class/thermal/thermal_zone0/temp**
 This command may be different in other linux operating system. Check your Linux operatingssystem's user guide for the right command.
 
 For checking the both cpu's and harddisk'a temperatures I created this bash script. The bash script also store
