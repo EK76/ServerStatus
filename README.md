@@ -25,17 +25,29 @@ cpu=$(echo "scale=2 ; $cpu / 1000" | bc)
 harddisk=$(sudo smartctl -A /dev/nvme0n1p3 | grep -i temperature | head -n 1)
 harddisk=$(echo $harddisk | grep -o -P '(?<=Temperature: ).*(?=Celsius)')
 
-mysql --user=pcuser --password=**** \-e "insert into serverpcstatus.infostatus (cpustatus,hdstatus) values ('${cpu}','${harddisk}');"
-mysql --user=pcuser --password=**** \-e "delete from serverpcstatus.infostatus where id not in (select id from(select id from serverpcstatus.infostatus order by id desc limit 90)info);"
+mysql --user=pcuser \-e "insert into serverpcstatus.infostatus (cpustatus,hdstatus) values ('${cpu}','${harddisk}');"
+mysql --user=pcuser \-e "delete from serverpcstatus.infostatus where id not in (select id from(select id from serverpcstatus.infostatus order by id desc limit 90)info);"
 ```
 This bash script check the Linux reboot and store the value into a MySQL table.
 
 ```console
 updatestatus=$(uptime -s)
-mysql --user=pcuser --password=**** \-e "insert into serverpcstatus.systemstatus(datecreated) values ('${updatestatus}');"
-mysql --user=pcuser --password=**** \-e "delete from serverpcstatus.systemstatus where id not in (select id from(select id from serverpcstatus.systemstatus order by id desc limit 20)info);"
+mysql --user=pcuser \-e "insert into serverpcstatus.systemstatus(datecreated) values ('${updatestatus}');"
+mysql --user=pcuser \-e "delete from serverpcstatus.systemstatus where id not in (select id from(select id from serverpcstatus.systemstatus order by id desc limit 20)info);"
 ```
-In order to use this application, you must create following database and tables according to the directive below.
+As you can see in my bash script I have left out the mysql password. It was possible to do so, because I created ~/.my.cnf under my Home folder
+with following content. 
+##### my.cnf file's content.
+```
+[client]
+user=myuser
+# Your mysql username.
+password=mypassword
+# Your password to the username.
+```
+Remember to make it only accessible by yourself with permission chmod 600, so no other user can use the file.
+
+In order to use this application, you must create following database and tables according to the directive below.<br />
 The MySQL version 8.4.8-0ubuntu0.25.10.1 acts as my database server for this project.
 ```
 create database serverpcstatus;
