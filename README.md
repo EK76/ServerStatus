@@ -35,7 +35,7 @@ updatestatus=$(uptime -s)
 mysql --user=pcuser \-e "insert into serverpcstatus.systemstatus(datecreated) values ('${updatestatus}');"
 mysql --user=pcuser \-e "delete from serverpcstatus.systemstatus where id not in (select id from(select id from serverpcstatus.systemstatus order by id desc limit 20)info);"
 ```
-As you can see in my bash script I have left out the mysql password. It was possible to do so, because I created ~/.my.cnf file under my Home folder
+As you can see in my both bash scripts I have left out the mysql password. It was possible to do so, because I created ~/.my.cnf file under my Home folder
 with following content. 
 ##### my.cnf file's content.
 ```
