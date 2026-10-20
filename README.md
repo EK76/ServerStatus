@@ -8,7 +8,7 @@ The database retains the 90 most recent temperature records, automatically remov
 by recording when the Linux computer was last rebooted. The system stores the 20 most recent reboot events in a separate MySQL/MariaDB table, making it possible to review the reboot history of the monitored device.
 
 
-#### Requirements for this Visual Studio C# project.
+#### Visual Studio C# project requirements.
 - .NET 9.0
 -  C# language version 13.0
 
