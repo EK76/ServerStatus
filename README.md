@@ -1,21 +1,23 @@
 # Server Status
-This project is done with help of Visual Studio C#. Purpose for this project is to monitor both the computer's CPU 
-and harddisk temperature when using a Linux operatingsystem. In my case the operating system is Ubuntu 25.10. The temperature values
-are stored automatically to a MySQL table. In my case it is after every two hours with help of crontab. More info about crontab, click this link, 
-<https://cronitor.io/guides/cron-jobs>. It stores 90 most recent values to the MySQL table.
+The purpose of this project is to monitor a Linux computer's CPU temperature and hard disk temperature using a Visual Studio 2022 C# application.
+In my setup, the monitored system runs Ubuntu 25.10, although the project should work with most common Linux distributions. The project has been tested on Ubuntu and Debian.
+Temperature data is collected automatically and stored in a MySQL/MariaDB database for historical analysis and monitoring. 
 
-You should also be able to use any kind of the most common Linux operating system for this purpose, but I have only tested on Ubuntu
-and Debian. It is also possible to check when the Linux computer have been last rebooted. It stores 20 most recent reboot times to a MySQL table.
+In my implementation, a scheduled task created with cron (crontab) stores temperature readings every two hours. More information about cron jobs can be found in Cron Jobs Guide. [https://cr.../cron-jobs]
+The database retains the 90 most recent temperature records, automatically removing older entries as new data is added. In addition to temperature monitoring, the project can track system uptime 
+by recording when the Linux computer was last rebooted. The system stores the 20 most recent reboot events in a separate MySQL/MariaDB table, making it possible to review the reboot history of the monitored device.
 
 
 #### Requirements for this Visual Studio C# project.
 - .NET 9.0
 -  C# language version 13.0
 
-You need to install smartmontools and use the harddisk's device path which in my case is 	**/dev/nvme0n1p3**
-For reading the harddisk's temperature. The read the cpu's temperature you use this simple command, 	**cat "/sys/class/thermal/thermal_zone0/temp**
-This command may be different in other linux operating system. Check your Linux operatingssystem's user guide for the right command.
+To read the hard disk temperature, you must install smartmontools on the Linux system. The command uses the hard disk's device path, which in my case is /dev/nvme0n1p3. 
+Depending on the storage device and Linux distribution, your device path may be different.
+To read the CPU temperature, I used the following command: **cat /sys/class/thermal/thermal_zone0/temp**
 
+This command reads the current CPU temperature from the Linux thermal subsystem. Please note that the location of temperature sensors may vary between Linux distributions 
+and hardware platforms. Consult your Linux distribution's documentation for the appropriate method if this command does not work on your system.
 For checking the both cpu's and harddisk'a temperatures I created this bash script. The bash script also store
 the temperature values into a MySQL table.
 
@@ -28,7 +30,7 @@ harddisk=$(echo $harddisk | grep -o -P '(?<=Temperature: ).*(?=Celsius)')
 mysql --user=pcuser \-e "insert into serverpcstatus.infostatus (cpustatus,hdstatus) values ('${cpu}','${harddisk}');"
 mysql --user=pcuser \-e "delete from serverpcstatus.infostatus where id not in (select id from(select id from serverpcstatus.infostatus order by id desc limit 90)info);"
 ```
-This bash script check the Linux reboot and store the value into a MySQL table.
+This bash script check the Linux reboot time and store the value into a MySQL table.
 
 ```console
 updatestatus=$(uptime -s)
@@ -69,9 +71,8 @@ primary key(id)
 ```
 Edit configdb.txt file within this Visual Studio C# project with the correct info about your MySQL credentials with text editor of your choosing.
 
-I have also installed MySql.Data plugin from Oracle Corporation trough Visual Studio NuGet Package Manager
-when I developed this project. MySql.Data makes it easier to read from and make changes to MySQL database when
-using Visual Studio.
+During the development of this project, I installed the MySql.Data package from Oracle Corporation through the Visual Studio NuGet Package Manager.
+The MySql.Data package provides a .NET data provider for MySQL databases and simplifies database operations within the Visual Studio C# application.
 
 **Two pictures of the application.** <br />
 <img width="442" height="968" alt="image" src="https://github.com/user-attachments/assets/e9513558-411d-433d-bc93-c866a0f2672a" />
