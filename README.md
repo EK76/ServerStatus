@@ -3,7 +3,7 @@ The purpose of this project is to monitor a Linux computer's CPU temperature and
 In my setup, the monitored system runs Ubuntu 25.10, although the project should work with most common Linux distributions. The project has been tested on Ubuntu and Debian.
 Temperature data is collected automatically and stored in a MySQL/MariaDB database for historical analysis and monitoring. 
 
-In my implementation, a scheduled task created with cron (crontab) stores temperature readings every two hours. More information about cron jobs can be found in Cron Jobs Guide. [https://cr.../cron-jobs]
+In my implementation, a scheduled task created with cron (crontab) stores temperature readings every two hours. More information about cron jobs can be found in this guide. [https://cr.../cron-jobs]
 The database retains the 90 most recent temperature records, automatically removing older entries as new data is added. In addition to temperature monitoring, the project can track system uptime 
 by recording when the Linux computer was last rebooted. The system stores the 20 most recent reboot events in a separate MySQL/MariaDB table, making it possible to review the reboot history of the monitored device.
 
@@ -43,9 +43,9 @@ with following content.
 ```
 [client]
 user=myuser
-# Your mysql username.
+# Your MySQL username.
 password=mypassword
-# Your password to the username.
+# Your password to the MySQL username.
 ```
 Remember to make it only accessible by yourself with permission chmod 600, so no other user can use the file.
 
